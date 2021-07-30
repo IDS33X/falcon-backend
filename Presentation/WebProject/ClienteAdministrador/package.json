@@ -1,0 +1,11 @@
+{
+  "name": "clienteadministrador",
+  "version": "1.0.0",
+  "description": "aplicacion web para el cliente administrador",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adriel",
+  "license": "ISC"
+}
