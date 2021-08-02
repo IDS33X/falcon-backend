@@ -32,6 +32,8 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+obj/
+
 #.vscode
 .vscode/*
 
