@@ -11,6 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Service.Service;
+using Service.ServiceImpl;
+using Repository.UnitOfWork;
+using Repository.Context;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace FalconApi
 {
@@ -32,6 +38,17 @@ namespace FalconApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FalconApi", Version = "v1" });
             });
+
+            
+
+            //services.Add(new ServiceDescriptor(typeof(IUnitOfWork), 
+            //            new UnitOfWork(new FalconDbContext
+            //            (Configuration.GetConnectionString("DefaultConnection")))));
+
+            services.Add(new ServiceDescriptor(typeof(ISessionService), new SessionService(
+                        new UnitOfWork(new FalconDbContext
+                        (Configuration.GetConnectionString("DefaultConnection"))))));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
