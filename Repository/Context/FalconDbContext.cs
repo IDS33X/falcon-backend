@@ -7,15 +7,10 @@ namespace Repository.Context
     public class FalconDbContext : DbContext
     {
 
-        public string ConnectionString { get; set; }
-
-        public FalconDbContext(string ConnectionString){
-            this.ConnectionString = ConnectionString;
-        }
-
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConnectionString);
+            optionsBuilder.UseSqlServer(@"Server=adriel15;Database=FalconDB;User Id=SA;Password=Adonis22");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

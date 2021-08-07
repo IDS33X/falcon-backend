@@ -20,17 +20,22 @@ namespace Repository.RepositoryImpl
             get{return context as FalconDbContext;}
         }
 
-        public async Task<Employee> GetByCode(string code)
+        public Task<Employee> GetByCode(string code)
         {
-            var employee = await FalconContext.Employees.Where(e => e.Code.Equals(code)).SingleAsync();
-
-            if(employee == null){
-                throw new DoesNotExistException("the user is not registered in the system");
-            }else{
-                return employee;
-            }
+            throw new NotImplementedException();
         }
-
         
+        // public async Task<Employee> GetByCode(string code)
+        // {
+        //     var employee = await FalconContext.Employees.Where(e => e.Code.Equals(code)).FirstAsync();
+
+        //     if(employee == null){
+        //         throw new DoesNotExistException("the user is not registered in the system");
+        //     }else{
+        //         return employee;
+        //     }
+        // }
+
+
     }
 }

@@ -24,12 +24,12 @@ namespace Domain.Models
         public string Code { get; set; }
         public string Password { get; set; }
         public int DepartmentId { get; set; }
-        public Department Department { get; set; }
-        public int EmployeeRolId { get; set; }
-        public EmployeeRol EmployeeRol { get; set; }
-        public Division Division { get; set; }
-        public IEnumerable<Evaluation> Evaluations { get; set; }
-        public IEnumerable<EmployeeControls> EmployeeControls { get; set; }
+        //public Department Department { get; set; }
+        //public int EmployeeRolId { get; set; }
+        //public EmployeeRol EmployeeRol { get; set; }
+        //public Division Division { get; set; }
+        //public IEnumerable<Evaluation> Evaluations { get; set; }
+        //public IEnumerable<EmployeeControls> EmployeeControls { get; set; }
 
     }
 }

@@ -40,7 +40,6 @@ namespace Test
             Assert.Equal(emp.Code,employee.Value.Code);
             Assert.Equal(emp.Password,employee.Value.Password);
         }
-
         
     }
 }

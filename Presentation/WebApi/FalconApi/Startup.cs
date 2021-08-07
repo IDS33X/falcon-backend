@@ -46,8 +46,7 @@ namespace FalconApi
             //            (Configuration.GetConnectionString("DefaultConnection")))));
 
             services.Add(new ServiceDescriptor(typeof(ISessionService), new SessionService(
-                        new UnitOfWork(new FalconDbContext
-                        (Configuration.GetConnectionString("DefaultConnection"))))));
+                        new UnitOfWork(new FalconDbContext()))));
             
         }
 
