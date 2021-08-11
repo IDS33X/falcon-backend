@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace Testing
+namespace Testing.Controlles
 {
     public class SessionControllerTests
     {
