@@ -5,6 +5,18 @@ namespace Domain.Models
 {
     public class Division
     {
+        public Division(int divisionId, int areaId, Area area, int employeeId, Employee employee, string name, string description, IEnumerable<Department> departments)
+        {
+            DivisionId = divisionId;
+            AreaId = areaId;
+            Area = area;
+            EmployeeId = employeeId;
+            Employee = employee;
+            Name = name;
+            Description = description;
+            Departments = departments;
+        }
+
         [Key]
         public int DivisionId { get; set; }
         public int AreaId { get; set; }

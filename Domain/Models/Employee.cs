@@ -4,6 +4,20 @@ namespace Domain.Models
 {
     public class Employee
     {
+        public Employee(int employeeId, int departmentId, Department department, int employeeRolId, EmployeeRol employeeRol, Division division, string name, string lastName, string code, string password)
+        {
+            EmployeeId = employeeId;
+            DepartmentId = departmentId;
+            Department = department;
+            EmployeeRolId = employeeRolId;
+            EmployeeRol = employeeRol;
+            Division = division;
+            Name = name;
+            LastName = lastName;
+            Code = code;
+            Password = password;
+        }
+
         [Key]
         public int EmployeeId { get; set; }
         public int DepartmentId { get; set; }
