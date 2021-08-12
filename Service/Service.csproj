@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Commons\Util\Util.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\ServicesImpl\" />
+  </ItemGroup>
+
 </Project>
