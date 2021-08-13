@@ -12,6 +12,8 @@ namespace Domain.Models
             Employees = employees;
         }
 
+        public EmployeeRol(){}
+
         [Key]
         public int EmployeeRolId { get; set; }
         public string Name { get; set; }
