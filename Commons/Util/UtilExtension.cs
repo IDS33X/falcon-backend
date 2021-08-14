@@ -9,7 +9,7 @@ using Util.Mappings;
 
 namespace Util
 {
-    public static class IServiceCollectionExtension
+    public static class UtilExtension
     {
         public static IServiceCollection AddUtilServices(this IServiceCollection services)
         {

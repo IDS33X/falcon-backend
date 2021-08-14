@@ -13,6 +13,8 @@ namespace Domain.Models
             Divisions = divisions;
         }
 
+        public Area(){}
+
         [Key]
         public int AreaId { get; set; }
         public string Name { get; set; }

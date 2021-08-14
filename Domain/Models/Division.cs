@@ -17,6 +17,8 @@ namespace Domain.Models
             Departments = departments;
         }
 
+        public Division(){}
+
         [Key]
         public int DivisionId { get; set; }
         public int AreaId { get; set; }

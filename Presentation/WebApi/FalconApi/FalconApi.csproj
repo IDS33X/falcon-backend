@@ -11,4 +11,10 @@
 	  <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Commons\Util\Util.csproj" />
+    <ProjectReference Include="..\..\..\Repository\Repository.csproj" />
+    <ProjectReference Include="..\..\..\Service\Service.csproj" />
+  </ItemGroup>
+
 </Project>

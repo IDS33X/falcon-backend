@@ -15,6 +15,8 @@ namespace Domain.Models
             Employees = employees;
         }
 
+        public Department(){}
+
         [Key]
         public int DepartmentId { get; set; }
         public int DivisionId { get; set; }

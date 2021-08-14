@@ -18,6 +18,8 @@ namespace Domain.Models
             Password = password;
         }
 
+        public Employee(){}
+
         [Key]
         public int EmployeeId { get; set; }
         public int DepartmentId { get; set; }

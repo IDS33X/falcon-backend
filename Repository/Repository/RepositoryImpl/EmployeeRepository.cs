@@ -16,6 +16,7 @@ namespace Repository.RepositoryImpl
 
         public async Task<Employee> FindByCode(string code)
         {
+            
             Employee employee = await Task.Run(() => context.Set<Employee>()
                                             .Where(e => e.Code == code)
                                             .FirstOrDefault());

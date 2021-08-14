@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Util;
+using Repository;
+using Service;
 
 namespace FalconApi
 {
@@ -8,6 +10,8 @@ namespace FalconApi
         public static IServiceCollection AddServicesFromOtherModules(this IServiceCollection services)
         {
             services.AddUtilServices();
+            services.AddRepositoryServices();
+            services.AddServiceServices();
             return services;
         }
     }
