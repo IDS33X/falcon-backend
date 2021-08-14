@@ -17,7 +17,7 @@ namespace Util.Mappings
             {
                 cfg.CreateMap<Area, AreaDto>().ForMember(dto => dto.CountDivisions, opt => opt.Ignore()).ReverseMap();
                 cfg.CreateMap<Division, DivisionDto>().ForMember(dto => dto.CountDepartments, opt => opt.Ignore()).ReverseMap();
-                cfg.CreateMap<Department, DepartmentDto>().ForMember(dto => dto.CountAnalitics, opt => opt.Ignore()).ReverseMap();
+                cfg.CreateMap<Department, DepartmentDto>().ForMember(dto => dto.CountAnalytics, opt => opt.Ignore()).ReverseMap();
                 cfg.CreateMap<Employee, EmployeeDto>().ReverseMap();
                 cfg.CreateMap<EmployeeRol, EmployeeRolDto>().ReverseMap();
 

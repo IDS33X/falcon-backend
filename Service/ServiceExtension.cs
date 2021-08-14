@@ -1,11 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Service.Service;
 using Service.ServiceImpl;
+using Service.Service.ServiceImpl;
 
 namespace Repository
 {
@@ -14,6 +10,11 @@ namespace Repository
         public static IServiceCollection AddServiceServices(this IServiceCollection services)
         {
             services.AddTransient<ISessionService,SessionService>();
+            services.AddTransient<IAreaService, AreaService>();
+            services.AddTransient<IDivisionService, DivisionService>();
+            services.AddTransient<IDepartmentService, DeparmentService>();
+            services.AddTransient<IEmployeeRolService, EmployeeRolService>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
             return services;
         }
     }

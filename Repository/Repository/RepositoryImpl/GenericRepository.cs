@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Repository;
+using Util.Exceptions;
 
 namespace Repository.RepositoryImpl
 {
@@ -16,10 +17,10 @@ namespace Repository.RepositoryImpl
             this.context = context;
         }
 
-        public async Task<bool> Add(T entity)
+        public async Task<T> Add(T entity)
         {
              await context.Set<T>().AddAsync(entity);
-             return true;
+             return entity;
         }
 
         public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
@@ -34,14 +35,44 @@ namespace Repository.RepositoryImpl
 
         public async Task<T> GetById(int id)
         {
-            return await context.Set<T>().FindAsync(id);
+            T entity = await context.Set<T>().FindAsync(id);
+
+            if (entity == null)
+            {
+                throw new DoesNotExistException("Not exist");
+            }
+            else
+            {
+                return entity;
+            }
         }
 
         public async Task<bool> Removed(int id)
         {
             T entity = await context.Set<T>().FindAsync(id);
-            context.Set<T>().Remove(entity);
-            return true;
+            if (entity == null)
+            {
+                throw new DoesNotExistException("Not exist");
+            }
+            else
+            {
+                context.Set<T>().Remove(entity);
+                return true;
+            }
+        }
+
+        public async Task<bool> Update(T entity)
+        {
+            try
+            {
+                await Task.Run(() => context.Set<T>().Update(entity));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            
         }
     }
 }
