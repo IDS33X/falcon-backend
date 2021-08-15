@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.Repository;
 using Util.Exceptions;
@@ -17,7 +18,7 @@ namespace Repository.RepositoryImpl
         public async Task<Employee> FindByCode(string code)
         {
             
-            Employee employee = await Task.Run(() => context.Set<Employee>()
+            Employee employee = await Task.Run(() => context.Set<Employee>().Include(e => e.EmployeeRol)
                                             .Where(e => e.Code == code)
                                             .FirstOrDefault());
 
@@ -27,6 +28,20 @@ namespace Repository.RepositoryImpl
             else{
                 return employee;
             }                              
+        }
+
+        public new async Task<Employee> GetById(int id)
+        {
+            Employee entity = await context.Set<Employee>().Include(e => e.EmployeeRol).SingleOrDefaultAsync(e => e.EmployeeId == id);
+
+            if (entity == null)
+            {
+                throw new DoesNotExistException("Not exist");
+            }
+            else
+            {
+                return entity;
+            }
         }
     }
 }

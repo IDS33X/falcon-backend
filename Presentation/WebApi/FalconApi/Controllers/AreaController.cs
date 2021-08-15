@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Service;
 using System;
@@ -10,6 +11,7 @@ using Util.Exceptions;
 
 namespace FalconApi.Controllers
 {
+    [Authorize]
     [Route("falconapi/[controller]")]
     [ApiController]
     public class AreaController : ControllerBase
@@ -28,6 +30,7 @@ namespace FalconApi.Controllers
             return Ok(areaDto);
         }
 
+        [Authorize(Roles = "Control Interno")]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
@@ -36,6 +39,7 @@ namespace FalconApi.Controllers
             return Ok(areaDtos);
         }
 
+        [Authorize(Roles = "Analista de Riesgo")]
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById(int id)
         {
