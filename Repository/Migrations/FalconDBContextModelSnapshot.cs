@@ -73,7 +73,7 @@ namespace Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
+                        .HasColumnType("int").IsRequired(false);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

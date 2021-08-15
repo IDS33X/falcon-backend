@@ -40,7 +40,7 @@ namespace Repository.Migrations
                     DivisionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AreaId = table.Column<int>(type: "int", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

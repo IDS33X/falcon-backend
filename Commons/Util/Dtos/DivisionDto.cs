@@ -5,6 +5,7 @@ namespace Util.Dtos
     public class DivisionDto
     {
         public int DivisionId { get; set; }
+        public int AreaId { get; set; }
         public EmployeeDto Employee { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
