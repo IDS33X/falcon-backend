@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Util.Dtos;
 using Util.Exceptions;
+using Util.Support.Requests.Employee;
 
 namespace FalconApi.Controllers
 {
@@ -21,19 +18,26 @@ namespace FalconApi.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(EmployeeDto employeeDto)
+        public async Task<IActionResult> Add(AddEmployeeRequest request)
         {
-            employeeDto = await _employeeService.Add(employeeDto);
+            var response = await _employeeService.Add(request);
 
-            return Ok(employeeDto);
+            return Ok(response);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetEmployeesByDepartment")]
+        public async Task<IActionResult> GetEmployeesByDepartment([FromQuery] EmployeesByDepartmentRequest request)
         {
-            var employeeDtos = await _employeeService.GetAll();
+            var response = await _employeeService.GetEmployeesByDepartment(request);
 
-            return Ok(employeeDtos);
+            return Ok(response);
+        } 
+        [HttpGet("SearchEmployeesByDepartment")]
+        public async Task<IActionResult> GetEmployeesByDepartmentAndSearch([FromQuery] EmployeesByDepartmentSearchRequest request)
+        {
+            var response = await _employeeService.GetEmployeesByDepartmentAndSearch(request);
+
+            return Ok(response);
         }
 
         [HttpGet("GetById")]
@@ -77,13 +81,13 @@ namespace FalconApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update(EmployeeDto employeeDto)
+        public async Task<IActionResult> Update(EditEmployeeRequest request)
         {
             try
             {
-                var isUpdated = await _employeeService.Update(employeeDto);
+                var response = await _employeeService.Update(request);
 
-                return Ok(isUpdated);
+                return Ok(response);
             }
             catch (DoesNotExistException e)
             {

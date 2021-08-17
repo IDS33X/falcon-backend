@@ -1,14 +1,16 @@
 ﻿using Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Util.Support.Requests;
+using Util.Support.Response;
 
 namespace Repository.Repository
 {
     public interface IDivisionRepository : IGenericRepository<Division, int>
     {
-        Task<int> GetDepartmentCount(int divisionId);
+        Task<IEnumerable<Division>> GetDivisionsByArea(int areaId, int page, int perPage);
+        Task<int> GetDivisionsByAreaSearchCount(int areaId);
+        Task<IEnumerable<Division>> GetDivisionsByAreaSearch(int areaId, string filter, int page, int perPage);
+        Task<int> GetDivisionsByAreaSearchCount(int areaId, string filter);
     }
 }

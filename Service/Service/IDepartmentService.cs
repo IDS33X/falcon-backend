@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Support.Requests.Department;
+using Util.Support.Responses;
+using Util.Support.Responses.Department;
 
 namespace Service.Service
 {
     public interface IDepartmentService
     {
-        Task<DepartmentDto> Add(DepartmentDto departmentDto);
+        Task<AddDepartmentResponse> Add(AddDepartmentRequest request);
         Task<bool> Removed(int id);
         Task<DepartmentDto> GetById(int id);
-        Task<IEnumerable<DepartmentDto>> GetAll();
-        Task<bool> Update(DepartmentDto departmentDto);
+        Task<EditDepartmentResponse> Update(EditDepartmentRequest request);
+        Task<DepartmentsByDivisionResponse> GetDepartmentsByDivision(DepartmentsByDivisionRequest request);
+        Task<DepartmentsByDivisionSearchResponse> GetDepartmentsByDivisionAndSearch(DepartmentsByDivisionSearchRequest request);
     }
 }

@@ -3,10 +3,11 @@ using Domain.Models;
 using Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Support.Requests.Department;
+using Util.Support.Responses;
+using Util.Support.Responses.Department;
 
 namespace Service.Service.ServiceImpl
 {
@@ -19,22 +20,22 @@ namespace Service.Service.ServiceImpl
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<DepartmentDto> Add(DepartmentDto departmentDto)
+        public async Task<AddDepartmentResponse> Add(AddDepartmentRequest request)
         {
-            var department = _mapper.Map<Department>(departmentDto);
+            var department = _mapper.Map<Department>(request.Department);
 
             department = await _unitOfWork.Departments.Add(department);
 
             await _unitOfWork.CompleteAsync();
 
-            departmentDto = _mapper.Map<DepartmentDto>(department);
+            var departmentDto = _mapper.Map<DepartmentDto>(department);
 
-            return departmentDto;
+            return new AddDepartmentResponse { Department = departmentDto };
         }
 
-        public async Task<IEnumerable<DepartmentDto>> GetAll()
+        public async Task<DepartmentsByDivisionResponse> GetDepartmentsByDivision(DepartmentsByDivisionRequest request)
         {
-            var departments = await _unitOfWork.Departments.GetAll();
+            var departments = await _unitOfWork.Departments.GetDepartmentsByDivision(request.DivisionId, request.Page, request.ItemsPerPage);
 
             List<DepartmentDto> departmentDtos = new List<DepartmentDto>();
 
@@ -42,12 +43,49 @@ namespace Service.Service.ServiceImpl
             {
                 var departmentDto = _mapper.Map<DepartmentDto>(department);
 
-                departmentDto.CountAnalytics = await _unitOfWork.Departments.GetAnalystCount(departmentDto.DepartmentId);
+                departmentDto.CountAnalytics = await _unitOfWork.Employees.GetEmployeesByDepartmentCount(departmentDto.DepartmentId);
 
                 departmentDtos.Add(departmentDto);
             }
 
-            return departmentDtos;
+            int departmentsByDivisionCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.DivisionId);
+            int pages = Convert.ToInt32(Math.Ceiling((double)departmentsByDivisionCount / request.ItemsPerPage));
+
+            DepartmentsByDivisionResponse response = new DepartmentsByDivisionResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = departmentDtos.Count > 0 ? request.Page : 0,
+                Departments = departmentDtos
+            };
+
+            return response;
+        } 
+        public async Task<DepartmentsByDivisionSearchResponse> GetDepartmentsByDivisionAndSearch(DepartmentsByDivisionSearchRequest request)
+        {
+            var departments = await _unitOfWork.Departments.GetDepartmentsByDivisionSearch(request.DivisionId, request.Filter, request.Page, request.ItemsPerPage);
+
+            List<DepartmentDto> departmentDtos = new List<DepartmentDto>();
+
+            foreach (Department department in departments)
+            {
+                var departmentDto = _mapper.Map<DepartmentDto>(department);
+
+                departmentDto.CountAnalytics = await _unitOfWork.Employees.GetEmployeesByDepartmentCount(departmentDto.DepartmentId);
+
+                departmentDtos.Add(departmentDto);
+            }
+
+            int departmentsByDivisionAndSearchCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.DivisionId, request.Filter);
+            int pages = Convert.ToInt32(Math.Ceiling((double)departmentsByDivisionAndSearchCount / request.ItemsPerPage));
+
+            DepartmentsByDivisionSearchResponse response = new DepartmentsByDivisionSearchResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = departmentDtos.Count > 0 ? request.Page : 0,
+                Departments = departmentDtos
+            };
+
+            return response;
         }
 
         public async Task<DepartmentDto> GetById(int id)
@@ -56,7 +94,7 @@ namespace Service.Service.ServiceImpl
 
             var departmentDto = _mapper.Map<DepartmentDto>(department);
 
-            departmentDto.CountAnalytics = await _unitOfWork.Departments.GetAnalystCount(departmentDto.DepartmentId);
+            departmentDto.CountAnalytics = await _unitOfWork.Employees.GetEmployeesByDepartmentCount(departmentDto.DepartmentId);
 
             return departmentDto;
         }
@@ -69,14 +107,15 @@ namespace Service.Service.ServiceImpl
             return isRemoved;
         }
 
-        public async Task<bool> Update(DepartmentDto departmentDto)
+        public async Task<EditDepartmentResponse> Update(EditDepartmentRequest request)
         {
-            var department = _mapper.Map<Department>(departmentDto);
+            var department = _mapper.Map<Department>(request.Department);
 
-            var isUpdated = await _unitOfWork.Departments.Update(department);
+            var departmentUpdated = await _unitOfWork.Departments.Update(department);
+            var departmentUpdatedDto = _mapper.Map<DepartmentDto>(departmentUpdated);
             await _unitOfWork.CompleteAsync();
 
-            return isUpdated;
+            return new EditDepartmentResponse { Department = departmentUpdatedDto };
         }
     }
 }

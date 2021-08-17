@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Util.Dtos;
 using Util.Exceptions;
+using Util.Support.Requests.Department;
 
 namespace FalconApi.Controllers
 {
@@ -21,19 +18,26 @@ namespace FalconApi.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(DepartmentDto departmentDto)
+        public async Task<IActionResult> Add(AddDepartmentRequest request)
         {
-            departmentDto = await _departmentService.Add(departmentDto);
+            var response = await _departmentService.Add(request);
 
-            return Ok(departmentDto);
+            return Ok(response);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetDepartmentsByDivision")]
+        public async Task<IActionResult> GetDepartmentsByDivision([FromQuery] DepartmentsByDivisionRequest request)
         {
-            var departmentDtos = await _departmentService.GetAll();
+            var response = await _departmentService.GetDepartmentsByDivision(request);
 
-            return Ok(departmentDtos);
+            return Ok(response);
+        }
+        [HttpGet("SearchDepartmentsByDivision")]
+        public async Task<IActionResult> GetDepartmentsByDivisionAndSearch([FromQuery] DepartmentsByDivisionSearchRequest request)
+        {
+            var response = await _departmentService.GetDepartmentsByDivisionAndSearch(request);
+
+            return Ok(response);
         }
 
         [HttpGet("GetById")]
@@ -77,13 +81,13 @@ namespace FalconApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update(DepartmentDto departmentDto)
+        public async Task<IActionResult> Update(EditDepartmentRequest request)
         {
             try
             {
-                var isUpdated = await _departmentService.Update(departmentDto);
+                var response = await _departmentService.Update(request);
 
-                return Ok(isUpdated);
+                return Ok(response);
             }
             catch (DoesNotExistException e)
             {

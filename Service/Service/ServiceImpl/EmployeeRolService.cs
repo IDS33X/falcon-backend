@@ -4,6 +4,8 @@ using Repository.UnitOfWork;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Support.Requests.EmployeeRol;
+using Util.Support.Responses.EmployeeRol;
 
 namespace Service.Service.ServiceImpl
 {
@@ -16,20 +18,20 @@ namespace Service.Service.ServiceImpl
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<EmployeeRolDto>> GetAll()
+        public async Task<GetEmployeeRolsResponse> GetAll(GetEmployeeRolsRequest request)
         {
             var employeeRols = await _unitOfWork.EmployeeRols.GetAll();
 
-            List<EmployeeRolDto> employeeDtos = new List<EmployeeRolDto>();
+            List<EmployeeRolDto> employeeRolDtos = new List<EmployeeRolDto>();
 
             foreach (EmployeeRol employeeRol in employeeRols)
             {
                 var employeeRolDto = _mapper.Map<EmployeeRolDto>(employeeRol);
 
-                employeeDtos.Add(employeeRolDto);
+                employeeRolDtos.Add(employeeRolDto);
             }
 
-            return employeeDtos;
+            return new GetEmployeeRolsResponse { EmployeeRols = employeeRolDtos };
         }
     }
 }

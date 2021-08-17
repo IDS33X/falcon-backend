@@ -10,6 +10,9 @@ namespace Repository.Repository
 {
     public interface IAreaRepository : IGenericRepository<Area, int>
     {
-        Task<int> GetDivisionsCount(int areaId);
+        Task<IEnumerable<Area>> GetAreas(int page, int perPage);
+        Task<int> GetAreasCount();
+        Task<IEnumerable<Area>> GetAreasSearch(string filter, int page, int perPage);
+        Task<int> GetAreasSearchCount(string filter);
     }
 }

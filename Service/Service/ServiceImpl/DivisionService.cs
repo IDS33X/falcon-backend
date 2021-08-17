@@ -3,10 +3,10 @@ using Domain.Models;
 using Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Support.Requests.Division;
+using Util.Support.Responses.Division;
 
 namespace Service.Service.ServiceImpl
 {
@@ -19,35 +19,72 @@ namespace Service.Service.ServiceImpl
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<DivisionDto> Add(DivisionDto divisionDto)
+        public async Task<AddDivisionResponse> Add(AddDivisionRequest request)
         {
-            var division = _mapper.Map<Division>(divisionDto);
+            var division = _mapper.Map<Division>(request.Division);
 
             division = await _unitOfWork.Divisions.Add(division);
 
             await _unitOfWork.CompleteAsync();
 
-            divisionDto = _mapper.Map<DivisionDto>(division);
+            var divisionDto = _mapper.Map<DivisionDto>(division);
 
-            return divisionDto;
+            return new AddDivisionResponse { Division = divisionDto };
         }
 
-        public async Task<IEnumerable<DivisionDto>> GetAll()
+        public async Task<DivisionsByAreaResponse> GetDivisionsByArea(DivisionsByAreaRequest request)
         {
-            var divisions = await _unitOfWork.Divisions.GetAll();
-
+            var divisions = await _unitOfWork.Divisions.GetDivisionsByArea(request.AreaId, request.Page, request.ItemsPerPage);
+            
             List<DivisionDto> divisionDtos = new List<DivisionDto>();
 
             foreach (Division division in divisions)
             {
                 var divisionDto = _mapper.Map<DivisionDto>(division);
 
-                divisionDto.CountDepartments = await _unitOfWork.Divisions.GetDepartmentCount(divisionDto.DivisionId);
+                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.DivisionId);
 
                 divisionDtos.Add(divisionDto);
             }
 
-            return divisionDtos;
+            int divisionsByAreaCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.AreaId);
+            int pages = Convert.ToInt32(Math.Ceiling((double)divisionsByAreaCount / request.ItemsPerPage));
+
+            DivisionsByAreaResponse response = new DivisionsByAreaResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = divisionDtos.Count > 0 ? request.Page : 0,
+                Divisions = divisionDtos
+            };
+
+            return response;
+        } 
+        public async Task<DivisionsByAreaSearchResponse> GetDivisionsByAreaAndSearch(DivisionsByAreaSearchRequest request)
+        {
+            var divisions = await _unitOfWork.Divisions.GetDivisionsByAreaSearch(request.AreaId, request.Filter, request.Page, request.ItemsPerPage);
+            
+            List<DivisionDto> divisionDtos = new List<DivisionDto>();
+
+            foreach (Division division in divisions)
+            {
+                var divisionDto = _mapper.Map<DivisionDto>(division);
+
+                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.DivisionId);
+
+                divisionDtos.Add(divisionDto);
+            }
+
+            int divisionsByAreaAndSearchCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.AreaId);
+            int pages = Convert.ToInt32(Math.Ceiling((double)divisionsByAreaAndSearchCount / request.ItemsPerPage));
+
+            DivisionsByAreaSearchResponse response = new DivisionsByAreaSearchResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = divisionDtos.Count > 0 ? request.Page : 0,
+                Divisions = divisionDtos
+            };
+
+            return response;
         }
 
         public async Task<DivisionDto> GetById(int id)
@@ -56,7 +93,7 @@ namespace Service.Service.ServiceImpl
 
             var divisionDto = _mapper.Map<DivisionDto>(division);
 
-            divisionDto.CountDepartments = await _unitOfWork.Divisions.GetDepartmentCount(divisionDto.DivisionId);
+            divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.DivisionId);
 
             return divisionDto;
         }
@@ -69,14 +106,15 @@ namespace Service.Service.ServiceImpl
             return isRemoved;
         }
 
-        public async Task<bool> Update(DivisionDto divisionDto)
+        public async Task<EditDivisionResponse> Update(EditDivisionRequest request)
         {
-            var division = _mapper.Map<Division>(divisionDto);
+            var division = _mapper.Map<Division>(request.Division);
 
-            var isUpdated = await _unitOfWork.Divisions.Update(division);
+            var divisionUpdated = await _unitOfWork.Divisions.Update(division);
+            var divisionUpdatedDto = _mapper.Map<DivisionDto>(divisionUpdated);
             await _unitOfWork.CompleteAsync();
 
-            return isUpdated;
+            return new EditDivisionResponse { Division = divisionUpdatedDto };
         }
     }
 }

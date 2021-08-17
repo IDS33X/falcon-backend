@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Models;
@@ -42,6 +43,36 @@ namespace Repository.RepositoryImpl
             {
                 return entity;
             }
+        }
+
+        public async Task<int> GetEmployeesByDepartmentCount(int departmentId)
+        {
+            int count = await context.Set<Employee>().CountAsync(d => d.DepartmentId == departmentId);
+            return count;
+        }    
+        public async Task<int> GetEmployeesByDepartmentSearchCount(int departmentId, string filter)
+        {
+            int count = await context.Set<Employee>().CountAsync(d => d.DepartmentId == departmentId && d.Name.Contains(filter));
+            return count;
+        }
+
+        public async Task<IEnumerable<Employee>> GetEmployeesByDepartment(int departmentId, int page, int perPage)
+        {
+            return await context.Set<Employee>()
+                                 .Where(e => e.DepartmentId == departmentId)
+                                 .Include(e => e.EmployeeRol)
+                                 .Skip((page - 1) * perPage)
+                                 .Take(perPage)
+                                 .ToListAsync();
+        }
+        public async Task<IEnumerable<Employee>> GetEmployeesByDepartmentSearch(int departmentId, string filter, int page, int perPage)
+        {
+            return await context.Set<Employee>()
+                                 .Where(e => e.DepartmentId == departmentId && e.Name.Contains(filter))
+                                 .Include(e => e.EmployeeRol)
+                                 .Skip((page - 1) * perPage)
+                                 .Take(perPage)
+                                 .ToListAsync();
         }
     }
 }

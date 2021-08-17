@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Domain.Models;
-using Repository.Repository;
 using Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Support.Requests.Area;
+using Util.Support.Responses;
+using Util.Support.Responses.Area;
 
 namespace Service.Service.ServiceImpl
 {
@@ -20,21 +20,26 @@ namespace Service.Service.ServiceImpl
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<AreaDto> Add(AreaDto areaDto)
+        public async Task<AddAreaResponse> Add(AddAreaRequest request)
         {
-            var area = _mapper.Map<Area>(areaDto);
+            var area = _mapper.Map<Area>(request.Area);
 
             area = await _unitOfWork.Areas.Add(area);
             await _unitOfWork.CompleteAsync();
 
-            areaDto = _mapper.Map<AreaDto>(area);
+            var areaDto = _mapper.Map<AreaDto>(area);
 
-            return areaDto;
+            AddAreaResponse response = new AddAreaResponse
+            {
+                Area = areaDto
+            };
+
+            return response;
         }
 
-        public async Task<IEnumerable<AreaDto>> GetAll()
+        public async Task<GetAreasResponse> GetAreas(GetAreasRequest request)
         {
-            var areas = await _unitOfWork.Areas.GetAll();
+            var areas = await _unitOfWork.Areas.GetAreas(request.Page, request.ItemsPerPage);
 
             List<AreaDto> areaDtos = new List<AreaDto>();
 
@@ -42,12 +47,49 @@ namespace Service.Service.ServiceImpl
             {
                 var areaDto = _mapper.Map<AreaDto>(area);
                 
-                areaDto.CountDivisions = await _unitOfWork.Areas.GetDivisionsCount(areaDto.AreaId);
+                areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(areaDto.AreaId);
                 
                 areaDtos.Add(areaDto);
             }
 
-            return areaDtos;
+            int areasCount = await _unitOfWork.Areas.GetAreasCount();
+            int pages = Convert.ToInt32(Math.Ceiling((double)areasCount / request.ItemsPerPage));
+
+            GetAreasResponse response = new GetAreasResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = areaDtos.Count > 0 ? request.Page : 0,
+                Areas = areaDtos
+            };
+
+            return response;
+        } 
+        public async Task<GetAreasSearchResponse> GetAreasBySearch(GetAreasSearchRequest request)
+        {
+            var areas = await _unitOfWork.Areas.GetAreasSearch(request.Filter, request.Page, request.ItemsPerPage);
+
+            List<AreaDto> areaDtos = new List<AreaDto>();
+
+            foreach (Area area in areas)
+            {
+                var areaDto = _mapper.Map<AreaDto>(area);
+                
+                areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(areaDto.AreaId);
+                
+                areaDtos.Add(areaDto);
+            }
+
+            int areasBySearchCount = await _unitOfWork.Areas.GetAreasSearchCount(request.Filter);
+            int pages = Convert.ToInt32(Math.Ceiling((double)areasBySearchCount / request.ItemsPerPage));
+
+            GetAreasSearchResponse response = new GetAreasSearchResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = areaDtos.Count > 0 ? request.Page : 0,
+                Areas = areaDtos
+            };
+
+            return response;
         }
 
         public async Task<AreaDto> GetById(int id)
@@ -56,7 +98,7 @@ namespace Service.Service.ServiceImpl
 
             var areaDto = _mapper.Map<AreaDto>(area);
 
-            areaDto.CountDivisions = await _unitOfWork.Areas.GetDivisionsCount(areaDto.AreaId);
+            areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(areaDto.AreaId);
 
             return areaDto;
         }
@@ -69,14 +111,20 @@ namespace Service.Service.ServiceImpl
             return isRemoved;
         }
 
-        public async Task<bool> Update(AreaDto areaDto)
+        public async Task<EditAreaResponse> Update(EditAreaRequest request)
         {
-            var area = _mapper.Map<Area>(areaDto);
+            var area = _mapper.Map<Area>(request.Area);
 
-            var isUpdated = await _unitOfWork.Areas.Update(area);
+            var areaUpdated = await _unitOfWork.Areas.Update(area);
+            var areaUpdatedDto = _mapper.Map<AreaDto>(areaUpdated);
             await _unitOfWork.CompleteAsync();
 
-            return isUpdated;
+            EditAreaResponse response = new EditAreaResponse
+            {
+                Area = areaUpdatedDto
+            };
+
+            return response;
         }
     }
 }
