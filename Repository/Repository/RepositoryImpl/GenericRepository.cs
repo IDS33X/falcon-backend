@@ -19,8 +19,8 @@ namespace Repository.RepositoryImpl
 
         public async Task<T> Add(T entity)
         {
-             await context.Set<T>().AddAsync(entity);
-             return entity;
+            await context.Set<T>().AddAsync(entity);
+            return entity;
         }
 
         public async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
@@ -61,18 +61,10 @@ namespace Repository.RepositoryImpl
             }
         }
 
-        public async Task<bool> Update(T entity)
+        public async Task<T> Update(T entity)
         {
-            try
-            {
-                await Task.Run(() => context.Set<T>().Update(entity));
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            
+            await Task.Run(() => context.Set<T>().Update(entity));
+            return entity;
         }
     }
 }

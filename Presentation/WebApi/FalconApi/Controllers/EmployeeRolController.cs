@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Util.Support.Requests.EmployeeRol;
 
 namespace FalconApi.Controllers
 {
@@ -20,11 +17,11 @@ namespace FalconApi.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GetEmployeeRolsRequest request)
         {
-            var rols = await _employeeRolService.GetAll();
+            var response = await _employeeRolService.GetAll(request);
 
-            return Ok(rols);
+            return Ok(response);
         }
     }
 }

@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Service.Service;
-using Util.Dtos;
 using Util.Exceptions;
-using Util.Support;
+using Util.Support.Requests;
+using Util.Support.Response;
 
 namespace FalconApi.Controllers
 {
@@ -19,28 +19,23 @@ namespace FalconApi.Controllers
     [Route("falconapi/[Controller]")]
     public class SessionController : Controller
     {
-        private ISessionService service;
+        private readonly ISessionService _service;
         private readonly IConfiguration _config;
         public SessionController(ISessionService service, IConfiguration configuration){
-            this.service = service;
+            _service = service;
             _config = configuration;
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> LogIn([FromBody]LogInRequest login){
+        public async Task<IActionResult> LogIn(LogInRequest login){
 
             try{
                 LogInResponse response = new LogInResponse();
 
-                var employeeDto = await service.Login(login);
+                var employeeDto = await _service.Login(login);
 
-                if (employeeDto == null)
-                {
-                    return NotFound();
-                }
-
-                string token = GenerateJSONWebToken(employeeDto);
+                string token = GenerateJSONWebToken(employeeDto.EmployeeRol.Name);
 
                 response.Employee = employeeDto;
                 response.Token = token;
@@ -54,7 +49,7 @@ namespace FalconApi.Controllers
 
         }
 
-        private string GenerateJSONWebToken(EmployeeDto employeeDto)
+        private string GenerateJSONWebToken(string rol)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
 
@@ -62,7 +57,7 @@ namespace FalconApi.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Role, employeeDto.EmployeeRol.Name)
+                    new Claim(ClaimTypes.Role, rol)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)

@@ -7,28 +7,29 @@ using Service.Service;
 using Util.Dtos;
 using Util.Exceptions;
 using Util.Support;
+using Util.Support.Requests;
 
 namespace Service.ServiceImpl
 {
     public class SessionService : ISessionService
     {
-        private IUnitOfWork unitOfWork;
-        private IMapper mapper;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public SessionService(IUnitOfWork unitOfWork,IMapper mapper){
-            this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<EmployeeDto> Login(LogInRequest login)
         {
-            Employee employee = await unitOfWork.Employees.FindByCode(login.Code);
+            Employee employee = await _unitOfWork.Employees.FindByCode(login.Code);
             
             if(!employee.Password.Equals(login.Password)){
                 throw new IncorrectPasswordException("Contrasena incorrecta");
             }
             else{
-                EmployeeDto dto = mapper.Map<EmployeeDto>(employee);
+                EmployeeDto dto = _mapper.Map<EmployeeDto>(employee);
                 return dto;
             }
         }

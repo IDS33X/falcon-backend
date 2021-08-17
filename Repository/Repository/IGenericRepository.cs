@@ -12,6 +12,6 @@ namespace Repository.Repository
         Task<T> GetById(ID id);
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> Find(Expression<Func<T,bool>> predicate);
-        Task<bool> Update(T entity);
+        Task<T> Update(T entity);
     }
 }

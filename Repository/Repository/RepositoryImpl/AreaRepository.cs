@@ -17,10 +17,29 @@ namespace Repository.Repository.RepositoryImpl
 
         }
 
-        public async Task<int> GetDivisionsCount(int areaId)
+        public async Task<IEnumerable<Area>> GetAreas(int page, int perPage)
         {
-            int count = await context.Set<Division>().CountAsync(d => d.AreaId == areaId);
-            return count;
+            return await context.Set<Area>()
+                                 .Skip((page - 1) * perPage)
+                                 .Take(perPage)
+                                 .ToListAsync();
+        } 
+        public async Task<IEnumerable<Area>> GetAreasSearch(string filter, int page, int perPage)
+        {
+            return await context.Set<Area>()
+                                .Where(a => a.Name.Contains(filter))
+                                .Skip((page - 1) * perPage)
+                                .Take(perPage)
+                                .ToListAsync();
+        }
+
+        public async Task<int> GetAreasCount()
+        {
+            return await context.Set<Area>().CountAsync();
+        }
+        public async Task<int> GetAreasSearchCount(string filter)
+        {
+            return await context.Set<Area>().CountAsync(a => a.Name.Contains(filter));
         }
     }
 }

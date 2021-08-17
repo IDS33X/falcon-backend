@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Util.Dtos;
+﻿using System.Threading.Tasks;
+using Util.Support.Requests.EmployeeRol;
+using Util.Support.Responses.EmployeeRol;
 
 namespace Service.Service
 {
     public interface IEmployeeRolService
     {
-        Task<IEnumerable<EmployeeRolDto>> GetAll();
+        Task<GetEmployeeRolsResponse> GetAll(GetEmployeeRolsRequest request);
     }
 }

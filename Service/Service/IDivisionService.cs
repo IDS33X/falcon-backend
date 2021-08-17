@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Support.Requests.Division;
+using Util.Support.Responses.Division;
 
 namespace Service.Service
 {
     public interface IDivisionService
     {
-        Task<DivisionDto> Add(DivisionDto divisionDto);
+        Task<AddDivisionResponse> Add(AddDivisionRequest request);
         Task<bool> Removed(int id);
         Task<DivisionDto> GetById(int id);
-        Task<IEnumerable<DivisionDto>> GetAll();
-        Task<bool> Update(DivisionDto divisionDto);
+        Task<EditDivisionResponse> Update(EditDivisionRequest request);
+        Task<DivisionsByAreaResponse> GetDivisionsByArea(DivisionsByAreaRequest request);
+        Task<DivisionsByAreaSearchResponse> GetDivisionsByAreaAndSearch(DivisionsByAreaSearchRequest request);
     }
 }

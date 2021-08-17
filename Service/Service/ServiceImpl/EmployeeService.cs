@@ -3,10 +3,10 @@ using Domain.Models;
 using Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Support.Requests.Employee;
+using Util.Support.Responses.Employee;
 
 namespace Service.Service.ServiceImpl
 {
@@ -19,21 +19,21 @@ namespace Service.Service.ServiceImpl
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<EmployeeDto> Add(EmployeeDto employeeDto)
+        public async Task<AddEmployeeResponse> Add(AddEmployeeRequest request)
         {
-            var employee = _mapper.Map<Employee>(employeeDto);
+            var employee = _mapper.Map<Employee>(request.Employee);
 
             employee = await _unitOfWork.Employees.Add(employee);
             await _unitOfWork.CompleteAsync();
 
-            employeeDto = _mapper.Map<EmployeeDto>(employee);
+            var employeeDto = _mapper.Map<EmployeeDto>(employee);
 
-            return employeeDto;
+            return new AddEmployeeResponse { Employee = employeeDto };
         }
 
-        public async Task<IEnumerable<EmployeeDto>> GetAll()
+        public async Task<EmployeesByDepartmentResponse> GetEmployeesByDepartment(EmployeesByDepartmentRequest request)
         {
-            var employees = await _unitOfWork.Employees.GetAll();
+            var employees = await _unitOfWork.Employees.GetEmployeesByDepartment(request.DepartmentId, request.Page, request.ItemsPerPage);
 
             List<EmployeeDto> employeeDtos = new List<EmployeeDto>();
 
@@ -44,7 +44,42 @@ namespace Service.Service.ServiceImpl
                 employeeDtos.Add(employeeDto);
             }
 
-            return employeeDtos;
+            int employeesByDepartmentCount = await _unitOfWork.Employees.GetEmployeesByDepartmentCount(request.DepartmentId);
+            int pages = Convert.ToInt32(Math.Ceiling((double)employeesByDepartmentCount / request.ItemsPerPage));
+
+            EmployeesByDepartmentResponse response = new EmployeesByDepartmentResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = employeeDtos.Count > 0 ? request.Page : 0,
+                Employees = employeeDtos
+            };
+
+            return response;
+        } 
+        public async Task<EmployeesByDepartmentSearchResponse> GetEmployeesByDepartmentAndSearch(EmployeesByDepartmentSearchRequest request)
+        {
+            var employees = await _unitOfWork.Employees.GetEmployeesByDepartmentSearch(request.DepartmentId, request.Filter, request.Page, request.ItemsPerPage);
+
+            List<EmployeeDto> employeeDtos = new List<EmployeeDto>();
+
+            foreach (Employee employee in employees)
+            {
+                var employeeDto = _mapper.Map<EmployeeDto>(employee);
+
+                employeeDtos.Add(employeeDto);
+            }
+
+            int employeesByDepartmentAndSearchCount = await _unitOfWork.Employees.GetEmployeesByDepartmentSearchCount(request.DepartmentId, request.Filter);
+            int pages = Convert.ToInt32(Math.Ceiling((double)employeesByDepartmentAndSearchCount / request.ItemsPerPage));
+
+            EmployeesByDepartmentSearchResponse response = new EmployeesByDepartmentSearchResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = employeeDtos.Count > 0 ? request.Page : 0,
+                Employees = employeeDtos
+            };
+
+            return response;
         }
 
         public async Task<EmployeeDto> GetById(int id)
@@ -64,14 +99,15 @@ namespace Service.Service.ServiceImpl
             return isRemoved;
         }
 
-        public async Task<bool> Update(EmployeeDto employeeDto)
+        public async Task<EditEmployeeResponse> Update(EditEmployeeRequest request)
         {
-            var employee = _mapper.Map<Employee>(employeeDto);
+            var employee = _mapper.Map<Employee>(request.Employee);
 
-            var isUpdated = await _unitOfWork.Employees.Update(employee);
+            var employeeUpdated = await _unitOfWork.Employees.Update(employee);
+            var employeeUpdatedDto = _mapper.Map<EmployeeDto>(employeeUpdated);
             await _unitOfWork.CompleteAsync();
 
-            return isUpdated;
+            return new EditEmployeeResponse { Employee = employeeUpdatedDto };
         }
     }
 }

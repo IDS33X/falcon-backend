@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Util.Dtos;
 using Util.Exceptions;
+using Util.Support.Requests.Division;
 
 namespace FalconApi.Controllers
 {
@@ -21,19 +18,26 @@ namespace FalconApi.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(DivisionDto divisionDto)
+        public async Task<IActionResult> Add(AddDivisionRequest request)
         {
-            divisionDto = await _divisionService.Add(divisionDto);
+            var response = await _divisionService.Add(request);
 
-            return Ok(divisionDto);
+            return Ok(response);
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetDivisionsByArea")]
+        public async Task<IActionResult> GetDivisionsByArea([FromQuery] DivisionsByAreaRequest request)
         {
-            var divisionDtos = await _divisionService.GetAll();
+            var response = await _divisionService.GetDivisionsByArea(request);
 
-            return Ok(divisionDtos);
+            return Ok(response);
+        } 
+        [HttpGet("SearchDivisionsByArea")]
+        public async Task<IActionResult> GetDivisionsByAreaAndSearch([FromQuery] DivisionsByAreaSearchRequest request)
+        {
+            var response = await _divisionService.GetDivisionsByAreaAndSearch(request);
+
+            return Ok(response);
         }
 
         [HttpGet("GetById")]
@@ -77,13 +81,13 @@ namespace FalconApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update(DivisionDto divisionDto)
+        public async Task<IActionResult> Update(EditDivisionRequest request)
         {
             try
             {
-                var isUpdated = await _divisionService.Update(divisionDto);
+                var response = await _divisionService.Update(request);
 
-                return Ok(isUpdated);
+                return Ok(response);
             }
             catch (DoesNotExistException e)
             {

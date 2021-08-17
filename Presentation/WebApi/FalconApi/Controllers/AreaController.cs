@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Util.Dtos;
 using Util.Exceptions;
+using Util.Support.Requests.Area;
 
 namespace FalconApi.Controllers
 {
@@ -23,20 +20,27 @@ namespace FalconApi.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(AreaDto areaDto)
+        public async Task<IActionResult> Add(AddAreaRequest request)
         {
-            areaDto = await _areaService.Add(areaDto);
+            var response = await _areaService.Add(request);
 
-            return Ok(areaDto);
+            return Ok(response);
         }
 
         [Authorize(Roles = "Control Interno")]
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetAreas")]
+        public async Task<IActionResult> GetAreas([FromQuery] GetAreasRequest request)
         {
-            var areaDtos = await _areaService.GetAll();
+            var response = await _areaService.GetAreas(request);
 
-            return Ok(areaDtos);
+            return Ok(response);
+        }  
+        [HttpGet("SearchAreas")]
+        public async Task<IActionResult> GetAreasBySearch([FromQuery] GetAreasSearchRequest request)
+        {
+            var response = await _areaService.GetAreasBySearch(request);
+
+            return Ok(response);
         }
 
         [Authorize(Roles = "Analista de Riesgo")]
@@ -81,13 +85,13 @@ namespace FalconApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> Update(AreaDto areaDto)
+        public async Task<IActionResult> Update(EditAreaRequest request)
         {
             try
             {
-                var isUpdated = await _areaService.Update(areaDto);
+                var response = await _areaService.Update(request);
 
-                return Ok(isUpdated);
+                return Ok(response);
             }
             catch (DoesNotExistException e)
             {
