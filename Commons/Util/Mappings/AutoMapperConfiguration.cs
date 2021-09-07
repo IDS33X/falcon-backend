@@ -18,8 +18,10 @@ namespace Util.Mappings
                 cfg.CreateMap<Area, AreaDto>().ForMember(dto => dto.CountDivisions, opt => opt.Ignore()).ReverseMap();
                 cfg.CreateMap<Division, DivisionDto>().ForMember(dto => dto.CountDepartments, opt => opt.Ignore()).ReverseMap();
                 cfg.CreateMap<Department, DepartmentDto>().ForMember(dto => dto.CountAnalytics, opt => opt.Ignore()).ReverseMap();
-                cfg.CreateMap<Employee, EmployeeDto>().ReverseMap();
-                cfg.CreateMap<EmployeeRol, EmployeeRolDto>().ReverseMap();
+                cfg.CreateMap<UserProfile, UserDto>().ForMember(dto => dto.Password, opt => opt.MapFrom(des => des.User.Password))
+                    .ForMember(dto => dto.Username, opt => opt.MapFrom(des => des.User.Username))
+                    .ForMember(dto => dto.UserId, opt => opt.MapFrom(des => des.Id)).ReverseMap();
+                cfg.CreateMap<MRole, MRoleDto>().ReverseMap();
 
                 //cfg.AddProfile<CustomerMappingProfile>();
 
