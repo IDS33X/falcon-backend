@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Models
 {
     public class User
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        [Key]
+        public Guid Id { get; set; }
         public int UserRoleId { get; set; }
         public MRole UserRole { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,7 +16,7 @@ namespace Domain.Models
         public string Password { get; set; }
         public bool Enabled { get; set; } = true;
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; }
         public UserProfile UserProfile { get; set; }
     }
 }

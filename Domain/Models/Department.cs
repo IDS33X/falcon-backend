@@ -5,14 +5,14 @@ namespace Domain.Models
 {
     public class Department
     {
-        public Department(int departmentId, int divisionId, Division division, string name, string description, IEnumerable<Employee> employees)
+        public Department(int departmentId, int divisionId, Division division, string name, string description, IEnumerable<UserProfile> userProfile)
         {
             DepartmentId = departmentId;
             DivisionId = divisionId;
             Division = division;
             Name = name;
             Description = description;
-            Employees = employees;
+            UserProfiles = userProfile;
         }
 
         public Department(){}
@@ -23,6 +23,6 @@ namespace Domain.Models
         public Division Division { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IEnumerable<Employee> Employees { get; set; }
+        public IEnumerable<UserProfile> UserProfiles { get; set; }
     }
 }

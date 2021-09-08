@@ -12,6 +12,6 @@ namespace Domain.Models
         public string Description { get; set; }
         public bool Enabled { get; set; } = true;
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; }
     }
 }

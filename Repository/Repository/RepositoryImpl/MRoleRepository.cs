@@ -4,9 +4,9 @@ using Repository.RepositoryImpl;
 
 namespace Repository.Repository.RepositoryImpl
 {
-    public class EmployeeRolRepository : GenericRepository<EmployeeRol>, IEmployeeRolRepository
+    class MRoleRepository : GenericRepository<MRole, int>, IMRoleRepository
     {
-        public EmployeeRolRepository(DbContext context) : base(context)
+        public MRoleRepository(DbContext context) : base(context)
         {
         }
     }

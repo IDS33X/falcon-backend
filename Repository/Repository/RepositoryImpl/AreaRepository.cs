@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository.RepositoryImpl
 {
-    public class AreaRepository : GenericRepository<Area>, IAreaRepository
+    public class AreaRepository : GenericRepository<Area, int>, IAreaRepository
     {
         public AreaRepository(FalconDBContext context) : base(context)
         {

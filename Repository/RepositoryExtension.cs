@@ -1,12 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Repository.Repository;
 using Repository.UnitOfWork;
-using Repository.UnitOfWorkImpl;
 using Repository.Context;
 
 namespace Repository
