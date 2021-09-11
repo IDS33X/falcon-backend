@@ -42,7 +42,7 @@ namespace Service.Service.ServiceImpl
             {
                 var divisionDto = _mapper.Map<DivisionDto>(division);
 
-                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.DivisionId);
+                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.Id);
 
                 divisionDtos.Add(divisionDto);
             }
@@ -69,7 +69,7 @@ namespace Service.Service.ServiceImpl
             {
                 var divisionDto = _mapper.Map<DivisionDto>(division);
 
-                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.DivisionId);
+                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.Id);
 
                 divisionDtos.Add(divisionDto);
             }
@@ -93,7 +93,7 @@ namespace Service.Service.ServiceImpl
 
             var divisionDto = _mapper.Map<DivisionDto>(division);
 
-            divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.DivisionId);
+            divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.Id);
 
             return divisionDto;
         }
