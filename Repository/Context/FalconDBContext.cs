@@ -19,5 +19,33 @@ namespace Repository.Context
         {
             optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("DB_URI"));
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Area>()
+                        .Property(a => a.CreatedDate)
+                        .HasDefaultValue("getdate()");
+
+            modelBuilder.Entity<Division>()
+                        .Property(d => d.CreatedDate)
+                        .HasDefaultValue("getdate()");
+
+            modelBuilder.Entity<Department>()
+                        .Property(de => de.CreatedDate)
+                        .HasDefaultValue("getdate()");
+
+            modelBuilder.Entity<MRole>()
+                        .Property(mr => mr.CreatedDate)
+                        .HasDefaultValue("getdate()");
+
+            modelBuilder.Entity<User>()
+                        .Property(u => u.CreatedDate)
+                        .HasDefaultValue("getdate()");
+
+            modelBuilder.Entity<User>()
+                        .Property(u => u.Id)
+                        .HasDefaultValue("newid()");
+
+        }
     }
 }
