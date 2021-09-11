@@ -16,7 +16,7 @@ namespace Repository.Repository.RepositoryImpl
 
         }
 
-        public async Task<int> GetDivisionsByAreaSearchCount(int areaId)
+        public async Task<int> GetDivisionsByAreaCount(int areaId)
         {
             int count = await context.Set<Division>().CountAsync(d => d.AreaId == areaId);
             return count;

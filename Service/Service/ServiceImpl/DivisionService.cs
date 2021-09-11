@@ -47,7 +47,7 @@ namespace Service.Service.ServiceImpl
                 divisionDtos.Add(divisionDto);
             }
 
-            int divisionsByAreaCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.AreaId);
+            int divisionsByAreaCount = await _unitOfWork.Divisions.GetDivisionsByAreaCount(request.AreaId);
             int pages = Convert.ToInt32(Math.Ceiling((double)divisionsByAreaCount / request.ItemsPerPage));
 
             DivisionsByAreaResponse response = new DivisionsByAreaResponse
@@ -74,7 +74,7 @@ namespace Service.Service.ServiceImpl
                 divisionDtos.Add(divisionDto);
             }
 
-            int divisionsByAreaAndSearchCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.AreaId);
+            int divisionsByAreaAndSearchCount = await _unitOfWork.Divisions.GetDivisionsByAreaCount(request.AreaId);
             int pages = Convert.ToInt32(Math.Ceiling((double)divisionsByAreaAndSearchCount / request.ItemsPerPage));
 
             DivisionsByAreaSearchResponse response = new DivisionsByAreaSearchResponse

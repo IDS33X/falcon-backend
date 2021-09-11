@@ -14,6 +14,7 @@ namespace Repository.Context
         public DbSet<User> User { get; set; }
         public DbSet<UserProfile> UserProfile { get; set; }
         public DbSet<MRole> MRole { get; set; }
+        public DbSet<RiskCategory> RiskCategory { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
