@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Commons\Util\Util.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

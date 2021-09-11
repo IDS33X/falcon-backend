@@ -8,7 +8,7 @@ using Util.Support.Requests.Area;
 
 namespace FalconApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("falconapi/[controller]")]
     [ApiController]
     public class AreaController : ControllerBase
@@ -27,7 +27,7 @@ namespace FalconApi.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Control Interno")]
+        //[Authorize(Roles = "Control Interno")]
         [HttpGet("GetAreas")]
         public async Task<IActionResult> GetAreas([FromQuery] GetAreasRequest request)
         {
@@ -43,7 +43,7 @@ namespace FalconApi.Controllers
             return Ok(response);
         }
 
-        [Authorize(Roles = "Analista de Riesgo")]
+        //[Authorize(Roles = "Analista de Riesgo")]
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById(int id)
         {
