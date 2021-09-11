@@ -10,7 +10,7 @@ using Util.Exceptions;
 
 namespace Repository.RepositoryImpl
 {
-    public class GenericRepository<T> : IGenericRepository<T,int> where T : class
+    public class GenericRepository<T,ID> : IGenericRepository<T,ID> where T : class
     {
         protected DbContext context;
         public GenericRepository(DbContext context){
@@ -33,7 +33,7 @@ namespace Repository.RepositoryImpl
             return await context.Set<T>().ToListAsync();
         }
 
-        public async Task<T> GetById(int id)
+        public async Task<T> GetById(ID id)
         {
             T entity = await context.Set<T>().FindAsync(id);
 
@@ -47,7 +47,7 @@ namespace Repository.RepositoryImpl
             }
         }
 
-        public async Task<bool> Removed(int id)
+        public async Task<bool> Removed(ID id)
         {
             T entity = await context.Set<T>().FindAsync(id);
             if (entity == null)

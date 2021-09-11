@@ -21,15 +21,15 @@ namespace Service.ServiceImpl
             _mapper = mapper;
         }
 
-        public async Task<EmployeeDto> Login(LogInRequest login)
+        public async Task<UserDto> Login(LogInRequest login)
         {
-            Employee employee = await _unitOfWork.Employees.FindByCode(login.Code);
+            UserProfile userProfile = await _unitOfWork.UserProfiles.FindByUsername(login.Username);
             
-            if(!employee.Password.Equals(login.Password)){
+            if(!userProfile.User.Password.Equals(login.Password)){
                 throw new IncorrectPasswordException("Contrasena incorrecta");
             }
             else{
-                EmployeeDto dto = _mapper.Map<EmployeeDto>(employee);
+                UserDto dto = _mapper.Map<UserDto>(userProfile);
                 return dto;
             }
         }

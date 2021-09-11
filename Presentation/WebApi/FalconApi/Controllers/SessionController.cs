@@ -33,11 +33,11 @@ namespace FalconApi.Controllers
             try{
                 LogInResponse response = new LogInResponse();
 
-                var employeeDto = await _service.Login(login);
+                var userDto = await _service.Login(login);
 
-                string token = GenerateJSONWebToken(employeeDto.EmployeeRol.Name);
+                string token = GenerateJSONWebToken(userDto.Role.Title);
 
-                response.Employee = employeeDto;
+                response.User = userDto;
                 response.Token = token;
 
                 return Ok(response);

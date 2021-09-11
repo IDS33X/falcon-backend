@@ -9,7 +9,7 @@ using Util.Exceptions;
 
 namespace Repository.Repository.RepositoryImpl
 {
-    public class DivisionRepository : GenericRepository<Division>, IDivisionRepository
+    public class DivisionRepository : GenericRepository<Division, int>, IDivisionRepository
     {
         public DivisionRepository(FalconDBContext context) : base(context)
         {
@@ -29,7 +29,7 @@ namespace Repository.Repository.RepositoryImpl
 
         public new async Task<Division> GetById(int id)
         {
-            Division division = await context.Set<Division>().Include(d => d.Employee).SingleOrDefaultAsync(e => e.DivisionId == id);
+            Division division = await context.Set<Division>().Include(d => d.UserProfile).SingleOrDefaultAsync(e => e.DivisionId == id);
 
             if (division == null)
             {
@@ -44,7 +44,7 @@ namespace Repository.Repository.RepositoryImpl
         {
             return await context.Set<Division>()
                                  .Where(d => d.AreaId == areaId)
-                                 .Include(d => d.Employee)
+                                 .Include(d => d.UserProfile)
                                  .Skip((page - 1) * perPage)
                                  .Take(perPage)
                                  .ToListAsync();
@@ -53,7 +53,7 @@ namespace Repository.Repository.RepositoryImpl
         {
             return await context.Set<Division>()
                                 .Where(d => d.AreaId == areaId && d.Name.Contains(filter))
-                                .Include(d => d.Employee)
+                                .Include(d => d.UserProfile)
                                 .Skip((page - 1) * perPage)
                                 .Take(perPage)
                                 .ToListAsync();

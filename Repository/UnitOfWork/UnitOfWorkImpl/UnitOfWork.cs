@@ -1,9 +1,7 @@
-using System;
 using System.Threading.Tasks;
 using Repository.Context;
 using Repository.Repository;
 using Repository.Repository.RepositoryImpl;
-using Repository.RepositoryImpl;
 using Repository.UnitOfWork;
 
 namespace Repository.UnitOfWorkImpl
@@ -12,21 +10,22 @@ namespace Repository.UnitOfWorkImpl
     {
         private readonly FalconDBContext context;
  
-        public IEmployeeRepository Employees {get;}
-
+        public IUserProfileRepository UserProfiles {get;}
+        public IUserRepository Users { get; }
         public IAreaRepository Areas { get; }
         public IDivisionRepository Divisions { get; }
         public IDepartmentRepository Departments { get; }
-        public IEmployeeRolRepository EmployeeRols { get; }
+        public IMRoleRepository MRoles { get; }
 
         public UnitOfWork(FalconDBContext context){
             this.context = context;
             
-            Employees = new EmployeeRepository(context);
+            UserProfiles = new UserProfileRepository(context);
+            Users = new UserRepository(context);
             Areas = new AreaRepository(context);
             Divisions = new DivisionRepository(context);
             Departments = new DepartmentRepository(context);
-            EmployeeRols = new EmployeeRolRepository(context);
+            MRoles = new MRoleRepository(context);
         }
 
         public async Task CompleteAsync()

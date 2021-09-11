@@ -13,8 +13,8 @@ namespace Repository
             services.AddTransient<IAreaService, AreaService>();
             services.AddTransient<IDivisionService, DivisionService>();
             services.AddTransient<IDepartmentService, DeparmentService>();
-            services.AddTransient<IEmployeeRolService, EmployeeRolService>();
-            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IMRoleService, MRoleService>();
+            services.AddTransient<IUserService, UserService>();
             return services;
         }
     }

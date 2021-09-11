@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository.RepositoryImpl
 {
-    public class DepartmentRepository : GenericRepository<Department>, IDepartmentRepository
+    public class DepartmentRepository : GenericRepository<Department, int>, IDepartmentRepository
     {
         public DepartmentRepository(DbContext context) : base(context)
         {
