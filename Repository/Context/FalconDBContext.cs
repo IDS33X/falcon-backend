@@ -18,34 +18,38 @@ namespace Repository.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("DB_URI"));
+            optionsBuilder.UseSqlServer("Server=tcp:falconrcms.database.windows.net,1433;Initial Catalog=falconTestDB;Persist Security Info=False;User ID=Falcon;Password=F@lcon123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Area>()
                         .Property(a => a.CreatedDate)
-                        .HasDefaultValue("getdate()");
+                        .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<Division>()
                         .Property(d => d.CreatedDate)
-                        .HasDefaultValue("getdate()");
+                        .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<Department>()
                         .Property(de => de.CreatedDate)
-                        .HasDefaultValue("getdate()");
+                        .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<MRole>()
                         .Property(mr => mr.CreatedDate)
-                        .HasDefaultValue("getdate()");
+                        .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<User>()
                         .Property(u => u.CreatedDate)
-                        .HasDefaultValue("getdate()");
+                        .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<RiskCategory>()
+            .Property(u => u.CreatedDate)
+            .HasDefaultValueSql("getdate()");
 
             modelBuilder.Entity<User>()
                         .Property(u => u.Id)
-                        .HasDefaultValue("newid()");
+                        .HasDefaultValueSql("newid()");
 
         }
     }

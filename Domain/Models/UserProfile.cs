@@ -29,5 +29,6 @@ namespace Domain.Models
         [Required]
         [MaxLength(10)]
         public string Code { get; set; }
+        public Division Division { get; set; }
     }
 }
