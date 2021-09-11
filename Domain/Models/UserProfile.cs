@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
 {
@@ -8,7 +9,7 @@ namespace Domain.Models
         public int Id { get; set; }
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
-        public int? UserId { get; set; }
+        public Guid? UserId { get; set; }
         public User User { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
