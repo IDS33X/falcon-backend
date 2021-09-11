@@ -8,7 +8,7 @@ namespace Repository.UnitOfWorkImpl
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly FalconDBContext context;
+        private readonly FalconDBContext _context;
  
         public IUserProfileRepository UserProfiles {get;}
         public IUserRepository Users { get; }
@@ -16,9 +16,10 @@ namespace Repository.UnitOfWorkImpl
         public IDivisionRepository Divisions { get; }
         public IDepartmentRepository Departments { get; }
         public IMRoleRepository MRoles { get; }
+        public IRiskCategoryRepository RiskCategories { get; }
 
         public UnitOfWork(FalconDBContext context){
-            this.context = context;
+            this._context = context;
             
             UserProfiles = new UserProfileRepository(context);
             Users = new UserRepository(context);
@@ -26,11 +27,12 @@ namespace Repository.UnitOfWorkImpl
             Divisions = new DivisionRepository(context);
             Departments = new DepartmentRepository(context);
             MRoles = new MRoleRepository(context);
+            RiskCategories = new RiskCategoryRepository(context);
         }
 
         public async Task CompleteAsync()
         {
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

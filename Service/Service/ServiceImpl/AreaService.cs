@@ -47,7 +47,7 @@ namespace Service.Service.ServiceImpl
             {
                 var areaDto = _mapper.Map<AreaDto>(area);
                 
-                areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(areaDto.AreaId);
+                areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaCount(areaDto.AreaId);
                 
                 areaDtos.Add(areaDto);
             }
@@ -74,7 +74,7 @@ namespace Service.Service.ServiceImpl
             {
                 var areaDto = _mapper.Map<AreaDto>(area);
                 
-                areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(areaDto.AreaId);
+                areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaCount(areaDto.AreaId);
                 
                 areaDtos.Add(areaDto);
             }
@@ -98,7 +98,7 @@ namespace Service.Service.ServiceImpl
 
             var areaDto = _mapper.Map<AreaDto>(area);
 
-            areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(areaDto.AreaId);
+            areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaCount(areaDto.AreaId);
 
             return areaDto;
         }

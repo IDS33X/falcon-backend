@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
 using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Util.Dtos;
 
 namespace Util.Mappings
@@ -22,6 +17,7 @@ namespace Util.Mappings
                     .ForMember(dto => dto.Username, opt => opt.MapFrom(des => des.User.Username))
                     .ForMember(dto => dto.UserId, opt => opt.MapFrom(des => des.Id)).ReverseMap();
                 cfg.CreateMap<MRole, MRoleDto>().ReverseMap();
+                cfg.CreateMap<RiskCategory, RiskCategoryDto>().ReverseMap();
 
                 //cfg.AddProfile<CustomerMappingProfile>();
 

@@ -42,12 +42,12 @@ namespace Service.Service.ServiceImpl
             {
                 var divisionDto = _mapper.Map<DivisionDto>(division);
 
-                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.DivisionId);
+                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.Id);
 
                 divisionDtos.Add(divisionDto);
             }
 
-            int divisionsByAreaCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.AreaId);
+            int divisionsByAreaCount = await _unitOfWork.Divisions.GetDivisionsByAreaCount(request.AreaId);
             int pages = Convert.ToInt32(Math.Ceiling((double)divisionsByAreaCount / request.ItemsPerPage));
 
             DivisionsByAreaResponse response = new DivisionsByAreaResponse
@@ -69,12 +69,12 @@ namespace Service.Service.ServiceImpl
             {
                 var divisionDto = _mapper.Map<DivisionDto>(division);
 
-                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.DivisionId);
+                divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.Id);
 
                 divisionDtos.Add(divisionDto);
             }
 
-            int divisionsByAreaAndSearchCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.AreaId);
+            int divisionsByAreaAndSearchCount = await _unitOfWork.Divisions.GetDivisionsByAreaCount(request.AreaId);
             int pages = Convert.ToInt32(Math.Ceiling((double)divisionsByAreaAndSearchCount / request.ItemsPerPage));
 
             DivisionsByAreaSearchResponse response = new DivisionsByAreaSearchResponse
@@ -93,7 +93,7 @@ namespace Service.Service.ServiceImpl
 
             var divisionDto = _mapper.Map<DivisionDto>(division);
 
-            divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.DivisionId);
+            divisionDto.CountDepartments = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(divisionDto.Id);
 
             return divisionDto;
         }

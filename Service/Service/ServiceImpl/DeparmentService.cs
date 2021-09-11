@@ -43,12 +43,12 @@ namespace Service.Service.ServiceImpl
             {
                 var departmentDto = _mapper.Map<DepartmentDto>(department);
 
-                departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.DepartmentId);
+                departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
 
                 departmentDtos.Add(departmentDto);
             }
 
-            int departmentsByDivisionCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.DivisionId);
+            int departmentsByDivisionCount = await _unitOfWork.Departments.GetDepartmentsByDivisionCount(request.DivisionId);
             int pages = Convert.ToInt32(Math.Ceiling((double)departmentsByDivisionCount / request.ItemsPerPage));
 
             DepartmentsByDivisionResponse response = new DepartmentsByDivisionResponse
@@ -70,12 +70,12 @@ namespace Service.Service.ServiceImpl
             {
                 var departmentDto = _mapper.Map<DepartmentDto>(department);
 
-                departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.DepartmentId);
+                departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
 
                 departmentDtos.Add(departmentDto);
             }
 
-            int departmentsByDivisionAndSearchCount = await _unitOfWork.Divisions.GetDivisionsByAreaSearchCount(request.DivisionId, request.Filter);
+            int departmentsByDivisionAndSearchCount = await _unitOfWork.Departments.GetDepartmentsByDivisionSearchCount(request.DivisionId, request.Filter);
             int pages = Convert.ToInt32(Math.Ceiling((double)departmentsByDivisionAndSearchCount / request.ItemsPerPage));
 
             DepartmentsByDivisionSearchResponse response = new DepartmentsByDivisionSearchResponse
@@ -94,7 +94,7 @@ namespace Service.Service.ServiceImpl
 
             var departmentDto = _mapper.Map<DepartmentDto>(department);
 
-            departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.DepartmentId);
+            departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
 
             return departmentDto;
         }
