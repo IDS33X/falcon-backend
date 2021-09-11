@@ -27,7 +27,7 @@ namespace Repository.Repository.RepositoryImpl
         public async Task<IEnumerable<Area>> GetAreasSearch(string filter, int page, int perPage)
         {
             return await context.Set<Area>()
-                                .Where(a => a.Name.Contains(filter))
+                                .Where(a => a.Title.Contains(filter))
                                 .Skip((page - 1) * perPage)
                                 .Take(perPage)
                                 .ToListAsync();
@@ -39,7 +39,7 @@ namespace Repository.Repository.RepositoryImpl
         }
         public async Task<int> GetAreasSearchCount(string filter)
         {
-            return await context.Set<Area>().CountAsync(a => a.Name.Contains(filter));
+            return await context.Set<Area>().CountAsync(a => a.Title.Contains(filter));
         }
     }
 }

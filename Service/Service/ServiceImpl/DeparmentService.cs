@@ -43,7 +43,7 @@ namespace Service.Service.ServiceImpl
             {
                 var departmentDto = _mapper.Map<DepartmentDto>(department);
 
-                departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.DepartmentId);
+                departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
 
                 departmentDtos.Add(departmentDto);
             }
@@ -70,7 +70,7 @@ namespace Service.Service.ServiceImpl
             {
                 var departmentDto = _mapper.Map<DepartmentDto>(department);
 
-                departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.DepartmentId);
+                departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
 
                 departmentDtos.Add(departmentDto);
             }
@@ -94,7 +94,7 @@ namespace Service.Service.ServiceImpl
 
             var departmentDto = _mapper.Map<DepartmentDto>(department);
 
-            departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.DepartmentId);
+            departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
 
             return departmentDto;
         }

@@ -23,13 +23,13 @@ namespace Repository.Repository.RepositoryImpl
         }  
         public async Task<int> GetDivisionsByAreaSearchCount(int areaId, string filter)
         {
-            int count = await context.Set<Division>().CountAsync(d => d.AreaId == areaId && d.Name.Contains(filter));
+            int count = await context.Set<Division>().CountAsync(d => d.AreaId == areaId && d.Title.Contains(filter));
             return count;
         }
 
         public new async Task<Division> GetById(int id)
         {
-            Division division = await context.Set<Division>().Include(d => d.UserProfile).SingleOrDefaultAsync(e => e.DivisionId == id);
+            Division division = await context.Set<Division>().Include(d => d.UserProfile).SingleOrDefaultAsync(e => e.Id == id);
 
             if (division == null)
             {
@@ -52,7 +52,7 @@ namespace Repository.Repository.RepositoryImpl
         public async Task<IEnumerable<Division>> GetDivisionsByAreaSearch(int areaId, string filter, int page, int perPage)
         {
             return await context.Set<Division>()
-                                .Where(d => d.AreaId == areaId && d.Name.Contains(filter))
+                                .Where(d => d.AreaId == areaId && d.Title.Contains(filter))
                                 .Include(d => d.UserProfile)
                                 .Skip((page - 1) * perPage)
                                 .Take(perPage)
