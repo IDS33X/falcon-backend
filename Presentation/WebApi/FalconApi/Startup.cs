@@ -19,6 +19,9 @@ namespace FalconApi
 {
     public class Startup
     {
+
+        readonly string MySpecificOrigins = "CorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -50,6 +53,18 @@ namespace FalconApi
                 };
             });
 
+            services.AddCors(options => {
+
+                options.AddPolicy(name: MySpecificOrigins, builder =>
+                {
+                    builder.AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials()
+                           .WithOrigins("http://localhost:3000");
+                });
+            
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -70,6 +85,8 @@ namespace FalconApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(MySpecificOrigins);
 
             app.UseAuthorization();
 
