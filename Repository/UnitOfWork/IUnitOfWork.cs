@@ -12,6 +12,8 @@ namespace Repository.UnitOfWork
         IUserProfileRepository UserProfiles { get; }
         IMRoleRepository MRoles { get; }
         IRiskCategoryRepository RiskCategories { get; }
+        IRiskImpactRepository RiskImpacts { get; }
+        IRiskRepository Risks { get; }
 
         Task CompleteAsync();
     }

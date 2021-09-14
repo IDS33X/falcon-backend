@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models
@@ -30,5 +31,8 @@ namespace Domain.Models
         [MaxLength(10)]
         public string Code { get; set; }
         public Division Division { get; set; }
+
+        public IEnumerable<Risk> Risks { get; set; }
+
     }
 }

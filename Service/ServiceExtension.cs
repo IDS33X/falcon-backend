@@ -16,6 +16,8 @@ namespace Repository
             services.AddTransient<IMRoleService, MRoleService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRiskCategoryService, RiskCategoryService>();
+            services.AddTransient<IRiskImpactService, RiskImpactService >();
+            services.AddTransient<IRiskService, RiskService>();
             return services;
         }
     }

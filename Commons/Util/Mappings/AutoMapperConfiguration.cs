@@ -22,6 +22,11 @@ namespace Util.Mappings
                     .ForMember(dto => dto.Role, opt => opt.MapFrom(domain => domain.User.UserRole)).ReverseMap();
                 cfg.CreateMap<MRole, MRoleDto>().ReverseMap();
                 cfg.CreateMap<RiskCategory, RiskCategoryDto>().ReverseMap();
+                cfg.CreateMap<RiskImpact, RiskImpactDto>()
+                   .ForMember(dto => dto.Title, opt => opt.MapFrom(domain => domain.ImpactType.Title))
+                   .ForMember(dto => dto.Description, opt => opt.MapFrom(domain => domain.ImpactType.Description))
+                   .ReverseMap();
+                cfg.CreateMap<Risk, RiskDto>().ReverseMap();
 
                 //cfg.AddProfile<CustomerMappingProfile>();
 
