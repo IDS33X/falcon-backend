@@ -23,15 +23,11 @@ namespace Service.ServiceImpl
 
         public async Task<UserDto> Login(LogInRequest login)
         {
-            UserProfile userProfile = await _unitOfWork.UserProfiles.FindByUsername(login.Username);
-            
-            if(!userProfile.User.Password.Equals(login.Password)){
-                throw new IncorrectPasswordException("Contrasena incorrecta");
-            }
-            else{
-                UserDto dto = _mapper.Map<UserDto>(userProfile);
-                return dto;
-            }
+            UserProfile userProfile = await _unitOfWork.UserProfiles.Login(login.Username, login.Password);
+
+            UserDto dto = _mapper.Map<UserDto>(userProfile);
+            return dto;
+
         }
     }
 }

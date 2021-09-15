@@ -25,6 +25,16 @@ namespace Repository.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Risk>()
+            .HasOne(r => r.InherentRisk)
+            .WithMany(ir => ir.RisksInherent)
+            .HasForeignKey(r => r.InherentRiskId).OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Risk>()
+            .HasOne(r => r.ControlledRisk)
+            .WithMany(ir => ir.RisksControlled)
+            .HasForeignKey(r => r.ControlledRiskId).OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<Area>()
                         .Property(a => a.CreatedDate)
                         .HasDefaultValueSql("getdate()");
@@ -65,46 +75,46 @@ namespace Repository.Context
                         .Property(i => i.CreatedDate)
                         .HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<MRole>().HasData(new MRole[]
-            {
-                new MRole { Title = "Administrador", Description = "Administra las areas, divisiones, departamento y los usuarios"},
-                new MRole { Title = "Analista de riesgos", Description = "Administra los riesgos y controles"},
-            });
+            //modelBuilder.Entity<MRole>().HasData(new MRole[]
+            //{
+            //    new MRole { Title = "Administrador", Description = "Administra las areas, divisiones, departamento y los usuarios"},
+            //    new MRole { Title = "Analista de riesgos", Description = "Administra los riesgos y controles"},
+            //});
 
-            modelBuilder.Entity<ImpactType>().HasData(new ImpactType[] { 
-                new ImpactType { Title = "Bajo", Description = "Nivel bajo de riesgo" },
-                new ImpactType { Title = "Medio", Description = "Nivel medio de riesgo" },
-                new ImpactType { Title = "Alto", Description = "Nivel alto de riesgo" }
-            });
+            //modelBuilder.Entity<ImpactType>().HasData(new ImpactType[] { 
+            //    new ImpactType { Title = "Bajo", Description = "Nivel bajo de riesgo" },
+            //    new ImpactType { Title = "Medio", Description = "Nivel medio de riesgo" },
+            //    new ImpactType { Title = "Alto", Description = "Nivel alto de riesgo" }
+            //});
 
-            modelBuilder.Entity<RiskImpact>().HasData(new RiskImpact[]
-            {
-                new RiskImpact { ImpactTypeId = 1, Severity = 1, Probability = 1 },
-                new RiskImpact { ImpactTypeId = 1, Severity = 1, Probability = 2 },
-                new RiskImpact { ImpactTypeId = 1, Severity = 1, Probability = 3 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 1, Probability = 4 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 1, Probability = 5 },
-                new RiskImpact { ImpactTypeId = 1, Severity = 2, Probability = 1 },
-                new RiskImpact { ImpactTypeId = 1, Severity = 2, Probability = 2 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 2, Probability = 3 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 2, Probability = 4 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 2, Probability = 5 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 3, Probability = 1 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 3, Probability = 2 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 3, Probability = 3 },
-                new RiskImpact { ImpactTypeId = 3, Severity = 3, Probability = 4 },
-                new RiskImpact { ImpactTypeId = 3, Severity = 3, Probability = 5 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 4, Probability = 1 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 4, Probability = 2 },
-                new RiskImpact { ImpactTypeId = 3, Severity = 4, Probability = 3 },
-                new RiskImpact { ImpactTypeId = 3, Severity = 4, Probability = 4 },
-                new RiskImpact { ImpactTypeId = 3, Severity = 4, Probability = 5 },
-                new RiskImpact { ImpactTypeId = 2, Severity = 5, Probability = 1 },
-                new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 2 },
-                new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 3 },
-                new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 4 },
-                new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 5 },
-            });
+            //modelBuilder.Entity<RiskImpact>().HasData(new RiskImpact[]
+            //{
+            //    new RiskImpact { ImpactTypeId = 1, Severity = 1, Probability = 1 },
+            //    new RiskImpact { ImpactTypeId = 1, Severity = 1, Probability = 2 },
+            //    new RiskImpact { ImpactTypeId = 1, Severity = 1, Probability = 3 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 1, Probability = 4 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 1, Probability = 5 },
+            //    new RiskImpact { ImpactTypeId = 1, Severity = 2, Probability = 1 },
+            //    new RiskImpact { ImpactTypeId = 1, Severity = 2, Probability = 2 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 2, Probability = 3 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 2, Probability = 4 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 2, Probability = 5 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 3, Probability = 1 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 3, Probability = 2 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 3, Probability = 3 },
+            //    new RiskImpact { ImpactTypeId = 3, Severity = 3, Probability = 4 },
+            //    new RiskImpact { ImpactTypeId = 3, Severity = 3, Probability = 5 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 4, Probability = 1 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 4, Probability = 2 },
+            //    new RiskImpact { ImpactTypeId = 3, Severity = 4, Probability = 3 },
+            //    new RiskImpact { ImpactTypeId = 3, Severity = 4, Probability = 4 },
+            //    new RiskImpact { ImpactTypeId = 3, Severity = 4, Probability = 5 },
+            //    new RiskImpact { ImpactTypeId = 2, Severity = 5, Probability = 1 },
+            //    new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 2 },
+            //    new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 3 },
+            //    new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 4 },
+            //    new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 5 },
+            //});
         }
     }
 }
