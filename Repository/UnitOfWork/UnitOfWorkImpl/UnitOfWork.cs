@@ -17,6 +17,8 @@ namespace Repository.UnitOfWorkImpl
         public IDepartmentRepository Departments { get; }
         public IMRoleRepository MRoles { get; }
         public IRiskCategoryRepository RiskCategories { get; }
+        public IRiskImpactRepository RiskImpacts { get; }
+        public IRiskRepository Risks { get; }
 
         public UnitOfWork(FalconDBContext context){
             this._context = context;
@@ -28,6 +30,8 @@ namespace Repository.UnitOfWorkImpl
             Departments = new DepartmentRepository(context);
             MRoles = new MRoleRepository(context);
             RiskCategories = new RiskCategoryRepository(context);
+            RiskImpacts = new RiskImpactRepository(context);
+            Risks = new RiskRepository(context);
         }
 
         public async Task CompleteAsync()
