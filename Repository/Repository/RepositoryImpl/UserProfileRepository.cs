@@ -48,12 +48,35 @@ namespace Repository.Repository.RepositoryImpl
             }
         }
 
+        public async Task<UserProfile> Login(string username, string password)
+        {
+            UserProfile user = await _context.UserProfile.Include(u => u.User).ThenInclude(u => u.UserRole)
+                                .Where(u => u.User.Username == username)
+                                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new DoesNotExistException("El usuario no existe");
+            }
+            else
+            {
+                if (user.User.Password == password)
+                {
+                    return user;
+                }
+                else
+                {
+                    throw new IncorrectPasswordException("Contrasena incorrecta");
+                }
+            }
+        }
+
         public async Task<UserProfile> FindByUsername(string username)
         {
 
-            UserProfile user = await Task.Run(() => _context.UserProfile.Include(u => u.User).ThenInclude(u => u.UserRole)
+            UserProfile user = await _context.UserProfile.Include(u => u.User).ThenInclude(u => u.UserRole)
                                             .Where(u => u.User.Username == username)
-                                            .FirstOrDefault());
+                                            .FirstOrDefaultAsync();
 
             if (user == null)
             {

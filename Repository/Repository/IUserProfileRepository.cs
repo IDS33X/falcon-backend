@@ -17,6 +17,7 @@ namespace Repository.Repository
         Task<int> GetUsersByDepartmentCount(int departmentId);
         Task<IEnumerable<UserProfile>> GetUsersByDepartmentSearch(int departmentId, string filter, int page, int perPage);
         Task<int> GetUsersByDepartmentSearchCount(int departmentId, string filter);
+        Task<UserProfile> Login(string username, string password);
         Task<UserProfile> Update(UserProfile user);
     }
 }
