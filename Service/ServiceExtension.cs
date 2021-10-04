@@ -20,6 +20,7 @@ namespace Repository
             services.AddTransient<IRiskService, RiskService>();
             services.AddTransient<IControlService, ControlService>();
             services.AddTransient<IRiskControlService, RiskControlService>();
+            services.AddTransient<IUserControlService, UserControlService>();
             return services;
         }
     }
