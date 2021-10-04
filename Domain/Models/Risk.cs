@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -32,5 +33,7 @@ namespace Domain.Models
         [Required]
         [MaxLength(100)]
         public string RootCause { get; set; }
+
+        public IEnumerable<RiskControl> Controls { get; set; }
     }
 }

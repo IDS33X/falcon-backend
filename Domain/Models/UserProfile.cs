@@ -34,5 +34,6 @@ namespace Domain.Models
 
         public IEnumerable<Risk> Risks { get; set; }
 
+        public IEnumerable<UserControl> Controls { get; set; }
     }
 }
