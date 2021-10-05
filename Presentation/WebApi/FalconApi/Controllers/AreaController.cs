@@ -35,6 +35,7 @@ namespace FalconApi.Controllers
 
             return Ok(response);
         }  
+
         [HttpGet("SearchAreas")]
         public async Task<IActionResult> GetAreasBySearch([FromQuery] GetAreasSearchRequest request)
         {

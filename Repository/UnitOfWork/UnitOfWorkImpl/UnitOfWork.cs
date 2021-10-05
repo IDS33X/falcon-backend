@@ -19,6 +19,13 @@ namespace Repository.UnitOfWorkImpl
         public IRiskCategoryRepository RiskCategories { get; }
         public IRiskImpactRepository RiskImpacts { get; }
         public IRiskRepository Risks { get; }
+        public IControlRepository Controls { get; }
+        public IMAutomationLevelRepository AutomationLevels { get; }
+        public IMControlStateRepository ControlStates { get; }
+        public IMControlTypeRepository ControlTypes { get; }
+        public IRiskControlRepository RiskControls { get; }
+
+        public IUserControlRepository UserControls { get; }
 
         public UnitOfWork(FalconDBContext context){
             this._context = context;
@@ -32,6 +39,12 @@ namespace Repository.UnitOfWorkImpl
             RiskCategories = new RiskCategoryRepository(context);
             RiskImpacts = new RiskImpactRepository(context);
             Risks = new RiskRepository(context);
+            Controls = new ControlRepository(context);
+            AutomationLevels = new MAutomationLevelRepository(context);
+            ControlStates = new MControlStateRepository(context);
+            ControlTypes = new MControlTypeRepository(context);
+            RiskControls = new RiskControlRepository(context);
+            UserControls = new UserControlRepository(context);
         }
 
         public async Task CompleteAsync()

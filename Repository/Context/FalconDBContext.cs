@@ -6,6 +6,12 @@ namespace Repository.Context
 {
     public class FalconDBContext : DbContext
     {
+        //private readonly string _connectionString;
+
+        public FalconDBContext(DbContextOptions<FalconDBContext> options) : base(options)
+        {
+        }
+
         public IConfiguration Configuration { get; }
         public DbSet<Area> Area { get; set; }
         public DbSet<Department> Department { get; set; }
@@ -18,10 +24,16 @@ namespace Repository.Context
         public DbSet<RiskImpact> RiskImpact { get; set; }
         public DbSet<ImpactType> ImpactType { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=tcp:falconrcms.database.windows.net,1433;Initial Catalog=falconTestDB;Persist Security Info=False;User ID=Falcon;Password=F@lcon123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-        }
+        //public FalconDBContext(string connectionString)
+        //{
+        //    _connectionString = connectionString;
+        //}
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=tcp:falconrcms.database.windows.net,1433;Initial Catalog=falconTestDB;Persist Security Info=False;User ID=Falcon;Password=F@lcon123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        //    //optionsBuilder.UseSqlServer(_connectionString);
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -74,6 +86,66 @@ namespace Repository.Context
             modelBuilder.Entity<ImpactType>()
                         .Property(i => i.CreatedDate)
                         .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<Control>()
+                        .Property(c => c.CreationDate)
+                        .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<Control>()
+                        .Property(c => c.LastUpdateDate)
+                        .HasDefaultValueSql("getdate()")
+                        .ValueGeneratedOnUpdate();
+
+            modelBuilder.Entity<MAutomationLevel>()
+                        .Property(ma => ma.CreatedDate)
+                        .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<MControlState>()
+                        .Property(mc => mc.CreatedDate)
+                        .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<MControlType>()
+                        .Property(mct => mct.CreatedDate)
+                        .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<UserControl>()
+                        .Property(uc => uc.AssignDate)
+                        .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<RiskControl>()
+                        .Property(rc => rc.AssignDate)
+                        .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<UserControl>()
+                        .HasKey(uc => new { uc.ControlId, uc.UserId });
+
+            modelBuilder.Entity<UserControl>()
+                .HasOne<UserProfile>(uc => uc.User)
+                .WithMany(up => up.Controls)
+                .HasForeignKey(uc => uc.UserId);
+
+            modelBuilder.Entity<UserControl>()
+                .HasOne<Control>(uc => uc.Control)
+                .WithMany(up => up.Users)
+                .HasForeignKey(uc => uc.ControlId);
+
+            modelBuilder.Entity<RiskControl>()
+                        .HasKey(rc => new { rc.ControlId, rc.RiskId });
+
+            modelBuilder.Entity<RiskControl>()
+                .HasOne<Risk>(rc => rc.Risk)
+                .WithMany(r => r.Controls)
+                .HasForeignKey(rc => rc.RiskId);
+
+            modelBuilder.Entity<RiskControl>()
+                .HasOne<Control>(rc => rc.Control)
+                .WithMany(c => c.Risks)
+                .HasForeignKey(rc => rc.ControlId);
+
+            modelBuilder.Entity<Control>()
+                .HasIndex(c => c.Code)
+                .IsUnique();
+
 
             //modelBuilder.Entity<MRole>().HasData(new MRole[]
             //{

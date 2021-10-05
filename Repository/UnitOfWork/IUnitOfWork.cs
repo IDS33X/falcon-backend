@@ -14,6 +14,14 @@ namespace Repository.UnitOfWork
         IRiskCategoryRepository RiskCategories { get; }
         IRiskImpactRepository RiskImpacts { get; }
         IRiskRepository Risks { get; }
+        IControlRepository Controls { get; }
+        IMAutomationLevelRepository AutomationLevels { get; }
+        IMControlStateRepository ControlStates { get; }
+        IMControlTypeRepository ControlTypes { get;  }
+
+        IRiskControlRepository RiskControls { get; }
+
+        IUserControlRepository UserControls { get; }
 
         Task CompleteAsync();
     }

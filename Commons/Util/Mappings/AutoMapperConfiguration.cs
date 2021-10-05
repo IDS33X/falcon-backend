@@ -28,12 +28,23 @@ namespace Util.Mappings
                    .ReverseMap();
                 cfg.CreateMap<Risk, RiskDto>().ReverseMap();
 
+                cfg.CreateMap<Control, ControlDto>().ForMember(dto => dto.AutomationLevel , opt => opt.MapFrom(ent => ent.AutomationLevel.Title))
+                   .ForMember(dto => dto.ControlState, opt => opt.MapFrom(ent => ent.ControlState.Title))
+                   .ForMember(dto => dto.ControlType, opt => opt.MapFrom(ent => ent.ControlType.Title))
+                   .ReverseMap();
+
+                cfg.CreateMap<MAutomationLevel, MAutomationLevelDto>().ReverseMap();
+                cfg.CreateMap<MControlState, MControlStateDto>().ReverseMap();
+                cfg.CreateMap<MControlType, MControlTypeDto>().ReverseMap();
+                cfg.CreateMap<RiskControl, RiskControlDto>().ReverseMap();
+                cfg.CreateMap<UserControl, UserControlDto>().ReverseMap();
+
                 //cfg.AddProfile<CustomerMappingProfile>();
 
                 cfg.ShouldUseConstructor = ci => !ci.IsPrivate;
             });
 
-            autoMapperConfig.AssertConfigurationIsValid();
+            //autoMapperConfig.AssertConfigurationIsValid();
 
             return autoMapperConfig;
         }
