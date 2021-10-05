@@ -39,18 +39,18 @@ namespace Repository.Repository.RepositoryImpl
         public async Task<IEnumerable<Control>> GetControlsByRisk(Guid riskId, int page, int perPage)
         {
             return await context.Set<Control>()
+                                 .Where(c => c.Risks.Any(rc => rc.RiskId == riskId))
                                  .Skip((page - 1) * perPage)
                                  .Take(perPage)
-                                 .Where(c => c.Risks.Any(rc => rc.RiskId == riskId))
                                  .ToListAsync();
         }
 
         public async Task<IEnumerable<Control>> GetControlsByUser(int userId, int page, int perPage)
         {
             return await context.Set<Control>()
+                                 .Where(c => c.Users.Any(rc => rc.UserId == userId))
                                  .Skip((page - 1) * perPage)
                                  .Take(perPage)
-                                 .Where(c => c.Users.Any(rc => rc.UserId == userId))
                                  .ToListAsync();
         }
 
