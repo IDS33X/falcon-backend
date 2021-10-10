@@ -51,7 +51,8 @@ namespace Service.Service.ServiceImpl
             {
                 AmountOfPages = pages,
                 CurrentPage = userDtos.Count > 0 ? request.Page : 0,
-                Users = userDtos
+                Users = userDtos,
+                TotalOfItems = usersByDepartmentCount
             };
 
             return response;
@@ -76,7 +77,8 @@ namespace Service.Service.ServiceImpl
             {
                 AmountOfPages = pages,
                 CurrentPage = userDtos.Count > 0 ? request.Page : 0,
-                Users = userDtos
+                Users = userDtos,
+                TotalOfItems = usersByDepartmentAndSearchCount
             };
 
             return response;
@@ -108,6 +110,7 @@ namespace Service.Service.ServiceImpl
             var userUpdated = await _unitOfWork.UserProfiles.Update(userProfile);
             var userUpdatedDto = _mapper.Map<UserDto>(userUpdated);
             await _unitOfWork.CompleteAsync();
+            userUpdatedDto.Password = null;
 
             return new EditUserProfileResponse { User = userUpdatedDto };
         }
