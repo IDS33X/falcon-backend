@@ -7,5 +7,6 @@ namespace Util.Support.Responses.User
     public class UsersByDepartmentResponse : PaginationResponse
     {
         public IEnumerable<UserDto> Users { get; set; }
+        public int TotalOfItems { get; set; }
     }
 }

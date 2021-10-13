@@ -26,8 +26,20 @@ namespace Repository.Repository.RepositoryImpl
 
         public async Task<UserProfile> Update(UserProfile user)
         {
-            await Task.Run(() => _context.UserProfile.Update(user));
-            return user;
+            var userBeforeUpdate = await _context.UserProfile.Include(u => u.Department).Include(u => u.User).ThenInclude(u => u.UserRole).FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            userBeforeUpdate.LastName = user.LastName ?? userBeforeUpdate.LastName;
+            userBeforeUpdate.Name = user.Name ?? userBeforeUpdate.Name;
+            userBeforeUpdate.Code = user.Code ?? userBeforeUpdate.Code;
+
+            if (user.DepartmentId != 0 && user.DepartmentId != userBeforeUpdate.DepartmentId)
+            {
+                userBeforeUpdate.DepartmentId = user.DepartmentId;
+                userBeforeUpdate.Department = await _context.Department.FindAsync(userBeforeUpdate.DepartmentId);
+            }
+
+            await Task.Run(() => _context.UserProfile.Update(userBeforeUpdate));
+            return userBeforeUpdate;
         }
 
         public async Task<UserProfile> FindByCode(string code)
