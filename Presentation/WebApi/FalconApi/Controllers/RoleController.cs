@@ -5,7 +5,7 @@ using Util.Support.Requests.MRole;
 
 namespace FalconApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("falconapi/[controller]")]
     [ApiController]
     public class RoleController : ControllerBase
     {
