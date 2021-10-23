@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.AreaDtos;
 using Util.Support.Requests.Area;
 using Util.Support.Responses;
 using Util.Support.Responses.Area;
@@ -27,7 +28,7 @@ namespace Service.Service.ServiceImpl
             area = await _unitOfWork.Areas.Add(area);
             await _unitOfWork.CompleteAsync();
 
-            var areaDto = _mapper.Map<AreaDto>(area);
+            var areaDto = _mapper.Map<AreaReadDto>(area);
 
             AddAreaResponse response = new AddAreaResponse
             {
@@ -41,11 +42,11 @@ namespace Service.Service.ServiceImpl
         {
             var areas = await _unitOfWork.Areas.GetAreas(request.Page, request.ItemsPerPage);
 
-            List<AreaDto> areaDtos = new List<AreaDto>();
+            List<AreaReadDto> areaDtos = new List<AreaReadDto>();
 
             foreach (Area area in areas)
             {
-                var areaDto = _mapper.Map<AreaDto>(area);
+                var areaDto = _mapper.Map<AreaReadDto>(area);
                 
                 areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaCount(areaDto.Id);
                 
@@ -59,7 +60,9 @@ namespace Service.Service.ServiceImpl
             {
                 AmountOfPages = pages,
                 CurrentPage = areaDtos.Count > 0 ? request.Page : 0,
-                Areas = areaDtos
+                Areas = areaDtos,
+                TotalOfItems = areasCount
+                
             };
 
             return response;
@@ -68,11 +71,11 @@ namespace Service.Service.ServiceImpl
         {
             var areas = await _unitOfWork.Areas.GetAreasSearch(request.Filter, request.Page, request.ItemsPerPage);
 
-            List<AreaDto> areaDtos = new List<AreaDto>();
+            List<AreaReadDto> areaDtos = new List<AreaReadDto>();
 
             foreach (Area area in areas)
             {
-                var areaDto = _mapper.Map<AreaDto>(area);
+                var areaDto = _mapper.Map<AreaReadDto>(area);
                 
                 areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaCount(areaDto.Id);
                 
@@ -86,17 +89,18 @@ namespace Service.Service.ServiceImpl
             {
                 AmountOfPages = pages,
                 CurrentPage = areaDtos.Count > 0 ? request.Page : 0,
-                Areas = areaDtos
+                Areas = areaDtos,
+                TotalOfItems = areasBySearchCount
             };
 
             return response;
         }
 
-        public async Task<AreaDto> GetById(int id)
+        public async Task<AreaReadDto> GetById(int id)
         {
             var area = await _unitOfWork.Areas.GetById(id);
 
-            var areaDto = _mapper.Map<AreaDto>(area);
+            var areaDto = _mapper.Map<AreaReadDto>(area);
 
             areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaCount(areaDto.Id);
 
@@ -116,15 +120,14 @@ namespace Service.Service.ServiceImpl
             var area = _mapper.Map<Area>(request.Area);
 
             var areaUpdated = await _unitOfWork.Areas.Update(area);
-            var areaUpdatedDto = _mapper.Map<AreaDto>(areaUpdated);
+
             await _unitOfWork.CompleteAsync();
 
-            EditAreaResponse response = new EditAreaResponse
-            {
-                Area = areaUpdatedDto
-            };
+            var areaDto = _mapper.Map<AreaReadDto>(areaUpdated);
 
-            return response;
+            areaDto.CountDivisions = await _unitOfWork.Divisions.GetDivisionsByAreaCount(areaDto.Id);
+
+            return new EditAreaResponse { Area = areaDto };
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Util.Dtos
+namespace Util.Dtos.DivisionDtos
 {
-    public class DivisionDto
+    public class DivisionReadDto
     {
         public int Id { get; set; }
         public int AreaId { get; set; }

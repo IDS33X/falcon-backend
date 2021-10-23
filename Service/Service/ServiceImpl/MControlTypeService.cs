@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.ControlTypeDtos;
 using Util.Support.Responses.MControlType;
 
 namespace Service.Service.ServiceImpl
@@ -24,11 +25,11 @@ namespace Service.Service.ServiceImpl
         {
             var controlTypes = await _unitOfWork.ControlTypes.GetAll();
 
-            var controlTypeDtos = new List<MControlTypeDto>();
+            var controlTypeDtos = new List<MControlTypeReadDto>();
 
             foreach (MControlType controlType in controlTypes)
             {
-                var controlTypeDto = _mapper.Map<MControlTypeDto>(controlType);
+                var controlTypeDto = _mapper.Map<MControlTypeReadDto>(controlType);
                 controlTypeDtos.Add(controlTypeDto);
             }
 

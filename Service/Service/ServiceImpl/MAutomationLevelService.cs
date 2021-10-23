@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.AutomationLevelDtos;
 using Util.Support.Responses.MAutomationLevel;
 
 namespace Service.Service.ServiceImpl
@@ -24,11 +25,11 @@ namespace Service.Service.ServiceImpl
         {
             var automationLevels = await _unitOfWork.AutomationLevels.GetAll();
 
-            var automationLevelDtos = new List<MAutomationLevelDto>();
+            var automationLevelDtos = new List<MAutomationLevelReadDto>();
 
             foreach(MAutomationLevel automationLevel in automationLevels)
             {
-                var automationLevelDto = _mapper.Map<MAutomationLevelDto>(automationLevel);
+                var automationLevelDto = _mapper.Map<MAutomationLevelReadDto>(automationLevel);
                 automationLevelDtos.Add(automationLevelDto);
             }
 

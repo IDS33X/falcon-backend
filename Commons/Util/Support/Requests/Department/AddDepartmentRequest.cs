@@ -1,9 +1,10 @@
 ﻿using Util.Dtos;
+using Util.Dtos.DepartmentDtos;
 
 namespace Util.Support.Requests.Department
 {
     public class AddDepartmentRequest
     {
-        public DepartmentDto Department { get; set; }
+        public DepartmentCreateDto Department { get; set; }
     }
 }

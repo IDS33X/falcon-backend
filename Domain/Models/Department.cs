@@ -5,6 +5,7 @@ namespace Domain.Models
 {
     public class Department : BaseMaintenance
     {
+        [Required]
         public int DivisionId { get; set; }
         public Division Division { get; set; }
         public IEnumerable<UserProfile> UserProfiles { get; set; }

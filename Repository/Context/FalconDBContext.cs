@@ -99,8 +99,7 @@ namespace Repository.Context
 
             modelBuilder.Entity<Control>()
                         .Property(c => c.LastUpdateDate)
-                        .HasDefaultValueSql("getdate()")
-                        .ValueGeneratedOnUpdate();
+                        .ValueGeneratedOnAddOrUpdate();
 
             modelBuilder.Entity<MAutomationLevel>()
                         .Property(ma => ma.CreatedDate)
@@ -151,6 +150,7 @@ namespace Repository.Context
             modelBuilder.Entity<Control>()
                 .HasIndex(c => c.Code)
                 .IsUnique();
+
 
 
             //modelBuilder.Entity<MRole>().HasData(new MRole[]

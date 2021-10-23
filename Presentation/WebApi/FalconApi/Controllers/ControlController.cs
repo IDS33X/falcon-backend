@@ -54,7 +54,7 @@ namespace FalconApi.Controllers
         }
 
         [HttpGet("GetControlsByRisk")]
-        public async Task<IActionResult> GetControlsByRisk(GetControlsByRiskRequest request)
+        public async Task<IActionResult> GetControlsByRisk([FromQuery] GetControlsByRiskRequest request)
         {
             var response = await _controlService.GetControlsByRisk(request);
 
@@ -62,7 +62,7 @@ namespace FalconApi.Controllers
         }
 
         [HttpGet("GetControlsByUser")]
-        public async Task<IActionResult> GetControlsByUser(GetControlsByUserRequest request)
+        public async Task<IActionResult> GetControlsByUser([FromQuery] GetControlsByUserRequest request)
         {
             var response = await _controlService.GetControlsByUser(request);
 

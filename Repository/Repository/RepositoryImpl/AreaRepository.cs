@@ -41,5 +41,18 @@ namespace Repository.Repository.RepositoryImpl
         {
             return await context.Set<Area>().CountAsync(a => a.Title.Contains(filter));
         }
+
+        public new async Task<Area> Update(Area area)
+        {
+            var previousArea = await context.Set<Area>().FirstOrDefaultAsync(a => a.Id == area.Id);
+
+            previousArea.Title = area.Title ?? previousArea.Title;
+            previousArea.Description = area.Description ?? previousArea.Description;
+
+            await Task.Run(() => context.Set<Area>().Update(previousArea));
+
+            return previousArea;
+        }
+
     }
 }

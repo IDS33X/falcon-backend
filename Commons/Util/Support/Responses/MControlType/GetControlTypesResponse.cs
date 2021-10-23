@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.ControlTypeDtos;
 
 namespace Util.Support.Responses.MControlType
 {
     public class GetControlTypesResponse
     {
-        public IEnumerable<MControlTypeDto> ControlTypes { get; set; }
+        public IEnumerable<MControlTypeReadDto> ControlTypes { get; set; }
     }
 }

@@ -58,5 +58,26 @@ namespace Repository.Repository.RepositoryImpl
                                 .Take(perPage)
                                 .ToListAsync();
         }
+
+        public new async Task<Division> Update(Division division)
+        {
+            var previousDivision = await context.Set<Division>().Include(d => d.UserProfile).FirstOrDefaultAsync(d => d.Id == division.Id);
+
+            if (division.UserProfileId != 0 && division.UserProfileId != previousDivision.UserProfileId)
+            {
+                previousDivision.UserProfileId = division.UserProfileId;
+                previousDivision.UserProfile = await context.Set<UserProfile>().FindAsync(previousDivision.UserProfileId);
+            }
+
+            previousDivision.Title = division.Title ?? previousDivision.Title;
+            previousDivision.Description = division.Description ?? previousDivision.Description;
+
+            
+
+            await Task.Run(() => context.Set<Division>().Update(previousDivision));
+
+            return previousDivision;
+
+        }
     }
 }

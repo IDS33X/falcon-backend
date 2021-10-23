@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.DepartmentDtos;
 using Util.Support.Requests.Department;
 using Util.Support.Responses;
 using Util.Support.Responses.Department;
@@ -28,7 +29,7 @@ namespace Service.Service.ServiceImpl
 
             await _unitOfWork.CompleteAsync();
 
-            var departmentDto = _mapper.Map<DepartmentDto>(department);
+            var departmentDto = _mapper.Map<DepartmentReadDto>(department);
 
             return new AddDepartmentResponse { Department = departmentDto };
         }
@@ -37,11 +38,11 @@ namespace Service.Service.ServiceImpl
         {
             var departments = await _unitOfWork.Departments.GetDepartmentsByDivision(request.DivisionId, request.Page, request.ItemsPerPage);
 
-            List<DepartmentDto> departmentDtos = new List<DepartmentDto>();
+            List<DepartmentReadDto> departmentDtos = new List<DepartmentReadDto>();
 
             foreach (Department department in departments)
             {
-                var departmentDto = _mapper.Map<DepartmentDto>(department);
+                var departmentDto = _mapper.Map<DepartmentReadDto>(department);
 
                 departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
 
@@ -55,7 +56,8 @@ namespace Service.Service.ServiceImpl
             {
                 AmountOfPages = pages,
                 CurrentPage = departmentDtos.Count > 0 ? request.Page : 0,
-                Departments = departmentDtos
+                Departments = departmentDtos,
+                TotalOfItems = departmentsByDivisionCount
             };
 
             return response;
@@ -64,11 +66,11 @@ namespace Service.Service.ServiceImpl
         {
             var departments = await _unitOfWork.Departments.GetDepartmentsByDivisionSearch(request.DivisionId, request.Filter, request.Page, request.ItemsPerPage);
 
-            List<DepartmentDto> departmentDtos = new List<DepartmentDto>();
+            List<DepartmentReadDto> departmentDtos = new List<DepartmentReadDto>();
 
             foreach (Department department in departments)
             {
-                var departmentDto = _mapper.Map<DepartmentDto>(department);
+                var departmentDto = _mapper.Map<DepartmentReadDto>(department);
 
                 departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
 
@@ -82,17 +84,18 @@ namespace Service.Service.ServiceImpl
             {
                 AmountOfPages = pages,
                 CurrentPage = departmentDtos.Count > 0 ? request.Page : 0,
-                Departments = departmentDtos
+                Departments = departmentDtos,
+                TotalOfItems = departmentsByDivisionAndSearchCount
             };
 
             return response;
         }
 
-        public async Task<DepartmentDto> GetById(int id)
+        public async Task<DepartmentReadDto> GetById(int id)
         {
             var department = await _unitOfWork.Departments.GetById(id);
 
-            var departmentDto = _mapper.Map<DepartmentDto>(department);
+            var departmentDto = _mapper.Map<DepartmentReadDto>(department);
 
             departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
 
@@ -112,10 +115,14 @@ namespace Service.Service.ServiceImpl
             var department = _mapper.Map<Department>(request.Department);
 
             var departmentUpdated = await _unitOfWork.Departments.Update(department);
-            var departmentUpdatedDto = _mapper.Map<DepartmentDto>(departmentUpdated);
+
             await _unitOfWork.CompleteAsync();
 
-            return new EditDepartmentResponse { Department = departmentUpdatedDto };
+            var departmentDto = _mapper.Map<DepartmentReadDto>(departmentUpdated);
+
+            departmentDto.CountAnalytics = await _unitOfWork.UserProfiles.GetUsersByDepartmentCount(departmentDto.Id);
+
+            return new EditDepartmentResponse { Department = departmentDto };
         }
     }
 }

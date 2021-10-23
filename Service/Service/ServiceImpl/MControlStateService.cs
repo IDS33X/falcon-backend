@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.ControlStateDtos;
 using Util.Support.Responses.MControlState;
 
 namespace Service.Service.ServiceImpl
@@ -24,11 +25,11 @@ namespace Service.Service.ServiceImpl
         {
             var controlStates = await _unitOfWork.ControlStates.GetAll();
 
-            var controlStateDtos = new List<MControlStateDto>();
+            var controlStateDtos = new List<MControlStateReadDto>();
 
             foreach(MControlState controlState in controlStates)
             {
-                var controlStateDto = _mapper.Map<MControlStateDto>(controlState);
+                var controlStateDto = _mapper.Map<MControlStateReadDto>(controlState);
                 controlStateDtos.Add(controlStateDto);
             }
 

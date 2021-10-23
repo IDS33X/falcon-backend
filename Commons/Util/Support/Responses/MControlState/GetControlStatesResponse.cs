@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.ControlStateDtos;
 
 namespace Util.Support.Responses.MControlState
 {
     public class GetControlStatesResponse
     {
-        public IEnumerable<MControlStateDto> ControlStates { get; set; }
+        public IEnumerable<MControlStateReadDto> ControlStates { get; set; }
     }
 }
