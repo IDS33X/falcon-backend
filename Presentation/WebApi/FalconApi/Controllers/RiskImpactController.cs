@@ -5,7 +5,7 @@ using Util.Support.Requests.RiskImpact;
 
 namespace FalconApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("falconapi/[controller]")]
     [ApiController]
     public class RiskImpactController : ControllerBase
     {

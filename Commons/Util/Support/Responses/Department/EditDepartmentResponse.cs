@@ -1,10 +1,11 @@
 ﻿using Util.Dtos;
+using Util.Dtos.DepartmentDtos;
 
 namespace Util.Support.Responses.Department
 {
     public class EditDepartmentResponse
     {
-        public DepartmentDto Department { get; set; }
+        public DepartmentReadDto Department { get; set; }
 
     }
 }

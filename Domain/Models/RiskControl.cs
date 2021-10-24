@@ -10,8 +10,6 @@ namespace Domain.Models
 {
     public class RiskControl
     {
-        [Key]
-        public int Id { get; set; }
 
         [Required]
         public Guid RiskId { get; set; }
@@ -23,7 +21,7 @@ namespace Domain.Models
 
         public Control Control { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         public DateTime AssignDate { get; set; }
 

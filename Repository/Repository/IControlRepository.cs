@@ -13,6 +13,8 @@ namespace Repository.Repository
         Task<IEnumerable<Control>> GetControls(int page, int perPage);
         Task<int> GetControlsCount();
         Task<IEnumerable<Control>> GetControlsByRisk(Guid riskId, int page, int perPage);
+        Task<int> GetControlsByRiskCount(Guid riskId);
         Task<IEnumerable<Control>> GetControlsByUser(int userId, int page, int perPage);
+        Task<int> GetControlsByUserCount(int userId);
     }
 }

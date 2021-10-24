@@ -14,7 +14,7 @@ namespace Domain.Models
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(55)]
+        [MaxLength(200)]
         public string Description { get; set; }
 
         [Required]

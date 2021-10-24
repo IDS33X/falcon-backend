@@ -26,7 +26,10 @@ namespace Repository.Repository.RepositoryImpl
 
         public async Task<UserProfile> Update(UserProfile user)
         {
-            var userBeforeUpdate = await _context.UserProfile.Include(u => u.Department).Include(u => u.User).ThenInclude(u => u.UserRole).FirstOrDefaultAsync(u => u.Id == user.Id);
+            var userBeforeUpdate = await _context.UserProfile.Include(u => u.Department)
+                                                             .Include(u => u.User)
+                                                             .ThenInclude(u => u.UserRole)
+                                                             .FirstOrDefaultAsync(u => u.Id == user.Id);
 
             userBeforeUpdate.LastName = user.LastName ?? userBeforeUpdate.LastName;
             userBeforeUpdate.Name = user.Name ?? userBeforeUpdate.Name;

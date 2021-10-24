@@ -10,7 +10,7 @@ using Util.Support.Requests.Risk;
 
 namespace FalconApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("falconapi/[controller]")]
     [ApiController]
     public class RiskController : ControllerBase
     {

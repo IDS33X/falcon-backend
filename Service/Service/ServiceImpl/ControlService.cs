@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.ControlDtos;
 using Util.Support.Requests.Control;
 using Util.Support.Responses.Control;
 
@@ -31,39 +32,43 @@ namespace Service.Service.ServiceImpl
             control = await _unitOfWork.Controls.Add(control);
             await _unitOfWork.CompleteAsync();
 
-            var controlDto = _mapper.Map<ControlDto>(control);
+            control = await _unitOfWork.Controls.GetControlByCode(control.Code);
 
-            var response = new AddControlResponse
-            {
-                Control = controlDto
-            };
+            var controlDto = _mapper.Map<ControlReadDto>(control);
 
-            return response;
+            var user = _mapper.Map(control.User, controlDto.User);
+
+            controlDto.User = user;
+
+            return new AddControlResponse { Control=controlDto };
         }
 
         public async Task<ControlByCodeResponse> GetByCode(ControlByCodeRequest request)
         {
             var control = await _unitOfWork.Controls.GetControlByCode(request.Code);
 
-            var controlDto = _mapper.Map<ControlDto>(control);
+            var controlDto = _mapper.Map<ControlReadDto>(control);
 
-            var response = new ControlByCodeResponse
-            {
-                Control = controlDto
-            };
+            var user = _mapper.Map(control.User, controlDto.User);
 
-            return response;
+            controlDto.User = user;
+
+            return new ControlByCodeResponse { Control=controlDto };
         }
 
         public async Task<GetControlsResponse> GetControls(GetControlsRequest request)
         {
             var controls = await _unitOfWork.Controls.GetControls(request.Page, request.ItemsPerPage);
 
-            List<ControlDto> controlDtos = new List<ControlDto>();
+            List<ControlReadDto> controlDtos = new List<ControlReadDto>();
 
             foreach(Control control in controls)
             {
-                var controlDto = _mapper.Map<ControlDto>(control);
+                var controlDto = _mapper.Map<ControlReadDto>(control);
+
+                var user = _mapper.Map(control.User, controlDto.User);
+
+                controlDto.User = user;
 
                 controlDtos.Add(controlDto);
             }
@@ -75,7 +80,8 @@ namespace Service.Service.ServiceImpl
             {
                 AmountOfPages = pages,
                 CurrentPage = controlDtos.Count > 0 ? request.Page : 0,
-                Controls = controlDtos
+                Controls = controlDtos,
+                TotalOfItems = controlsCount
             };
 
             return response;
@@ -85,23 +91,29 @@ namespace Service.Service.ServiceImpl
         {
             var controls = await _unitOfWork.Controls.GetControlsByRisk(request.RiskId, request.Page, request.ItemsPerPage);
 
-            List<ControlDto> controlDtos = new List<ControlDto>();
+            List<ControlReadDto> controlDtos = new List<ControlReadDto>();
 
             foreach (Control control in controls)
             {
-                var controlDto = _mapper.Map<ControlDto>(control);
+                var controlDto = _mapper.Map<ControlReadDto>(control);
+
+                var user = _mapper.Map(control.User, controlDto.User);
+
+                controlDto.User = user;
 
                 controlDtos.Add(controlDto);
             }
 
-            int controlsCount = await _unitOfWork.Controls.GetControlsCount();
+            int controlsCount = await _unitOfWork.Controls.GetControlsByRiskCount(request.RiskId);
             int pages = Convert.ToInt32(Math.Ceiling((double)controlsCount / request.ItemsPerPage));
 
             var response = new GetControlsByRiskResponse
             {
                 AmountOfPages = pages,
                 CurrentPage = controlDtos.Count > 0 ? request.Page : 0,
-                Controls = controlDtos
+                Controls = controlDtos,
+                TotalOfItems = controlsCount
+                
             };
 
             return response;
@@ -111,23 +123,28 @@ namespace Service.Service.ServiceImpl
         {
             var controls = await _unitOfWork.Controls.GetControlsByUser(request.UserId, request.Page, request.ItemsPerPage);
 
-            List<ControlDto> controlDtos = new List<ControlDto>();
+            List<ControlReadDto> controlDtos = new List<ControlReadDto>();
 
             foreach (Control control in controls)
             {
-                var controlDto = _mapper.Map<ControlDto>(control);
+                var controlDto = _mapper.Map<ControlReadDto>(control);
+
+                var user = _mapper.Map(control.User, controlDto.User);
+
+                controlDto.User = user;
 
                 controlDtos.Add(controlDto);
             }
 
-            int controlsCount = await _unitOfWork.Controls.GetControlsCount();
+            int controlsCount = await _unitOfWork.Controls.GetControlsByUserCount(request.UserId);
             int pages = Convert.ToInt32(Math.Ceiling((double)controlsCount / request.ItemsPerPage));
 
             var response = new GetControlsByUserResponse
             {
                 AmountOfPages = pages,
                 CurrentPage = controlDtos.Count > 0 ? request.Page : 0,
-                Controls = controlDtos
+                Controls = controlDtos,
+                TotalOfItems = controlsCount
             };
 
             return response;
@@ -135,19 +152,22 @@ namespace Service.Service.ServiceImpl
 
         public async Task<EditControlResponse> Update(EditControlRequest request)
         {
+
             var control = _mapper.Map<Control>(request.Control);
 
             var controlUpdated = await _unitOfWork.Controls.Update(control);
-            var controlUpdatedDto = _mapper.Map<ControlDto>(controlUpdated);
 
             await _unitOfWork.CompleteAsync();
 
-            var response = new EditControlResponse
-            {
-                Control = controlUpdatedDto
-            };
+            var controlDto = _mapper.Map<ControlReadDto>(controlUpdated);
 
-            return response;
+            var user = _mapper.Map(controlUpdated.User, controlDto.User);
+
+            controlDto.User = user;
+
+            return new EditControlResponse { Control = controlDto };
         }
+
+        
     }
 }

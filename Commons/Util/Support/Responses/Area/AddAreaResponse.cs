@@ -1,9 +1,9 @@
-﻿using Util.Dtos;
+﻿using Util.Dtos.AreaDtos;
 
 namespace Util.Support.Responses.Area
 {
     public class AddAreaResponse
     {
-        public AreaDto Area { get; set; }
+        public AreaReadDto Area { get; set; }
     }
 }

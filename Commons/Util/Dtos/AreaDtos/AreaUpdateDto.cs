@@ -1,10 +1,14 @@
-﻿namespace Util.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Util.Dtos.AreaDtos
 {
-    public class AreaDto
+    public class AreaUpdateDto
     {
+        [Required]
         public int Id { get; set; }
+
         public string Title { get; set; }
+
         public string Description { get; set; }
-        public int CountDivisions { get; set; }
     }
 }

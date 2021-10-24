@@ -1,31 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Util.Dtos
+namespace Util.Dtos.ControlDtos
 {
-    public class ControlDto
+    public class ControlCreateDto
     {
-        public Guid Id { get; set; }
+        [Required]
         public int ControlStateId { get; set; }
-        public string ControlState { get; set; }
+
+        [Required]
         public int AutomationLevelId { get; set; }
-        public string AutomationLevel { get; set; }
+
+        [Required]
         public int ControlTypeId { get; set; }
-        public string ControlType { get; set; }
-        public DateTime CreationDate { get; set; }
+
+        [Required]
         public string Frequency { get; set; }
+
+        [Required]
+        [MaxLength(50)]
         public string Code { get; set; }
+
+        [Required]
         public bool Documented { get; set; }
+
+        [Required]
+        [MaxLength(500)]
         public string Policy { get; set; }
+
+        [Required]
+        [MaxLength(100)]
         public string ResponsablePosition { get; set; }
-        public DateTime LastUpdateDate { get; set; }
+
+        [Required]
+        [MaxLength(200)]
         public string Activity { get; set; }
+
+        [Required]
+        [MaxLength(100)]
         public string Objective { get; set; }
+
+        [Required]
+        [MaxLength(200)]
         public string Evidence { get; set; }
+
+        [Required]
         public int UserId { get; set; }
-        public UserDto User { get; set; }
+
     }
 }

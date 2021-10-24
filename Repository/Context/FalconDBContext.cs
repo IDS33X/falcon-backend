@@ -23,6 +23,12 @@ namespace Repository.Context
         public DbSet<Risk> Risk { get; set; }
         public DbSet<RiskImpact> RiskImpact { get; set; }
         public DbSet<ImpactType> ImpactType { get; set; }
+        public DbSet<Control> Control { get; set; }
+        public DbSet<MAutomationLevel> MAutomationLevel { get; set; }
+        public DbSet<MControlState> MControlState { get; set; }
+        public DbSet<MControlType> MControlType { get; set; }
+        public DbSet<RiskControl> RisKControl { get; set; }
+        public DbSet<UserControl> UserControl { get; set; }
 
         //public FalconDBContext(string connectionString)
         //{
@@ -93,8 +99,7 @@ namespace Repository.Context
 
             modelBuilder.Entity<Control>()
                         .Property(c => c.LastUpdateDate)
-                        .HasDefaultValueSql("getdate()")
-                        .ValueGeneratedOnUpdate();
+                        .ValueGeneratedOnAddOrUpdate();
 
             modelBuilder.Entity<MAutomationLevel>()
                         .Property(ma => ma.CreatedDate)
@@ -145,6 +150,7 @@ namespace Repository.Context
             modelBuilder.Entity<Control>()
                 .HasIndex(c => c.Code)
                 .IsUnique();
+
 
 
             //modelBuilder.Entity<MRole>().HasData(new MRole[]

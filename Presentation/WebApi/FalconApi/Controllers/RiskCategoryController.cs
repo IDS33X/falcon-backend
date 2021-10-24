@@ -7,7 +7,7 @@ using Util.Support.Requests.RiskCategory;
 
 namespace FalconApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("falconapi/[controller]")]
     [ApiController]
     public class RiskCategoryController : ControllerBase
     {

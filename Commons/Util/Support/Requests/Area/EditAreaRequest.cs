@@ -1,9 +1,9 @@
-﻿using Util.Dtos;
+﻿using Util.Dtos.AreaDtos;
 
 namespace Util.Support.Requests.Area
 {
     public class EditAreaRequest
     {
-        public AreaDto Area { get; set; }
+        public AreaUpdateDto Area { get; set; }
     }
 }

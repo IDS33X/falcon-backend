@@ -1,9 +1,10 @@
-﻿namespace Util.Dtos
+﻿namespace Util.Dtos.DepartmentDtos
 {
-    public class DepartmentDto
+    public class DepartmentReadDto
     {
         public int Id { get; set; }
         public int DivisionId { get; set; }
+
         public string Title { get; set; }
         public string Description { get; set; }
         public int CountAnalytics { get; set; }

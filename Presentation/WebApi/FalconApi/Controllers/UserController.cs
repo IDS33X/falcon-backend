@@ -7,7 +7,7 @@ using Util.Support.Requests.User;
 
 namespace FalconApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("falconapi/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {

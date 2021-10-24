@@ -141,6 +141,7 @@ namespace Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+
             migrationBuilder.CreateTable(
                 name: "Risk",
                 columns: table => new

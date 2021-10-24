@@ -21,6 +21,9 @@ namespace Repository
             services.AddTransient<IControlService, ControlService>();
             services.AddTransient<IRiskControlService, RiskControlService>();
             services.AddTransient<IUserControlService, UserControlService>();
+            services.AddTransient<IMAutomationLevelService, MAutomationLevelService>();
+            services.AddTransient<IMControlStateService, MControlStateService>();
+            services.AddTransient<IMControlTypeService, MControlTypeService>();
             return services;
         }
     }

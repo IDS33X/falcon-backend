@@ -18,7 +18,7 @@ namespace Domain.Models
         public int ControlledRiskId { get; set; }
         public RiskImpact ControlledRisk { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         public DateTime CreationDate { get; set; }
 
