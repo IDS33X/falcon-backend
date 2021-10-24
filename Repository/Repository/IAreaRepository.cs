@@ -14,5 +14,6 @@ namespace Repository.Repository
         Task<int> GetAreasCount();
         Task<IEnumerable<Area>> GetAreasSearch(string filter, int page, int perPage);
         Task<int> GetAreasSearchCount(string filter);
+        
     }
 }

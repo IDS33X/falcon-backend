@@ -1,10 +1,11 @@
 ﻿using Util.Dtos;
+using Util.Dtos.DivisionDtos;
 
 namespace Util.Support.Responses.Division
 {
     public class AddDivisionResponse
     {
-        public DivisionDto Division { get; set; }
+        public DivisionReadDto Division { get; set; }
 
     }
 }

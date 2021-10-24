@@ -1,9 +1,9 @@
 ﻿using System;
 using Util.Dtos.User;
 
-namespace Util.Dtos
+namespace Util.Dtos.ControlDtos
 {
-    public class ControlDto
+    public class ControlReadDto
     {
         public Guid Id { get; set; }
         public int ControlStateId { get; set; }

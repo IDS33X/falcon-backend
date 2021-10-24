@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.ControlDtos;
 
 namespace Util.Support.Responses.Control
 {
     public class EditControlResponse
     {
-        public ControlDto Control { get; set; }
+        public ControlReadDto Control { get; set; }
     }
 }

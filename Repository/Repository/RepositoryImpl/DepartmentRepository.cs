@@ -38,5 +38,17 @@ namespace Repository.Repository.RepositoryImpl
                                 .Take(perPage)
                                 .ToListAsync();
         }
+
+        public new async Task<Department> Update(Department department)
+        {
+            var previousDepartment = await context.Set<Department>().FirstOrDefaultAsync(d => d.Id == department.Id);
+
+            previousDepartment.Title = department.Title ?? previousDepartment.Title;
+            previousDepartment.Description = department.Description ?? previousDepartment.Description;
+
+            await Task.Run(() => context.Set<Department>().Update(previousDepartment));
+
+            return previousDepartment;
+        }
     }
 }

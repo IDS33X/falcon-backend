@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.ControlDtos;
 using Util.Support.Response;
 
 namespace Util.Support.Responses.Control
 {
     public class GetControlsByRiskResponse : PaginationResponse
     {
-        public IEnumerable<ControlDto> Controls { get; set; }
+        public IEnumerable<ControlReadDto> Controls { get; set; }
     }
 }

@@ -5,5 +5,6 @@
         public int CurrentPage { get; set; }
         public int TotalOfItems { get; set; }
         public int AmountOfPages { get; set; }
+        public int TotalOfItems { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace Domain.Models
 
         public Control Control { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required]
         public DateTime AssignDate { get; set; }
 
