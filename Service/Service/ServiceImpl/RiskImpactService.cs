@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Repository.UnitOfWork;
 using System.Threading.Tasks;
-using Util.Dtos;
 using System.Linq;
 using Util.Support.Requests.RiskImpact;
 using Util.Support.Responses.RiskImpact;
+using Util.Dtos.RiskImpact;
 
 namespace Service.Service.ServiceImpl
 {

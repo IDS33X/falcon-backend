@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Util.Support.Requests.UserControl;
 using Util.Support.Responses.UserControl;
 
@@ -14,8 +10,8 @@ namespace Service.Service
 
         Task<AddRangeUserControlResponse> AddRange(AddRangeUserControlRequest request);
 
-        Task<EditUserControlResponse> Remove(EditUserControlRequest request);
+        Task<RemoveUserControlResponse> Remove(RemoveUserControlRequest request);
 
-        Task<EditRangeUserControlResponse> RemoveRange(EditRangeUserControlRequest request);
+        Task<RemoveRangeUserControlResponse> RemoveRange(RemoveRangeUserControlRequest request);
     }
 }

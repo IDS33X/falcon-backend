@@ -23,7 +23,7 @@ namespace Domain.Models
         public string Username { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(1000)]
         public string Password { get; set; }
 
         [Required]

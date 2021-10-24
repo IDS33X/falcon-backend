@@ -53,6 +53,10 @@ namespace Repository.Context
             .WithMany(ir => ir.RisksControlled)
             .HasForeignKey(r => r.ControlledRiskId).OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<Risk>()
+                .HasIndex(r => r.Code)
+                .IsUnique();
+
             modelBuilder.Entity<Area>()
                         .Property(a => a.CreatedDate)
                         .HasDefaultValueSql("getdate()");

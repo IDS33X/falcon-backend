@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Util.Dtos;
+﻿using System.Collections.Generic;
+using Util.Dtos.UserControl;
 
 namespace Util.Support.Requests.UserControl
 {
     public class AddRangeUserControlRequest
     {
-        public IEnumerable<UserControlDto> UserControls { get; set; }
+        public IEnumerable<AddUserControlDto> UserControls { get; set; }
     }
 }

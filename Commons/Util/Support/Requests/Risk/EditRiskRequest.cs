@@ -1,9 +1,9 @@
-﻿using Util.Dtos;
+﻿using Util.Dtos.Risk;
 
 namespace Util.Support.Requests.Risk
 {
     public class EditRiskRequest
     {
-        public RiskDto Risk { get; set; }
+        public UpdateRiskDto Risk { get; set; }
     }
 }

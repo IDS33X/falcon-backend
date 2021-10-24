@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Util.Dtos.User;
 
 namespace Util.Dtos.DivisionDtos
 {

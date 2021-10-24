@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Util.Exceptions;
 using Util.Support.Requests.RiskControl;
 
 namespace FalconApi.Controllers
@@ -23,9 +21,20 @@ namespace FalconApi.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> Add(AddRiskControlRequest request)
         {
-            var response = await _riskControlService.Add(request);
+            try
+            {
+                var response = await _riskControlService.Add(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (AlreadyExistException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
+            }
         }
 
         [HttpPost("AddRange")]
@@ -39,9 +48,24 @@ namespace FalconApi.Controllers
         [HttpPut("Remove")]
         public async Task<IActionResult> Remove(EditRiskControlRequest request)
         {
-            var response = await _riskControlService.Remove(request);
+            try
+            {
+                var response = await _riskControlService.Remove(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (DoesNotExistException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (AlreadyExistException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
+            }
         }
 
         [HttpPut("RemoveRange")]

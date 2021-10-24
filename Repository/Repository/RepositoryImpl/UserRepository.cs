@@ -2,6 +2,7 @@
 using Repository.Context;
 using Repository.RepositoryImpl;
 using System;
+using System.Threading.Tasks;
 
 namespace Repository.Repository.RepositoryImpl
 {
@@ -11,5 +12,16 @@ namespace Repository.Repository.RepositoryImpl
         {
 
         }
+
+        public async Task<User> ChangePassword(User user)
+        {
+            await Task.Run(() =>
+            {
+                context.Set<User>().Attach(user);
+                context.Entry(user).Property(u => u.Password).IsModified = true;
+            });
+
+            return user;
+        }  
     }
 }

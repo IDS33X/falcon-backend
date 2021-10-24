@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Util.Exceptions;
 using Util.Support.Requests.UserControl;
 
 namespace FalconApi.Controllers
@@ -23,9 +24,20 @@ namespace FalconApi.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> Add(AddUserControlRequest request)
         {
-            var response = await _userControlService.Add(request);
+            try
+            {
+                var response = await _userControlService.Add(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (AlreadyExistException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
+            }
         }
 
         [HttpPost("AddRange")]
@@ -37,15 +49,30 @@ namespace FalconApi.Controllers
         }
 
         [HttpPut("Remove")]
-        public async Task<IActionResult> Remove(EditUserControlRequest request)
+        public async Task<IActionResult> Remove(RemoveUserControlRequest request)
         {
-            var response = await _userControlService.Remove(request);
+            try
+            {
+                var response = await _userControlService.Remove(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (DoesNotExistException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (AlreadyExistException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
+            }
         }
 
         [HttpPut("RemoveRange")]
-        public async Task<IActionResult> RemoveRange(EditRangeUserControlRequest request)
+        public async Task<IActionResult> RemoveRange(RemoveRangeUserControlRequest request)
         {
             var response = await _userControlService.RemoveRange(request);
 

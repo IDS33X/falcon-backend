@@ -4,7 +4,7 @@ using Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Util.Dtos;
+using Util.Dtos.RiskCategory;
 using Util.Support.Requests.RiskCategory;
 using Util.Support.Responses.RiskCategory;
 
@@ -64,6 +64,7 @@ namespace Service.Service.ServiceImpl
             GetRiskCategoriesByDepartmentResponse response = new GetRiskCategoriesByDepartmentResponse
             {
                 AmountOfPages = pages,
+                TotalOfItems = riskCategoriesCountByDepartment,
                 CurrentPage = riskCategoryDtos.Count > 0 ? request.Page : 0,
                 RiskCategories = riskCategoryDtos
             };
@@ -89,6 +90,7 @@ namespace Service.Service.ServiceImpl
             GetRiskCategoriesByDepartmentSearchResponse response = new GetRiskCategoriesByDepartmentSearchResponse
             {
                 AmountOfPages = pages,
+                TotalOfItems = riskCategoriesCountByDepartmentSearch,
                 CurrentPage = riskCategoryDtos.Count > 0 ? request.Page : 0,
                 RiskCategories = riskCategoryDtos
             };

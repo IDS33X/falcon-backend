@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Util.Dtos;
+using Util.Dtos.MRole;
 
 namespace Util.Support.Responses.MRole
 {

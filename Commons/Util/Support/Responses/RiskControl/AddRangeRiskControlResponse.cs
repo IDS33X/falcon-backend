@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Util.Dtos;
+﻿using System.Collections.Generic;
+using Util.Dtos.RiskControl;
 
 namespace Util.Support.Responses.RiskControl
 {
     public class AddRangeRiskControlResponse
     {
-        public IEnumerable<RiskControlDto> RiskControls { get; set; }
+        public IEnumerable<RiskControlDto> RiskControlsAdded { get; set; }
+        public IEnumerable<RiskControlErrorDto> RiskControlsNotAdded { get; set; }
     }
 }

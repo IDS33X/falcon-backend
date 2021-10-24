@@ -18,7 +18,7 @@ namespace FalconApi.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll([FromQuery] GetAllRiskImpactsRequest request)
         {
-           return Ok( await _riskImpactService.GetAll(request));
+           return Ok(await _riskImpactService.GetAll(request));
         }
     }
 }

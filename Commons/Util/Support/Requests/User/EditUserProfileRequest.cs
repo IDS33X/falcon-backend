@@ -1,9 +1,9 @@
-﻿using Util.Dtos;
+﻿using Util.Dtos.User;
 
 namespace Util.Support.Requests.User
 {
     public class EditUserProfileRequest
     {
-        public UserDto User { get; set; }
+        public UpdateUserProfileDto User { get; set; }
     }
 }

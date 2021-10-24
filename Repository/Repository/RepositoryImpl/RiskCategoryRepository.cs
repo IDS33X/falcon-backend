@@ -4,6 +4,7 @@ using Repository.RepositoryImpl;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Util.Exceptions;
 
 namespace Repository.Repository.RepositoryImpl
 {
@@ -12,6 +13,47 @@ namespace Repository.Repository.RepositoryImpl
         public RiskCategoryRepository(DbContext context) : base(context)
         {
 
+        }
+
+        public new async Task<RiskCategory> Add(RiskCategory riskCategory)
+        {
+            var riskCategoryWithThatTitle = await context.Set<RiskCategory>().Where(rc => rc.Title == riskCategory.Title).FirstOrDefaultAsync();
+
+            if (riskCategoryWithThatTitle != null)
+            {
+                throw new AlreadyExistException("A risk category with the title provided already exists");
+            }
+
+            await context.Set<RiskCategory>().AddAsync(riskCategory);
+
+            return riskCategory;
+        }
+
+        public new async Task<RiskCategory> Update(RiskCategory riskCategory)
+        {
+            var riskCategoryBeforeUpdate = await context.Set<RiskCategory>().FirstOrDefaultAsync(r => r.Id == riskCategory.Id);
+
+            if (riskCategoryBeforeUpdate == null)
+            {
+                throw new DoesNotExistException("Not exist");
+            }
+
+            if (riskCategory.Title != null)
+            {
+                var riskCategoryWithThatTitle = await context.Set<RiskCategory>().Where(rc => rc.Title == riskCategory.Title).FirstOrDefaultAsync();
+
+                if (riskCategoryWithThatTitle != null && riskCategory.Id != riskCategoryWithThatTitle.Id)
+                {
+                    throw new AlreadyExistException("A risk category with the title provided already exists");
+                }
+            }
+
+            riskCategoryBeforeUpdate.Title = riskCategory.Title ?? riskCategoryBeforeUpdate.Title;
+            riskCategoryBeforeUpdate.Description = riskCategory.Description ?? riskCategoryBeforeUpdate.Description;
+
+            await Task.Run( () => context.Set<RiskCategory>().Update(riskCategoryBeforeUpdate));
+
+            return riskCategoryBeforeUpdate;
         }
 
         public async Task<int> GetRiskCategoriesCountByDepartment(int departmentId)

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.UserControl;
 using Util.Support.Requests.UserControl;
 using Util.Support.Responses.UserControl;
 
@@ -45,39 +46,49 @@ namespace Service.Service.ServiceImpl
         {
             List<UserControl> userControls = new List<UserControl>();
 
-            foreach (UserControlDto userControlDto in request.UserControls)
+            foreach (AddUserControlDto userControlDto in request.UserControls)
             {
                 var userControl = _mapper.Map<UserControl>(userControlDto);
 
                 userControls.Add(userControl);
             }
 
-            userControls = (List<UserControl>) await _unitOfWork.UserControls.AddRange(userControls);
+            var (usersControlsAdded, usersControlsNotAdded) = await _unitOfWork.UserControls.AddRange(userControls);
 
             await _unitOfWork.CompleteAsync();
 
-            var userControlsDto = new List<UserControlDto>();
+            var userControlsAddedDto = new List<UserControlDto>();
 
-            foreach (UserControl userControl in userControls)
+            foreach (UserControl userControl in usersControlsAdded)
             {
                 var userControlDto = _mapper.Map<UserControlDto>(userControl);
 
-                userControlsDto.Add(userControlDto);
+                userControlsAddedDto.Add(userControlDto);
+            }
+
+            var usersControlsNotAddedDto = new List<UserControlErrorDto>();
+
+            foreach (var (userControl, errorMessage) in usersControlsNotAdded)
+            {
+                var userControlErrorDto = _mapper.Map<UserControlErrorDto>(userControl);
+
+                userControlErrorDto.ErrorMessage = errorMessage;
+
+                usersControlsNotAddedDto.Add(userControlErrorDto);
             }
 
             var response = new AddRangeUserControlResponse
             {
-                UserControls = userControlsDto
+                UserControlsAdded = userControlsAddedDto,
+                UsersControlsNotAdded = usersControlsNotAddedDto
             };
 
             return response;
         }
 
-        public async Task<EditUserControlResponse> Remove(EditUserControlRequest request)
+        public async Task<RemoveUserControlResponse> Remove(RemoveUserControlRequest request)
         {
             var userControl = _mapper.Map<UserControl>(request.UserControl);
-
-            userControl.DeallocatedDate = DateTime.Now;
 
             var userControlUpdated = await _unitOfWork.UserControls.Update(userControl);
 
@@ -85,7 +96,7 @@ namespace Service.Service.ServiceImpl
 
             var userControlDto = _mapper.Map<UserControlDto>(userControlUpdated);
 
-            var response = new EditUserControlResponse
+            var response = new RemoveUserControlResponse
             {
                 UserControl = userControlDto
             };
@@ -93,11 +104,11 @@ namespace Service.Service.ServiceImpl
             return response;
         }
 
-        public async Task<EditRangeUserControlResponse> RemoveRange(EditRangeUserControlRequest request)
+        public async Task<RemoveRangeUserControlResponse> RemoveRange(RemoveRangeUserControlRequest request)
         {
             List<UserControl> userControls = new List<UserControl>();
 
-            foreach (UserControlDto usercontroldto in request.UserControls)
+            foreach (RemoveUserControlDto usercontroldto in request.UserControls)
             {
                 var userControl = _mapper.Map<UserControl>(usercontroldto);
 
@@ -106,7 +117,9 @@ namespace Service.Service.ServiceImpl
                 userControls.Add(userControl);
             }
 
-            var userControlsRemoved = await _unitOfWork.UserControls.UpdateRange(userControls);
+            var (userControlsRemoved, userControlsNotRemoved) = await _unitOfWork.UserControls.UpdateRange(userControls);
+
+            await _unitOfWork.CompleteAsync();
 
             List<UserControlDto> userControlsDto = new List<UserControlDto>();
 
@@ -117,9 +130,20 @@ namespace Service.Service.ServiceImpl
                 userControlsDto.Add(userControlDto);
             }
 
-            var response = new EditRangeUserControlResponse
+            List<UserControlErrorDto> userControlsNotRemovedDto = new List<UserControlErrorDto>();
+
+            foreach (var (userControl, errorMessage) in userControlsNotRemoved)
             {
-                UserControls = userControlsDto
+                var userControlErrorDto = _mapper.Map<UserControlErrorDto>(userControl);
+                userControlErrorDto.ErrorMessage = errorMessage;
+
+                userControlsNotRemovedDto.Add(userControlErrorDto);
+            }
+
+            var response = new RemoveRangeUserControlResponse
+            {
+                UserControlsRemoved = userControlsDto,
+                UserControlsNotRemoved = userControlsNotRemovedDto
             };
 
             return response;

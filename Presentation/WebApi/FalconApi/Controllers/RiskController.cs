@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Service.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Util.Exceptions;
 using Util.Support.Requests.Risk;
@@ -23,9 +20,20 @@ namespace FalconApi.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> Add(AddRiskRequest request)
         {
-            var response = await _riskService.Add(request);
+            try
+            {
+                var response = await _riskService.Add(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (AlreadyExistException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
+            }
         }
 
         [HttpGet("GetRiskByCategory")]
@@ -65,9 +73,9 @@ namespace FalconApi.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
             }
 
         }

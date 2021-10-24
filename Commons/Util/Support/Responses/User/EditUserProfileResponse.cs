@@ -1,4 +1,4 @@
-﻿using Util.Dtos;
+﻿using Util.Dtos.User;
 
 namespace Util.Support.Responses.User
 {

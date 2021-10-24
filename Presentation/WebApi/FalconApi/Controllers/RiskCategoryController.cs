@@ -20,9 +20,20 @@ namespace FalconApi.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> Add(AddRiskCategoryRequest request)
         {
-            var response = await _riskCategoryService.Add(request);
+            try
+            {
+                var response = await _riskCategoryService.Add(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (AlreadyExistException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.InnerException.Message);
+            }
         }
 
         [HttpGet("GetRiskCategoriesByDepartment")]
@@ -51,6 +62,10 @@ namespace FalconApi.Controllers
                 return Ok(response);
             }
             catch (DoesNotExistException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (AlreadyExistException e)
             {
                 return BadRequest(e.Message);
             }

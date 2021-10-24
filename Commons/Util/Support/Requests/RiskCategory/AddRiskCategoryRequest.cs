@@ -1,9 +1,9 @@
-﻿using Util.Dtos;
+﻿using Util.Dtos.RiskCategory;
 
 namespace Util.Support.Requests.RiskCategory
 {
     public class AddRiskCategoryRequest
     {
-        public RiskCategoryDto RiskCategory { get; set; }
+        public AddRiskCategoryDto RiskCategory { get; set; }
     }
 }

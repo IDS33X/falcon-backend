@@ -1,4 +1,4 @@
-﻿namespace Util.Dtos
+﻿namespace Util.Dtos.RiskCategory
 {
     public class RiskCategoryDto
     {

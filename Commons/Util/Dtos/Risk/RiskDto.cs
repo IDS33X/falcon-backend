@@ -1,6 +1,9 @@
 ﻿using System;
+using Util.Dtos.RiskCategory;
+using Util.Dtos.RiskImpact;
+using Util.Dtos.User;
 
-namespace Util.Dtos
+namespace Util.Dtos.Risk
 {
     public class RiskDto
     {
