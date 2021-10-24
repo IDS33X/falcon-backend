@@ -7,7 +7,7 @@ using Util.Support.Requests.User;
 
 namespace FalconApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("falconapi/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -20,9 +20,20 @@ namespace FalconApi.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> Add(AddUserRequest request)
         {
-            var response = await _userService.Add(request);
+            try
+            {
+                var response = await _userService.Add(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (DoesNotExistException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
+            }
         }
 
         [HttpGet("GetUsersByDepartment")]
@@ -53,9 +64,9 @@ namespace FalconApi.Controllers
             {
                 return BadRequest(e.Message);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
             }
 
         }
@@ -91,30 +102,30 @@ namespace FalconApi.Controllers
             }
             catch (DoesNotExistException e)
             {
-                return BadRequest(e.Message);
+                return NotFound(e.Message);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
             }
 
         }
-        [HttpPut("UpdateLogin")]
+        [HttpPut("ChangePassword")]
         public async Task<IActionResult> UpdateLogin(EditUserLoginRequest request)
         {
             try
             {
-                var response = await _userService.UpdateLogin(request);
+                var response = await _userService.UpdatePassword(request);
 
                 return Ok(response);
             }
             catch (DoesNotExistException e)
             {
-                return BadRequest(e.Message);
+                return NotFound(e.Message);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return BadRequest(e.Message);
+                return StatusCode(500, $"Exception message: {ex.Message}\n\n{(ex.InnerException?.Message != null ? $"InnerException message: {ex.InnerException.Message}" : "")}");
             }
 
         }

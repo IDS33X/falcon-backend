@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Util.Dtos;
+using Util.Dtos.User;
 using Util.Support.Requests.User;
 using Util.Support.Responses.User;
 
@@ -26,7 +27,9 @@ namespace Service.Service.ServiceImpl
             user = await _unitOfWork.UserProfiles.Add(user);
             await _unitOfWork.CompleteAsync();
 
-            var userDto = _mapper.Map<UserDto>(user);
+            var userInserted = await GetById(user.Id);
+
+            var userDto = _mapper.Map<UserDto>(userInserted);
 
             return new AddUserResponse { User = userDto };
         }
@@ -110,24 +113,23 @@ namespace Service.Service.ServiceImpl
             var userUpdated = await _unitOfWork.UserProfiles.Update(userProfile);
             var userUpdatedDto = _mapper.Map<UserDto>(userUpdated);
             await _unitOfWork.CompleteAsync();
-            userUpdatedDto.Password = null;
 
             return new EditUserProfileResponse { User = userUpdatedDto };
         }
 
-        public async Task<EditUserLoginResponse> UpdateLogin(EditUserLoginRequest request)
+        public async Task<EditUserLoginResponse> UpdatePassword(EditUserLoginRequest request)
         {
-            var user = await _unitOfWork.Users.GetById(request.Id);
+            var userProfile = await _unitOfWork.UserProfiles.GetById(request.UserPassword.Id ?? 0);
 
-            user.Username = request.Username;
+            var user = userProfile.User;
 
-            user.Password = !string.IsNullOrWhiteSpace(request.Password) ? request.Password : user.Password;
+            user.Password = request.UserPassword.Password ?? user.Password;
 
-            var userUpdated = await _unitOfWork.Users.Update(user);
+            var userUpdated = await _unitOfWork.Users.ChangePassword(user);
 
             await _unitOfWork.CompleteAsync();
 
-            return new EditUserLoginResponse { Id = userUpdated.Id, WasUserUpdated = userUpdated != null };
+            return new EditUserLoginResponse { Id = userUpdated.Id, WasPasswordChanged = userUpdated != null };
         }
     }
 }

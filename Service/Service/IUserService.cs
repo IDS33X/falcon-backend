@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Util.Dtos;
+using Util.Dtos.User;
 using Util.Support.Requests.User;
 using Util.Support.Responses.User;
 
@@ -11,7 +11,7 @@ namespace Service.Service
         Task<UserDto> GetById(int id);
         Task<UsersByDepartmentResponse> GetUsersByDepartment(UsersByDepartmentRequest request);
         Task<UsersByDepartmentSearchResponse> GetUsersByDepartmentAndSearch(UsersByDepartmentSearchRequest request);
-        Task<EditUserLoginResponse> UpdateLogin(EditUserLoginRequest request);
+        Task<EditUserLoginResponse> UpdatePassword(EditUserLoginRequest request);
         Task<EditUserProfileResponse> UpdateProfile(EditUserProfileRequest request);
     }
 }

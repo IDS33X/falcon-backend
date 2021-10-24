@@ -1,12 +1,9 @@
-using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Models;
 using Repository.UnitOfWork;
 using Service.Service;
-using Util.Dtos;
-using Util.Exceptions;
-using Util.Support;
+using Util.Dtos.User;
 using Util.Support.Requests;
 
 namespace Service.ServiceImpl

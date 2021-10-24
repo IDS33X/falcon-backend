@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Util.Dtos;
+using Util.Dtos.User;
 using Util.Support.Requests;
 
 namespace Service.Service

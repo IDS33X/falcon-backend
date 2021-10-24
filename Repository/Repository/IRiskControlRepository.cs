@@ -1,18 +1,12 @@
 ﻿using Domain.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
     public interface IRiskControlRepository : IGenericRepository<RiskControl,int>
     {
-
-        Task<IEnumerable<RiskControl>> AddRange(IEnumerable<RiskControl> risksControls);
-
-        Task<IEnumerable<RiskControl>> UpdateRange(IEnumerable<RiskControl> risksControls);
-
+        Task<(IEnumerable<RiskControl> riskControlsAdded, IEnumerable<(RiskControl riskControl, string errorMessage)> riskControlsNotAdded)> AddRange(IEnumerable<RiskControl> risksControls);
+        Task<(IEnumerable<RiskControl> riskControlsRemoved, IEnumerable<(RiskControl riskControl, string errorMessage)> riskControlsNotRemoved)> UpdateRange(IEnumerable<RiskControl> risksControls);
     }
 }

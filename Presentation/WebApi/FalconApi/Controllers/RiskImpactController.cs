@@ -5,7 +5,7 @@ using Util.Support.Requests.RiskImpact;
 
 namespace FalconApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("falconapi/[controller]")]
     [ApiController]
     public class RiskImpactController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace FalconApi.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll([FromQuery] GetAllRiskImpactsRequest request)
         {
-           return Ok( await _riskImpactService.GetAll(request));
+           return Ok(await _riskImpactService.GetAll(request));
         }
     }
 }

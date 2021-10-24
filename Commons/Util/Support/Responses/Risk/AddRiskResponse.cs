@@ -1,4 +1,4 @@
-﻿using Util.Dtos;
+﻿using Util.Dtos.Risk;
 
 namespace Util.Support.Responses.Risk
 {

@@ -33,7 +33,7 @@ namespace Domain.Models
 
         [Required]
         [MaxLength(100)]
-        public string ResponsiblePosition { get; set; }
+        public string ResponsablePosition { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime? LastUpdateDate { get; set; }
@@ -44,7 +44,7 @@ namespace Domain.Models
 
         [Required]
         [MaxLength(100)]
-        public string Ojective { get; set; }
+        public string Objective { get; set; }
 
         [Required]
         [MaxLength(200)]

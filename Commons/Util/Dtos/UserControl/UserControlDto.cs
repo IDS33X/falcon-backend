@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Util.Dtos
+namespace Util.Dtos.UserControl
 {
     public class UserControlDto
     {
-
-        public int Id { get; set; }
-
         public int UserId { get; set; }
 
         public Guid ControlId { get; set; }

@@ -1,4 +1,4 @@
-﻿using Util.Dtos;
+﻿using Util.Dtos.RiskCategory;
 
 namespace Util.Support.Responses.RiskCategory
 {

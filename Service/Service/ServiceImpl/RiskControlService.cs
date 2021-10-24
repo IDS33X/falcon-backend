@@ -3,10 +3,8 @@ using Domain.Models;
 using Repository.UnitOfWork;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Util.Dtos;
+using Util.Dtos.RiskControl;
 using Util.Support.Requests.RiskControl;
 using Util.Support.Responses.RiskControl;
 
@@ -45,29 +43,40 @@ namespace Service.Service.ServiceImpl
         {
             List<RiskControl> riskControls = new List<RiskControl>();
 
-            foreach(RiskControlDto riskControlDto in request.RiskControls)
+            foreach(AddRiskControlDto riskControlDto in request.RiskControls)
             {
                 var riksControl = _mapper.Map<RiskControl>(riskControlDto);
 
                 riskControls.Add(riksControl);
             }
 
-            riskControls = (List<RiskControl>) await _unitOfWork.RiskControls.AddRange(riskControls);
+            var (riskControlsAdded, riskControlsNotAdded) = await _unitOfWork.RiskControls.AddRange(riskControls);
 
             await _unitOfWork.CompleteAsync();
 
-            var riskControlsDto = new List<RiskControlDto>();
+            var riskControlsAddedDto = new List<RiskControlDto>();
 
-            foreach (RiskControl riskControl in riskControls)
+            foreach (RiskControl riskControl in riskControlsAdded)
             {
                 var riksControlDto = _mapper.Map<RiskControlDto>(riskControl);
 
-                riskControlsDto.Add(riksControlDto);
+                riskControlsAddedDto.Add(riksControlDto);
+            }
+
+            var riskControlsNotAddedDto = new List<RiskControlErrorDto>();
+
+            foreach (var item in riskControlsNotAdded)
+            {
+                var riskControlErrorDto = _mapper.Map<RiskControlErrorDto>(item.riskControl);
+                riskControlErrorDto.ErrorMessage = item.errorMessage;
+
+                riskControlsNotAddedDto.Add(riskControlErrorDto);
             }
 
             var response = new AddRangeRiskControlResponse
             {
-                RiskControls = riskControlsDto
+                RiskControlsAdded = riskControlsAddedDto,
+                RiskControlsNotAdded = riskControlsNotAddedDto
             };
 
             return response;
@@ -98,7 +107,7 @@ namespace Service.Service.ServiceImpl
         {
             List<RiskControl> riskControls = new List<RiskControl>();
 
-            foreach(RiskControlDto riskcontroldto in request.RiskControls)
+            foreach(RemoveRiskControlDto riskcontroldto in request.RiskControls)
             {
                 var riskControl = _mapper.Map<RiskControl>(riskcontroldto);
 
@@ -107,7 +116,9 @@ namespace Service.Service.ServiceImpl
                 riskControls.Add(riskControl);
             }
 
-            var riskControlsRemoved = await _unitOfWork.RiskControls.UpdateRange(riskControls);
+            var (riskControlsRemoved, riskControlsNotRemoved) = await _unitOfWork.RiskControls.UpdateRange(riskControls);
+
+            await _unitOfWork.CompleteAsync();
 
             List<RiskControlDto> riskControlsDto = new List<RiskControlDto>();
 
@@ -118,9 +129,20 @@ namespace Service.Service.ServiceImpl
                 riskControlsDto.Add(riskControlDto);
             }
 
+            List<RiskControlErrorDto> riskControlErrorsDto = new List<RiskControlErrorDto>();
+
+            foreach (var (riskControl, errorMessage) in riskControlsNotRemoved)
+            {
+                var riskControlErrorDto = _mapper.Map<RiskControlErrorDto>(riskControl);
+                riskControlErrorDto.ErrorMessage = errorMessage;
+
+                riskControlErrorsDto.Add(riskControlErrorDto);
+            }
+
             var response = new EditRangeRiskControlResponse
             {
-                RiskControls = riskControlsDto
+                RiskControlsRemoved = riskControlsDto,
+                RiskControlsNotRemoved = riskControlErrorsDto
             };
 
             return response;

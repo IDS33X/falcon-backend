@@ -1,9 +1,10 @@
-﻿using Util.Dtos;
+﻿using Util.Dtos.User;
 
 namespace Util.Support.Requests.User
 {
     public class AddUserRequest
     {
-        public UserDto User { get; set; }
+        public AddUserDto User { get; set; }
+
     }
 }

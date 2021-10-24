@@ -20,17 +20,44 @@ namespace Repository.Repository.RepositoryImpl
         }
         public async Task<UserProfile> Add(UserProfile user)
         {
+            var userWithThatCode = await _context.UserProfile.Where(up => up.Code == user.Code)
+                                                             .FirstOrDefaultAsync();
+
+            if (userWithThatCode != null)
+            {
+                throw new AlreadyExistException("An user with that code already exist");
+            }
+
+            var userWithThatUsername = await _context.UserProfile.Include(up => up.User)
+                                                           .Where(up => up.User.Username == user.User.Username)
+                                                           .FirstOrDefaultAsync();
+
+            if (userWithThatUsername != null)
+            {
+                throw new AlreadyExistException("An user with that username already exist");
+            }
+
+            user.User.Password = BCrypt.Net.BCrypt.HashPassword(user.User.Password);
+
             await _context.UserProfile.AddAsync(user);
             return user;
         }
 
         public async Task<UserProfile> Update(UserProfile user)
         {
-            var userBeforeUpdate = await _context.UserProfile.Include(u => u.Department).Include(u => u.User).ThenInclude(u => u.UserRole).FirstOrDefaultAsync(u => u.Id == user.Id);
+            var userBeforeUpdate = await _context.UserProfile.Include(u => u.Department)
+                                                             .Include(u => u.User)
+                                                             .ThenInclude(u => u.UserRole)
+                                                             .Where(u => u.Id == user.Id)
+                                                             .FirstOrDefaultAsync();
+
+            if (userBeforeUpdate == null)
+            {
+                throw new DoesNotExistException("Not exist");
+            }
 
             userBeforeUpdate.LastName = user.LastName ?? userBeforeUpdate.LastName;
             userBeforeUpdate.Name = user.Name ?? userBeforeUpdate.Name;
-            userBeforeUpdate.Code = user.Code ?? userBeforeUpdate.Code;
 
             if (user.DepartmentId != 0 && user.DepartmentId != userBeforeUpdate.DepartmentId)
             {
@@ -45,9 +72,10 @@ namespace Repository.Repository.RepositoryImpl
         public async Task<UserProfile> FindByCode(string code)
         {
 
-            UserProfile user = await Task.Run(() => _context.UserProfile.Include(u => u.User).ThenInclude(u => u.UserRole)
-                                            .Where(u => u.Code == code)
-                                            .FirstOrDefault());
+            UserProfile user = await Task.Run(() => _context.UserProfile.Include(u => u.User)
+                                                                        .ThenInclude(u => u.UserRole)
+                                                                        .Where(u => u.Code == code)
+                                                                        .FirstOrDefault());
 
             if (user == null)
             {
@@ -62,9 +90,10 @@ namespace Repository.Repository.RepositoryImpl
 
         public async Task<UserProfile> Login(string username, string password)
         {
-            UserProfile user = await _context.UserProfile.Include(u => u.User).ThenInclude(u => u.UserRole)
-                                .Where(u => u.User.Username == username)
-                                .FirstOrDefaultAsync();
+            UserProfile user = await _context.UserProfile.Include(u => u.User)
+                                                         .ThenInclude(u => u.UserRole)
+                                                         .Where(u => u.User.Username == username)
+                                                         .FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -72,7 +101,7 @@ namespace Repository.Repository.RepositoryImpl
             }
             else
             {
-                if (user.User.Password == password)
+                if (BCrypt.Net.BCrypt.Verify(password, user.User.Password))
                 {
                     return user;
                 }
@@ -86,9 +115,10 @@ namespace Repository.Repository.RepositoryImpl
         public async Task<UserProfile> FindByUsername(string username)
         {
 
-            UserProfile user = await _context.UserProfile.Include(u => u.User).ThenInclude(u => u.UserRole)
-                                            .Where(u => u.User.Username == username)
-                                            .FirstOrDefaultAsync();
+            UserProfile user = await _context.UserProfile.Include(u => u.User)
+                                                         .ThenInclude(u => u.UserRole)
+                                                         .Where(u => u.User.Username == username)
+                                                         .FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -148,7 +178,7 @@ namespace Repository.Repository.RepositoryImpl
         public async Task<IEnumerable<UserProfile>> GetUsersByDepartmentSearch(int departmentId, string filter, int page, int perPage)
         {
             List<UserProfile> users = await _context.UserProfile
-                                 .Where(u => u.DepartmentId == departmentId && u.Name.Contains(filter))
+                                 .Where(u => u.DepartmentId == departmentId && (u.Name + " " + u.LastName).Contains(filter))
                                  .Include(u => u.User).ThenInclude(u => u.UserRole)
                                  .Skip((page - 1) * perPage)
                                  .Take(perPage)

@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Util.Dtos.User;
 
 namespace Util.Support.Requests.User
 {
     public class EditUserLoginRequest
     {
-        public Guid Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public UpdateUserPasswordDto UserPassword { get; set; }
     }
 }
