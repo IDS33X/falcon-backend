@@ -46,7 +46,7 @@ namespace Repository.Repository.RepositoryImpl
                                  .ToListAsync();
         }
 
-        public async Task<IEnumerable<Control>> GetControlsByRisk(Guid riskId, int page, int perPage)
+        public async Task<IEnumerable<Control>> GetControlsByRisk(Guid? riskId, int page, int perPage)
         {
             return await context.Set<Control>()
                                  .Include(c => c.User)
@@ -59,7 +59,7 @@ namespace Repository.Repository.RepositoryImpl
                                  .ToListAsync();
         }
 
-        public async Task<IEnumerable<Control>> GetControlsByUser(int userId, int page, int perPage)
+        public async Task<IEnumerable<Control>> GetControlsByUser(int? userId, int page, int perPage)
         {
             return await context.Set<Control>()
                                  .Include(c => c.User)
@@ -137,17 +137,17 @@ namespace Repository.Repository.RepositoryImpl
             return await context.Set<Control>().CountAsync();
         }
 
-        public async Task<int> GetControlsByRiskCount(Guid riskId)
+        public async Task<int> GetControlsByRiskCount(Guid? riskId)
         {
             return await context.Set<Control>().CountAsync(c => c.Risks.Any(rc => rc.RiskId == riskId));
         }
 
-        public async Task<int> GetControlsByUserCount(int userId)
+        public async Task<int> GetControlsByUserCount(int? userId)
         {
             return await context.Set<Control>().CountAsync(c => c.Users.Any(rc => rc.UserId == userId));
         }
 
-        public async Task<IEnumerable<Control>> GetControlsByCodeSearch(int riskCategoryId, string filter, int page, int perPage)
+        public async Task<IEnumerable<Control>> GetControlsByCodeSearch(int? riskCategoryId, string filter, int page, int perPage)
         {
             return await context.Set<Control>()
                                 .Include(c => c.User)
@@ -160,7 +160,7 @@ namespace Repository.Repository.RepositoryImpl
                                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Control>> GetControlsByRiskCategory(int riskCategoryId,int page, int perPage)
+        public async Task<IEnumerable<Control>> GetControlsByRiskCategory(int? riskCategoryId,int page, int perPage)
         {
             return await context.Set<Control>()
                                 .Include(c => c.User)
@@ -173,13 +173,13 @@ namespace Repository.Repository.RepositoryImpl
                                 .ToListAsync();
         }
 
-        public async Task<int> GetControlsByCodeSearchCount(int riskCategoryId,string filter)
+        public async Task<int> GetControlsByCodeSearchCount(int? riskCategoryId, string filter)
         {
             int count = await context.Set<Control>().CountAsync(c => c.RiskCategoryId == riskCategoryId && c.Code.Contains(filter));
             return count;
         }
 
-        public async Task<int> GetControlsByRiskCategoryCount(int riskCategoryId)
+        public async Task<int> GetControlsByRiskCategoryCount(int? riskCategoryId)
         {
             int count = await context.Set<Control>().CountAsync(c => c.RiskCategoryId == riskCategoryId);
             return count;

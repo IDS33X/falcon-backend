@@ -1,7 +1,10 @@
-﻿namespace Util.Support.Requests.User
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Util.Support.Requests.User
 {
     public class UsersByDepartmentRequest : PaginationRequest
     {
-        public int DepartmentId { get; set; }
+        [Required]
+        public int? DepartmentId { get; set; }
     }
 }

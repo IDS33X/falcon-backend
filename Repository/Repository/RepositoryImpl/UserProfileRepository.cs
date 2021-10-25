@@ -131,7 +131,7 @@ namespace Repository.Repository.RepositoryImpl
             }
         }
 
-        public async Task<UserProfile> GetById(int id)
+        public async Task<UserProfile> GetById(int? id)
         {
             UserProfile user = await _context.UserProfile.Include(u => u.User)
                                                          .ThenInclude(u => u.UserRole)
@@ -148,18 +148,18 @@ namespace Repository.Repository.RepositoryImpl
             }
         }
 
-        public async Task<int> GetUsersByDepartmentCount(int departmentId)
+        public async Task<int> GetUsersByDepartmentCount(int? departmentId)
         {
             int count = await _context.UserProfile.CountAsync(u => u.DepartmentId == departmentId);
             return count;
         }
-        public async Task<int> GetUsersByDepartmentSearchCount(int departmentId, string filter)
+        public async Task<int> GetUsersByDepartmentSearchCount(int? departmentId, string filter)
         {
             int count = await _context.Set<UserProfile>().CountAsync(u => u.DepartmentId == departmentId && u.Name.Contains(filter));
             return count;
         }
 
-        public async Task<IEnumerable<UserProfile>> GetUsersByDepartment(int departmentId, int page, int perPage)
+        public async Task<IEnumerable<UserProfile>> GetUsersByDepartment(int? departmentId, int page, int perPage)
         {
             List<UserProfile> users = await _context.UserProfile
                                  .Where(u => u.DepartmentId == departmentId)
@@ -175,7 +175,7 @@ namespace Repository.Repository.RepositoryImpl
 
             return users;
         }
-        public async Task<IEnumerable<UserProfile>> GetUsersByDepartmentSearch(int departmentId, string filter, int page, int perPage)
+        public async Task<IEnumerable<UserProfile>> GetUsersByDepartmentSearch(int? departmentId, string filter, int page, int perPage)
         {
             List<UserProfile> users = await _context.UserProfile
                                  .Where(u => u.DepartmentId == departmentId && (u.Name + " " + u.LastName).Contains(filter))

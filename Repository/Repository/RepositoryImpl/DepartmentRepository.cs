@@ -12,17 +12,17 @@ namespace Repository.Repository.RepositoryImpl
         public DepartmentRepository(DbContext context) : base(context)
         {
         }
-        public async Task<int> GetDepartmentsByDivisionCount(int divisionId)
+        public async Task<int> GetDepartmentsByDivisionCount(int? divisionId)
         {
             int count = await context.Set<Department>().CountAsync(d => d.DivisionId == divisionId);
             return count;
         }
-        public async Task<int> GetDepartmentsByDivisionSearchCount(int divisionId, string filter)
+        public async Task<int> GetDepartmentsByDivisionSearchCount(int? divisionId, string filter)
         {
             int count = await context.Set<Department>().CountAsync(d => d.DivisionId == divisionId && d.Title.Contains(filter));
             return count;
         }
-        public async Task<IEnumerable<Department>> GetDepartmentsByDivision(int divisionId, int page, int perPage)
+        public async Task<IEnumerable<Department>> GetDepartmentsByDivision(int? divisionId, int page, int perPage)
         {
             return await context.Set<Department>()
                                  .Where(d => d.DivisionId == divisionId)
@@ -30,7 +30,7 @@ namespace Repository.Repository.RepositoryImpl
                                  .Take(perPage)
                                  .ToListAsync();
         }
-        public async Task<IEnumerable<Department>> GetDepartmentsByDivisionSearch(int divisionId, string filter, int page, int perPage)
+        public async Task<IEnumerable<Department>> GetDepartmentsByDivisionSearch(int? divisionId, string filter, int page, int perPage)
         {
             return await context.Set<Department>()
                                 .Where(d => d.DivisionId == divisionId && d.Title.Contains(filter))

@@ -9,9 +9,9 @@ namespace Repository.Repository
 {
     public interface IDepartmentRepository : IGenericRepository<Department, int>
     {
-        Task<IEnumerable<Department>> GetDepartmentsByDivision(int divisionId, int page, int perPage);
-        Task<int> GetDepartmentsByDivisionCount(int divisionId);
-        Task<IEnumerable<Department>> GetDepartmentsByDivisionSearch(int divisionId, string filter, int page, int perPage);
-        Task<int> GetDepartmentsByDivisionSearchCount(int divisionId, string filter);
+        Task<IEnumerable<Department>> GetDepartmentsByDivision(int? divisionId, int page, int perPage);
+        Task<int> GetDepartmentsByDivisionCount(int? divisionId);
+        Task<IEnumerable<Department>> GetDepartmentsByDivisionSearch(int? divisionId, string filter, int page, int perPage);
+        Task<int> GetDepartmentsByDivisionSearchCount(int? divisionId, string filter);
     }
 }

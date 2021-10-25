@@ -66,15 +66,15 @@ namespace Repository.Repository.RepositoryImpl
 
                     if (riskExist == null && controlExist == null)
                     {
-                        riskControlsNotAdded.Add((riskControl, "Risk and control no found"));
+                        riskControlsNotAdded.Add((riskControl, "Risk and control not found"));
                     }
                     else if (riskExist == null)
                     {
-                        riskControlsNotAdded.Add((riskControl, "Risk no found"));
+                        riskControlsNotAdded.Add((riskControl, "Risk not found"));
                     }
                     else if (controlExist == null)
                     {
-                        riskControlsNotAdded.Add((riskControl, "Control no found"));
+                        riskControlsNotAdded.Add((riskControl, "Control not found"));
                     }
                     else
                     {

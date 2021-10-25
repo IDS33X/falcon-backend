@@ -56,17 +56,17 @@ namespace Repository.Repository.RepositoryImpl
             return riskCategoryBeforeUpdate;
         }
 
-        public async Task<int> GetRiskCategoriesCountByDepartment(int departmentId)
+        public async Task<int> GetRiskCategoriesCountByDepartment(int? departmentId)
         {
             int count = await context.Set<RiskCategory>().CountAsync(r => r.DepartmentId == departmentId);
             return count;
         }
-        public async Task<int> GetRiskCategoriesCountByDepartmentSearch(int departmentId, string filter)
+        public async Task<int> GetRiskCategoriesCountByDepartmentSearch(int? departmentId, string filter)
         {
             int count = await context.Set<RiskCategory>().CountAsync(r => r.DepartmentId == departmentId && r.Title.Contains(filter));
             return count;
         }
-        public async Task<IEnumerable<RiskCategory>> GetRiskCategoriesByDepartment(int departmentId, int page, int perPage)
+        public async Task<IEnumerable<RiskCategory>> GetRiskCategoriesByDepartment(int? departmentId, int page, int perPage)
         {
             return await context.Set<RiskCategory>()
                                  .Where(r => r.DepartmentId == departmentId)
@@ -74,7 +74,7 @@ namespace Repository.Repository.RepositoryImpl
                                  .Take(perPage)
                                  .ToListAsync();
         }
-        public async Task<IEnumerable<RiskCategory>> GetRiskCategoriesByDepartmentSearch(int departmentId, string filter, int page, int perPage)
+        public async Task<IEnumerable<RiskCategory>> GetRiskCategoriesByDepartmentSearch(int? departmentId, string filter, int page, int perPage)
         {
             return await context.Set<RiskCategory>()
                                 .Where(r => r.DepartmentId == departmentId && r.Title.Contains(filter))

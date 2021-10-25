@@ -12,13 +12,13 @@ namespace Repository.Repository
         Task<Control> GetControlByCode(string code);
         Task<IEnumerable<Control>> GetControls(int page, int perPage);
         Task<int> GetControlsCount();
-        Task<IEnumerable<Control>> GetControlsByRisk(Guid riskId, int page, int perPage);
-        Task<int> GetControlsByRiskCount(Guid riskId);
-        Task<IEnumerable<Control>> GetControlsByUser(int userId, int page, int perPage);
-        Task<int> GetControlsByUserCount(int userId);
-        Task<IEnumerable<Control>> GetControlsByCodeSearch(int riskCategoryId, string filter, int page, int perPage);
-        Task<int> GetControlsByCodeSearchCount(int riskCategoryId,string filter);
-        Task<IEnumerable<Control>> GetControlsByRiskCategory(int riskCategoryId,int page, int perPage);
-        Task<int> GetControlsByRiskCategoryCount(int riskCategoryId);
+        Task<IEnumerable<Control>> GetControlsByRisk(Guid? riskId, int page, int perPage);
+        Task<int> GetControlsByRiskCount(Guid? riskId);
+        Task<IEnumerable<Control>> GetControlsByUser(int? userId, int page, int perPage);
+        Task<int> GetControlsByUserCount(int? userId);
+        Task<IEnumerable<Control>> GetControlsByCodeSearch(int? riskCategoryId, string filter, int page, int perPage);
+        Task<int> GetControlsByCodeSearchCount(int? riskCategoryId, string filter);
+        Task<IEnumerable<Control>> GetControlsByRiskCategory(int? riskCategoryId, int page, int perPage);
+        Task<int> GetControlsByRiskCategoryCount(int? riskCategoryId);
     }
 }

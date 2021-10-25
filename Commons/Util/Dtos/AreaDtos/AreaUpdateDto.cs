@@ -5,7 +5,7 @@ namespace Util.Dtos.AreaDtos
     public class AreaUpdateDto
     {
         [Required]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string Title { get; set; }
 

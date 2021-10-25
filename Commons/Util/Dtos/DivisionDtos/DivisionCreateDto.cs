@@ -5,7 +5,8 @@ namespace Util.Dtos.DivisionDtos
     public class DivisionCreateDto
     {
         [Required]
-        public int AreaId { get; set; }
+        public int? AreaId { get; set; }
+        [Required]
         public int? UserId { get; set; }
 
         [Required]

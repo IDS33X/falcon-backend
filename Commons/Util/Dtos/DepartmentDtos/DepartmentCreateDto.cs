@@ -10,7 +10,7 @@ namespace Util.Dtos.DepartmentDtos
     public class DepartmentCreateDto
     {
         [Required]
-        public int DivisionId { get; set; }
+        public int? DivisionId { get; set; }
 
         [Required]
         [MaxLength(50)]
