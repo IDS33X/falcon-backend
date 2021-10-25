@@ -159,43 +159,43 @@ namespace Repository.Context
 
             //modelBuilder.Entity<MRole>().HasData(new MRole[]
             //{
-            //    new MRole { Title = "Administrador", Description = "Administra las areas, divisiones, departamento y los usuarios"},
-            //    new MRole { Title = "Analista de riesgos", Description = "Administra los riesgos y controles"},
+            //    new MRole { Id=1,Title = "Administrador", Description = "Administra las areas, divisiones, departamento y los usuarios"},
+            //    new MRole { Id=2,Title = "Analista de riesgos", Description = "Administra los riesgos y controles"},
             //});
 
-            //modelBuilder.Entity<ImpactType>().HasData(new ImpactType[] { 
-            //    new ImpactType { Title = "Bajo", Description = "Nivel bajo de riesgo" },
-            //    new ImpactType { Title = "Medio", Description = "Nivel medio de riesgo" },
-            //    new ImpactType { Title = "Alto", Description = "Nivel alto de riesgo" }
+            //modelBuilder.Entity<ImpactType>().HasData(new ImpactType[] {
+            //    new ImpactType { Id=1,Title = "Bajo", Description = "Nivel bajo de riesgo" },
+            //    new ImpactType { Id=2,Title = "Medio", Description = "Nivel medio de riesgo" },
+            //    new ImpactType { Id=3,Title = "Alto", Description = "Nivel alto de riesgo" }
             //});
 
             //modelBuilder.Entity<RiskImpact>().HasData(new RiskImpact[]
             //{
-            //    new RiskImpact { ImpactTypeId = 1, Severity = 1, Probability = 1 },
-            //    new RiskImpact { ImpactTypeId = 1, Severity = 1, Probability = 2 },
-            //    new RiskImpact { ImpactTypeId = 1, Severity = 1, Probability = 3 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 1, Probability = 4 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 1, Probability = 5 },
-            //    new RiskImpact { ImpactTypeId = 1, Severity = 2, Probability = 1 },
-            //    new RiskImpact { ImpactTypeId = 1, Severity = 2, Probability = 2 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 2, Probability = 3 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 2, Probability = 4 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 2, Probability = 5 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 3, Probability = 1 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 3, Probability = 2 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 3, Probability = 3 },
-            //    new RiskImpact { ImpactTypeId = 3, Severity = 3, Probability = 4 },
-            //    new RiskImpact { ImpactTypeId = 3, Severity = 3, Probability = 5 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 4, Probability = 1 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 4, Probability = 2 },
-            //    new RiskImpact { ImpactTypeId = 3, Severity = 4, Probability = 3 },
-            //    new RiskImpact { ImpactTypeId = 3, Severity = 4, Probability = 4 },
-            //    new RiskImpact { ImpactTypeId = 3, Severity = 4, Probability = 5 },
-            //    new RiskImpact { ImpactTypeId = 2, Severity = 5, Probability = 1 },
-            //    new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 2 },
-            //    new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 3 },
-            //    new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 4 },
-            //    new RiskImpact { ImpactTypeId = 3, Severity = 5, Probability = 5 },
+            //    new RiskImpact { Id=1,ImpactTypeId = 1, Severity = 1, Probability = 1 },
+            //    new RiskImpact { Id=2,ImpactTypeId = 1, Severity = 1, Probability = 2 },
+            //    new RiskImpact { Id=3,ImpactTypeId = 1, Severity = 1, Probability = 3 },
+            //    new RiskImpact { Id=4,ImpactTypeId = 2, Severity = 1, Probability = 4 },
+            //    new RiskImpact { Id=5,ImpactTypeId = 2, Severity = 1, Probability = 5 },
+            //    new RiskImpact { Id=6,ImpactTypeId = 1, Severity = 2, Probability = 1 },
+            //    new RiskImpact { Id=7,ImpactTypeId = 1, Severity = 2, Probability = 2 },
+            //    new RiskImpact { Id=8,ImpactTypeId = 2, Severity = 2, Probability = 3 },
+            //    new RiskImpact { Id=9,ImpactTypeId = 2, Severity = 2, Probability = 4 },
+            //    new RiskImpact { Id=10,ImpactTypeId = 2, Severity = 2, Probability = 5 },
+            //    new RiskImpact { Id=11,ImpactTypeId = 2, Severity = 3, Probability = 1 },
+            //    new RiskImpact { Id=12,ImpactTypeId = 2, Severity = 3, Probability = 2 },
+            //    new RiskImpact { Id=13,ImpactTypeId = 2, Severity = 3, Probability = 3 },
+            //    new RiskImpact { Id=14,ImpactTypeId = 3, Severity = 3, Probability = 4 },
+            //    new RiskImpact { Id=15,ImpactTypeId = 3, Severity = 3, Probability = 5 },
+            //    new RiskImpact { Id=16,ImpactTypeId = 2, Severity = 4, Probability = 1 },
+            //    new RiskImpact { Id=17,ImpactTypeId = 2, Severity = 4, Probability = 2 },
+            //    new RiskImpact { Id=18,ImpactTypeId = 3, Severity = 4, Probability = 3 },
+            //    new RiskImpact { Id=19,ImpactTypeId = 3, Severity = 4, Probability = 4 },
+            //    new RiskImpact { Id=20,ImpactTypeId = 3, Severity = 4, Probability = 5 },
+            //    new RiskImpact { Id=21,ImpactTypeId = 2, Severity = 5, Probability = 1 },
+            //    new RiskImpact { Id=22,ImpactTypeId = 3, Severity = 5, Probability = 2 },
+            //    new RiskImpact { Id=23,ImpactTypeId = 3, Severity = 5, Probability = 3 },
+            //    new RiskImpact { Id=24,ImpactTypeId = 3, Severity = 5, Probability = 4 },
+            //    new RiskImpact { Id=25,ImpactTypeId = 3, Severity = 5, Probability = 5 },
             //});
         }
     }

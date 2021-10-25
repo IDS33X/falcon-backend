@@ -17,28 +17,7 @@ namespace Repository.Migrations
                 oldNullable: true,
                 oldDefaultValueSql: "getdate()");
 
-            //Trigger
-            migrationBuilder.Sql(
-
-                @"create trigger [dbo].[Control_Update] on [dbo].[Control]
-                     AFTER UPDATE
-                        AS
-                        BEGIN
-                            SET NOCOUNT ON;
-
-                            IF ((SELECT TRIGGER_NESTLEVEL()) > 1) RETURN;
-
-                            DECLARE @Id INT
-
-                            SELECT @Id = INSERTED.Id
-                            FROM INSERTED
-
-                            UPDATE dbo.Control
-                            SET LastUpdateDate = getdate()
-                            WHERE Id = @Id
-                        END"
-
-                );
+            
 
 
         }

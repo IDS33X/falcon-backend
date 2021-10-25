@@ -87,6 +87,37 @@ namespace Service.Service.ServiceImpl
             return response;
         }
 
+        public async Task<GetControlsByCodeSearchResponse> GetControlsByCodeSearch(GetControlsByCodeSearchRequest request)
+        {
+            var controls = await _unitOfWork.Controls.GetControlsByCodeSearch(request.RiskCategoryId, request.Filter, request.Page, request.ItemsPerPage);
+
+            List<ControlReadDto> controlDtos = new List<ControlReadDto>();
+
+            foreach(Control control in controls)
+            {
+                var controlDto = _mapper.Map<ControlReadDto>(control);
+
+                var user = _mapper.Map(control.User, controlDto.User);
+
+                controlDto.User = user;
+
+                controlDtos.Add(controlDto);
+            }
+
+            int controlsCount = await _unitOfWork.Controls.GetControlsByCodeSearchCount(request.RiskCategoryId,request.Filter);
+            int pages = Convert.ToInt32(Math.Ceiling((double)controlsCount / request.ItemsPerPage));
+
+            var response = new GetControlsByCodeSearchResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = controlDtos.Count > 0 ? request.Page : 0,
+                Controls = controlDtos,
+                TotalOfItems = controlsCount
+            };
+
+            return response;
+        }
+
         public async Task<GetControlsByRiskResponse> GetControlsByRisk(GetControlsByRiskRequest request)
         {
             var controls = await _unitOfWork.Controls.GetControlsByRisk(request.RiskId, request.Page, request.ItemsPerPage);
@@ -114,6 +145,38 @@ namespace Service.Service.ServiceImpl
                 Controls = controlDtos,
                 TotalOfItems = controlsCount
                 
+            };
+
+            return response;
+        }
+
+        public async Task<GetControlsByRiskCategoryResponse> GetControlsByRiskCategory(GetControlsByRiskCategoryRequest request)
+        {
+            var controls = await _unitOfWork.Controls.GetControlsByRiskCategory(request.RiskCategoryId, request.Page, request.ItemsPerPage);
+
+            List<ControlReadDto> controlDtos = new List<ControlReadDto>();
+
+            foreach (Control control in controls)
+            {
+                var controlDto = _mapper.Map<ControlReadDto>(control);
+
+                var user = _mapper.Map(control.User, controlDto.User);
+
+                controlDto.User = user;
+
+                controlDtos.Add(controlDto);
+            }
+
+            int controlsCount = await _unitOfWork.Controls.GetControlsByRiskCategoryCount(request.RiskCategoryId);
+            int pages = Convert.ToInt32(Math.Ceiling((double)controlsCount / request.ItemsPerPage));
+
+            var response = new GetControlsByRiskCategoryResponse
+            {
+                AmountOfPages = pages,
+                CurrentPage = controlDtos.Count > 0 ? request.Page : 0,
+                Controls = controlDtos,
+                TotalOfItems = controlsCount
+
             };
 
             return response;

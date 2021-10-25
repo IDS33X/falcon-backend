@@ -7,5 +7,6 @@ namespace Domain.Models
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
         public IEnumerable<Risk> Risks { get; set; }
+        public IEnumerable<Control> Controls { get; set; }
     }
 }

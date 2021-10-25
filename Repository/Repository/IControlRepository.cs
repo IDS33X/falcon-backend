@@ -16,5 +16,9 @@ namespace Repository.Repository
         Task<int> GetControlsByRiskCount(Guid riskId);
         Task<IEnumerable<Control>> GetControlsByUser(int userId, int page, int perPage);
         Task<int> GetControlsByUserCount(int userId);
+        Task<IEnumerable<Control>> GetControlsByCodeSearch(int riskCategoryId, string filter, int page, int perPage);
+        Task<int> GetControlsByCodeSearchCount(int riskCategoryId,string filter);
+        Task<IEnumerable<Control>> GetControlsByRiskCategory(int riskCategoryId,int page, int perPage);
+        Task<int> GetControlsByRiskCategoryCount(int riskCategoryId);
     }
 }

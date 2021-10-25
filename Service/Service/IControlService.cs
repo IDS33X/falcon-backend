@@ -17,5 +17,7 @@ namespace Service.Service
         Task<GetControlsResponse> GetControls(GetControlsRequest request);
         Task<GetControlsByRiskResponse> GetControlsByRisk(GetControlsByRiskRequest request);
         Task<GetControlsByUserResponse> GetControlsByUser(GetControlsByUserRequest request);
+        Task<GetControlsByCodeSearchResponse> GetControlsByCodeSearch(GetControlsByCodeSearchRequest request);
+        Task<GetControlsByRiskCategoryResponse> GetControlsByRiskCategory(GetControlsByRiskCategoryRequest request);
     }
 }
