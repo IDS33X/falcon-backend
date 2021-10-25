@@ -10,6 +10,9 @@ namespace Util.Dtos.ControlDtos
     public class ControlCreateDto
     {
         [Required]
+        public int RiskCategoryId { get; set; }
+
+        [Required]
         public int ControlStateId { get; set; }
 
         [Required]

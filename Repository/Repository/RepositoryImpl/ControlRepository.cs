@@ -53,7 +53,7 @@ namespace Repository.Repository.RepositoryImpl
                                  .Include(c => c.AutomationLevel)
                                  .Include(c => c.ControlState)
                                  .Include(c => c.ControlType)
-                                 .Where(c => c.Risks.Any(rc => rc.RiskId == riskId))
+                                 .Where(c => c.Risks.Any(rc => rc.RiskId == riskId && rc.DeallocatedDate == null))
                                  .Skip((page - 1) * perPage)
                                  .Take(perPage)
                                  .ToListAsync();
@@ -66,7 +66,7 @@ namespace Repository.Repository.RepositoryImpl
                                  .Include(c => c.AutomationLevel)
                                  .Include(c => c.ControlState)
                                  .Include(c => c.ControlType)
-                                 .Where(c => c.Users.Any(rc => rc.UserId == userId))
+                                 .Where(c => c.Users.Any(rc => rc.UserId == userId && rc.DeallocatedDate == null))
                                  .Skip((page - 1) * perPage)
                                  .Take(perPage)
                                  .ToListAsync();
@@ -145,6 +145,44 @@ namespace Repository.Repository.RepositoryImpl
         public async Task<int> GetControlsByUserCount(int userId)
         {
             return await context.Set<Control>().CountAsync(c => c.Users.Any(rc => rc.UserId == userId));
+        }
+
+        public async Task<IEnumerable<Control>> GetControlsByCodeSearch(int riskCategoryId, string filter, int page, int perPage)
+        {
+            return await context.Set<Control>()
+                                .Include(c => c.User)
+                                .Include(c => c.AutomationLevel)
+                                .Include(c => c.ControlState)
+                                .Include(c => c.ControlType)
+                                .Where(c => c.RiskCategoryId == riskCategoryId && c.Code.Contains(filter))
+                                .Skip((page - 1) * perPage)
+                                .Take(perPage)
+                                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Control>> GetControlsByRiskCategory(int riskCategoryId,int page, int perPage)
+        {
+            return await context.Set<Control>()
+                                .Include(c => c.User)
+                                .Include(c => c.AutomationLevel)
+                                .Include(c => c.ControlState)
+                                .Include(c => c.ControlType)
+                                .Where(c => c.RiskCategoryId == riskCategoryId )
+                                .Skip((page - 1) * perPage)
+                                .Take(perPage)
+                                .ToListAsync();
+        }
+
+        public async Task<int> GetControlsByCodeSearchCount(int riskCategoryId,string filter)
+        {
+            int count = await context.Set<Control>().CountAsync(c => c.RiskCategoryId == riskCategoryId && c.Code.Contains(filter));
+            return count;
+        }
+
+        public async Task<int> GetControlsByRiskCategoryCount(int riskCategoryId)
+        {
+            int count = await context.Set<Control>().CountAsync(c => c.RiskCategoryId == riskCategoryId);
+            return count;
         }
     }
 }

@@ -12,6 +12,8 @@ namespace Util.Dtos.ControlDtos
         public string AutomationLevel { get; set; }
         public int ControlTypeId { get; set; }
         public string ControlType { get; set; }
+        public int RiskCategoryId { get; set; }
+        public string RiskCategory { get; set; }
         public DateTime CreationDate { get; set; }
         public string Frequency { get; set; }
         public string Code { get; set; }

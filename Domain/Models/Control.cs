@@ -50,16 +50,27 @@ namespace Domain.Models
         [MaxLength(200)]
         public string Evidence { get; set; }
 
+        [Required]
+        public int RiskCategoryId { get; set; }
+        public RiskCategory RiskCategory { get; set; }
+
+        [Required]
         public int AutomationLevelId { get; set; }
         public MAutomationLevel AutomationLevel { get; set; }
+
+        [Required]
         public int ControlStateId { get; set; }
         public MControlState ControlState { get; set; }
+
+        [Required]
         public int ControlTypeId{ get; set; }
         public MControlType ControlType { get; set; }
+
+        [Required]
         public int UserId { get; set; }
         public UserProfile User { get; set; }
-        public IEnumerable<UserControl> Users { get; set; }
 
+        public IEnumerable<UserControl> Users { get; set; }
         public IEnumerable<RiskControl> Risks { get; set; }
     }
 }

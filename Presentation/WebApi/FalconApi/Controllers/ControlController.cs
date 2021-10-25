@@ -69,5 +69,22 @@ namespace FalconApi.Controllers
             return Ok(response);
         }
 
+
+        [HttpGet("GetControlsByRiskCategory")]
+        public async Task<IActionResult> GetControlsByRiskCategory([FromQuery] GetControlsByRiskCategoryRequest request)
+        {
+            var response = await _controlService.GetControlsByRiskCategory(request);
+
+            return Ok(response);
+        }
+
+        [HttpGet("SearchControlsByCode")]
+        public async Task<IActionResult> GetControlsByCodeSearch([FromQuery] GetControlsByCodeSearchRequest request)
+        {
+            var response = await _controlService.GetControlsByCodeSearch(request);
+
+            return Ok(response);
+        }
+
     }
 }

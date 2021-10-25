@@ -16,6 +16,7 @@ namespace Util.Mappings.Profiles
             CreateMap<Control, ControlReadDto>().ForMember(dto => dto.AutomationLevel, opt => opt.MapFrom(ent => ent.AutomationLevel.Title))
                    .ForMember(dto => dto.ControlState, opt => opt.MapFrom(ent => ent.ControlState.Title))
                    .ForMember(dto => dto.ControlType, opt => opt.MapFrom(ent => ent.ControlType.Title))
+                   .ForMember(dto => dto.RiskCategory, opt => opt.MapFrom(ent => ent.RiskCategory.Title))
                    .ReverseMap();
 
             CreateMap<ControlCreateDto, Control>();
