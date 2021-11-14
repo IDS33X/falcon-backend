@@ -97,7 +97,7 @@ namespace Repository.Repository.RepositoryImpl
             }
         }
 
-        public async Task<IEnumerable<Risk>> GetRisksByCategory(int page, int perPage, int riskCategoryId)
+        public async Task<IEnumerable<Risk>> GetRisksByCategory(int page, int perPage, int? riskCategoryId)
         {
             return await context.Set<Risk>()
                                 .Where(r => r.RiskCategoryId == riskCategoryId)
@@ -110,7 +110,7 @@ namespace Repository.Repository.RepositoryImpl
                                 .Take(perPage)
                                 .ToListAsync();
         }
-        public async Task<IEnumerable<Risk>> GetRiskByCategoryAndCode(string filter, int page, int perPage, int riskCategoryId)
+        public async Task<IEnumerable<Risk>> GetRiskByCategoryAndCode(string filter, int page, int perPage, int? riskCategoryId)
         {
             return await context.Set<Risk>()
                                 .Where(r => r.RiskCategoryId == riskCategoryId && r.Code.Contains(filter))
@@ -123,7 +123,7 @@ namespace Repository.Repository.RepositoryImpl
                                 .Take(perPage)
                                 .ToListAsync();
         }  
-        public async Task<IEnumerable<Risk>> GetRiskByCategoryAndDescription(string filter, int page, int perPage, int riskCategoryId)
+        public async Task<IEnumerable<Risk>> GetRiskByCategoryAndDescription(string filter, int page, int perPage, int? riskCategoryId)
         {
             return await context.Set<Risk>()
                                 .Where(r => r.RiskCategoryId == riskCategoryId && r.Description.Contains(filter))
@@ -137,17 +137,17 @@ namespace Repository.Repository.RepositoryImpl
                                 .ToListAsync();
         }
 
-        public async Task<int> GetRiskByCategoryCount(int riskCategoryId)
+        public async Task<int> GetRiskByCategoryCount(int? riskCategoryId)
         {
             return await context.Set<Risk>().CountAsync(r => r.RiskCategoryId == riskCategoryId);
         }
 
-        public async Task<int> GetRiskByCategoryAndCodeCount(string filter, int riskCategoryId)
+        public async Task<int> GetRiskByCategoryAndCodeCount(string filter, int? riskCategoryId)
         {
             return await context.Set<Risk>().CountAsync(r => r.RiskCategoryId == riskCategoryId && r.Code.Contains(filter));
         }
 
-        public async Task<int> GetRiskByCategoryAndDescriptionCount(string filter, int riskCategoryId)
+        public async Task<int> GetRiskByCategoryAndDescriptionCount(string filter, int? riskCategoryId)
         {
             return await context.Set<Risk>().CountAsync(r => r.RiskCategoryId == riskCategoryId && r.Description.Contains(filter));
         }

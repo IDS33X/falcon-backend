@@ -17,6 +17,7 @@ namespace Repository.Repository.RepositoryImpl
         {
             await Task.Run(() =>
             {
+                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 context.Set<User>().Attach(user);
                 context.Entry(user).Property(u => u.Password).IsModified = true;
             });

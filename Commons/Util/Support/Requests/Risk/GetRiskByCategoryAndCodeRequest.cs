@@ -1,8 +1,12 @@
-﻿namespace Util.Support.Requests.Risk
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Util.Support.Requests.Risk
 {
     public class GetRiskByCategoryAndCodeRequest : PaginationRequest
     {
-        public int RiskCategoryId { get; set; }
+        [Required]
+        public int? RiskCategoryId { get; set; }
+        [Required]
         public string Filter { get; set; }
     }
 }

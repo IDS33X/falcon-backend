@@ -12,11 +12,11 @@ namespace Repository.Repository
         Task<UserProfile> Add(UserProfile user);
         Task<UserProfile> FindByCode(string code);
         Task<UserProfile> FindByUsername(string username);
-        Task<UserProfile> GetById(int id);
-        Task<IEnumerable<UserProfile>> GetUsersByDepartment(int departmentId, int page, int perPage);
-        Task<int> GetUsersByDepartmentCount(int departmentId);
-        Task<IEnumerable<UserProfile>> GetUsersByDepartmentSearch(int departmentId, string filter, int page, int perPage);
-        Task<int> GetUsersByDepartmentSearchCount(int departmentId, string filter);
+        Task<UserProfile> GetById(int? id);
+        Task<IEnumerable<UserProfile>> GetUsersByDepartment(int? departmentId, int page, int perPage);
+        Task<int> GetUsersByDepartmentCount(int? departmentId);
+        Task<IEnumerable<UserProfile>> GetUsersByDepartmentSearch(int? departmentId, string filter, int page, int perPage);
+        Task<int> GetUsersByDepartmentSearchCount(int? departmentId, string filter);
         Task<UserProfile> Login(string username, string password);
         Task<UserProfile> Update(UserProfile user);
     }

@@ -16,12 +16,12 @@ namespace Repository.Repository.RepositoryImpl
 
         }
 
-        public async Task<int> GetDivisionsByAreaCount(int areaId)
+        public async Task<int> GetDivisionsByAreaCount(int? areaId)
         {
             int count = await context.Set<Division>().CountAsync(d => d.AreaId == areaId);
             return count;
         }  
-        public async Task<int> GetDivisionsByAreaSearchCount(int areaId, string filter)
+        public async Task<int> GetDivisionsByAreaSearchCount(int? areaId, string filter)
         {
             int count = await context.Set<Division>().CountAsync(d => d.AreaId == areaId && d.Title.Contains(filter));
             return count;
@@ -40,7 +40,7 @@ namespace Repository.Repository.RepositoryImpl
                 return division;
             }
         }
-        public async Task<IEnumerable<Division>> GetDivisionsByArea(int areaId, int page, int perPage)
+        public async Task<IEnumerable<Division>> GetDivisionsByArea(int? areaId, int page, int perPage)
         {
             return await context.Set<Division>()
                                  .Where(d => d.AreaId == areaId)
@@ -49,7 +49,7 @@ namespace Repository.Repository.RepositoryImpl
                                  .Take(perPage)
                                  .ToListAsync();
         }  
-        public async Task<IEnumerable<Division>> GetDivisionsByAreaSearch(int areaId, string filter, int page, int perPage)
+        public async Task<IEnumerable<Division>> GetDivisionsByAreaSearch(int? areaId, string filter, int page, int perPage)
         {
             return await context.Set<Division>()
                                 .Where(d => d.AreaId == areaId && d.Title.Contains(filter))

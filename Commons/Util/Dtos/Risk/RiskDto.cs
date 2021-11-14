@@ -11,7 +11,6 @@ namespace Util.Dtos.Risk
         public int UserId { get; set; }
         public UserDto User { get; set; }
         public int RiskCategoryId { get; set; }
-        public RiskCategoryDto RiskCategory { get; set; }
         public int InherentRiskId { get; set; }
         public RiskImpactDto InherentRisk { get; set; }
         public int ControlledRiskId { get; set; }

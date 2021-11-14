@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Util.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Util.Support.Requests.Control
 {
     public class ControlByCodeRequest
     {
+        [Required]
         public string Code { get; set; }
     }
 }
