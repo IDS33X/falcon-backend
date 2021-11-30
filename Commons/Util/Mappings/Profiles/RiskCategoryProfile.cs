@@ -15,14 +15,16 @@ namespace Util.Mappings.Profiles
                 .ForMember(d => d.CreatedDate, opt => opt.Ignore())
                 .ForMember(d => d.Enabled, opt => opt.Ignore())
                 .ForMember(d => d.Department, opt => opt.Ignore())
-                .ForMember(d => d.Risks, opt => opt.Ignore());
+                .ForMember(d => d.Risks, opt => opt.Ignore())
+                .ForMember(d => d.Controls, opt => opt.Ignore());
 
             CreateMap<UpdateRiskCategoryDto, RiskCategory>()
                 .ForMember(d => d.DepartmentId, opt => opt.Ignore())
                 .ForMember(d => d.CreatedDate, opt => opt.Ignore())
                 .ForMember(d => d.Enabled, opt => opt.Ignore())
                 .ForMember(d => d.Department, opt => opt.Ignore())
-                .ForMember(d => d.Risks, opt => opt.Ignore());
+                .ForMember(d => d.Risks, opt => opt.Ignore())
+                .ForMember(d => d.Controls, opt => opt.Ignore());
         }
     }
 }

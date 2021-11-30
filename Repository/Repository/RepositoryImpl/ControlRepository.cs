@@ -91,6 +91,11 @@ namespace Repository.Repository.RepositoryImpl
                                  .Include(c => c.ControlType)
                                  .FirstOrDefaultAsync(c => c.Id == control.Id);
 
+            if(previousControl == null)
+            {
+                throw new DoesNotExistException("Not Exist");
+            }
+
             if(control.ControlStateId != 0 && control.ControlStateId != previousControl.ControlStateId)
             {
                 previousControl.ControlStateId = control.ControlStateId;
@@ -139,12 +144,12 @@ namespace Repository.Repository.RepositoryImpl
 
         public async Task<int> GetControlsByRiskCount(Guid? riskId)
         {
-            return await context.Set<Control>().CountAsync(c => c.Risks.Any(rc => rc.RiskId == riskId));
+            return await context.Set<Control>().CountAsync(c => c.Risks.Any(rc => rc.RiskId == riskId && rc.DeallocatedDate == null));
         }
 
         public async Task<int> GetControlsByUserCount(int? userId)
         {
-            return await context.Set<Control>().CountAsync(c => c.Users.Any(rc => rc.UserId == userId));
+            return await context.Set<Control>().CountAsync(c => c.Users.Any(rc => rc.UserId == userId && rc.DeallocatedDate == null));
         }
 
         public async Task<IEnumerable<Control>> GetControlsByCodeSearch(int? riskCategoryId, string filter, int page, int perPage)
@@ -183,6 +188,20 @@ namespace Repository.Repository.RepositoryImpl
         {
             int count = await context.Set<Control>().CountAsync(c => c.RiskCategoryId == riskCategoryId);
             return count;
+        }
+        
+        public new async Task<Control> Add(Control control)
+        {
+            var sameCode = await context.Set<Control>().FirstOrDefaultAsync(c => c.Code == control.Code);
+
+            if (sameCode != null)
+            {
+                throw new AlreadyExistException($"A control with that code already exists, change the CODE:({sameCode.Code}) to another one.");
+            }
+
+            await context.Set<Control>().AddAsync(control);
+
+            return control;
         }
     }
 }

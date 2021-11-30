@@ -6,7 +6,7 @@ using Util.Support.Response;
 
 namespace Repository.Repository
 {
-    public interface IDivisionRepository : IGenericRepository<Division, int>
+    public interface IDivisionRepository : IGenericRepository<Division, int?>
     {
         Task<IEnumerable<Division>> GetDivisionsByArea(int? areaId, int page, int perPage);
         Task<int> GetDivisionsByAreaCount(int? areaId);

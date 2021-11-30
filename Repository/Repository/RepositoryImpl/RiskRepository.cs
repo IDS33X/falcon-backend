@@ -64,7 +64,7 @@ namespace Repository.Repository.RepositoryImpl
             {
                 var newControlledRisk = await context.Set<RiskImpact>()
                                                    .Include(cr => cr.ImpactType)
-                                                   .Where(cr => cr.Id == risk.InherentRiskId)
+                                                   .Where(cr => cr.Id == risk.ControlledRiskId)
                                                    .FirstOrDefaultAsync();
 
                 riskBeforeUpdate.ControlledRisk = newControlledRisk ?? throw new DoesNotExistException("Controlled Risk Not exist");
