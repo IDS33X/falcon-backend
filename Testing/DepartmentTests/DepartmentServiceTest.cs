@@ -79,10 +79,10 @@ namespace Testing.DepartmentTests
             var response = await _departmentService.GetDepartmentsByDivision(request);
 
             // Assert --> in this section we verify the result.
-            int expectedTotalOfDiv = 2;
+            int expectedTotalOfDep = 2;
             Assert.IsType<DepartmentsByDivisionResponse>(response);
             Assert.NotNull(response);
-            Assert.Equal(expectedTotalOfDiv, response.Departments.Count());
+            Assert.Equal(expectedTotalOfDep, response.Departments.Count());
             DepartmentServiceStub.clearDatabase();
 
         }
@@ -98,10 +98,10 @@ namespace Testing.DepartmentTests
             var response = await _departmentService.GetDepartmentsByDivisionAndSearch(request);
 
             // Assert --> in this section we verify the result.
-            int expectedTotalOfDiv = 1;
+            int expectedTotalOfDep = 1;
             Assert.IsType<DepartmentsByDivisionSearchResponse>(response);
             Assert.NotNull(response);
-            Assert.Equal(expectedTotalOfDiv, response.Departments.Count());
+            Assert.Equal(expectedTotalOfDep, response.Departments.Count());
             DepartmentServiceStub.clearDatabase();
 
         }
