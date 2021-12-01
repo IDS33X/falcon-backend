@@ -22,9 +22,22 @@ namespace FalconApi.Controllers
         [HttpPost("Add")]
         public async Task<IActionResult> Add(AddAreaRequest request)
         {
-            var response = await _areaService.Add(request);
+            try
+            {
+                var response = await _areaService.Add(request);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (AlreadyExistException e)
+            {
+                return StatusCode(500, $"Exception message: {e.Message}");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
+
+            
         }
 
         //[Authorize(Roles = "Control Interno")]

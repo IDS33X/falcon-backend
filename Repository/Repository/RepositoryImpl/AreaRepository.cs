@@ -2,15 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 using Repository.RepositoryImpl;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Util.Exceptions;
+
 
 namespace Repository.Repository.RepositoryImpl
 {
-    public class AreaRepository : GenericRepository<Area, int>, IAreaRepository
+    public class AreaRepository : GenericRepository<Area, int?>, IAreaRepository
     {
         public AreaRepository(FalconDBContext context) : base(context)
         {
@@ -46,12 +46,42 @@ namespace Repository.Repository.RepositoryImpl
         {
             var previousArea = await context.Set<Area>().FirstOrDefaultAsync(a => a.Id == area.Id);
 
+            if(previousArea == null)
+            {
+                throw new DoesNotExistException("Not Exist");
+            }
+
+            if(area.Title != null)
+            {
+                var areaWithSameTitle = await context.Set<Area>().Where(a => a.Title == area.Title).FirstOrDefaultAsync();
+
+                if(areaWithSameTitle != null && area.Id != areaWithSameTitle.Id)
+                {
+                    throw new AlreadyExistException("An area with that Title already exists");
+                }
+            }
+
             previousArea.Title = area.Title ?? previousArea.Title;
             previousArea.Description = area.Description ?? previousArea.Description;
 
             await Task.Run(() => context.Set<Area>().Update(previousArea));
 
             return previousArea;
+        }
+
+
+        public async new Task<Area> Add(Area area)
+        {
+            var sameTitle = await context.Set<Area>().FirstOrDefaultAsync(a => a.Title == area.Title);
+
+            if(sameTitle != null)
+            {
+                throw new AlreadyExistException($"An area with that title already exists, change the TITLE:({sameTitle.Title}) to another one.");
+            }
+
+            await context.Set<Area>().AddAsync(area);
+
+            return area;
         }
 
     }

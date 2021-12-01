@@ -13,8 +13,15 @@ namespace Util.Mappings.Profiles
         public AreaProfile()
         {
             CreateMap<Area, AreaReadDto>().ForMember(dto => dto.CountDivisions, opt => opt.Ignore()).ReverseMap();
-            CreateMap<AreaCreateDto, Area>();
-            CreateMap<AreaUpdateDto, Area>();
+
+            CreateMap<AreaCreateDto, Area>().ForMember(a => a.Divisions, opt => opt.Ignore())
+                                            .ForMember(a => a.Id, opt => opt.Ignore())
+                                            .ForMember(a => a.Enabled, opt => opt.Ignore())
+                                            .ForMember(a => a.CreatedDate, opt => opt.Ignore());
+
+            CreateMap<AreaUpdateDto, Area>().ForMember(a => a.Divisions, opt => opt.Ignore())
+                                            .ForMember(a => a.Enabled, opt => opt.Ignore())
+                                            .ForMember(a => a.CreatedDate, opt => opt.Ignore());
         }
 
     }

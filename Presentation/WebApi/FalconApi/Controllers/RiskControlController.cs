@@ -34,8 +34,8 @@ namespace FalconApi.Controllers
             catch (Exception ex)
             {
                 string innerExceptionMessage = ex.InnerException?.Message;
-                bool? missingChild1 = innerExceptionMessage.StartsWith("The MERGE statement conflicted with the FOREIGN KEY constraint");
-                bool? missingChild2 = innerExceptionMessage.StartsWith("The INSERT statement conflicted with the FOREIGN KEY constraint");
+                bool? missingChild1 = innerExceptionMessage == null ? null : innerExceptionMessage.StartsWith("The MERGE statement conflicted with the FOREIGN KEY constraint");
+                bool? missingChild2 = innerExceptionMessage == null ? null : innerExceptionMessage.StartsWith("The INSERT statement conflicted with the FOREIGN KEY constraint");
                 if ((missingChild1 != null && missingChild1 == true) || (missingChild2 != null && missingChild2 == true))
                 {
                     string aux = innerExceptionMessage.Substring(innerExceptionMessage.IndexOf("dbo.") + 4);

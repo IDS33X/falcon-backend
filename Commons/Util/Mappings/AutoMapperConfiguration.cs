@@ -27,7 +27,7 @@ namespace Util.Mappings
                 cfg.ShouldUseConstructor = ci => !ci.IsPrivate;
             });
 
-            //autoMapperConfig.AssertConfigurationIsValid();
+            autoMapperConfig.AssertConfigurationIsValid();
 
             return autoMapperConfig;
         }

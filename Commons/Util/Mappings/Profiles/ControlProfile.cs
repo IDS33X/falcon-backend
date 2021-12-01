@@ -19,8 +19,27 @@ namespace Util.Mappings.Profiles
                    .ForMember(dto => dto.RiskCategory, opt => opt.MapFrom(ent => ent.RiskCategory.Title))
                    .ReverseMap();
 
-            CreateMap<ControlCreateDto, Control>();
-            CreateMap<ControlUpdateDto, Control>();
+            CreateMap<ControlCreateDto, Control>().ForMember(c => c.Id, opt => opt.Ignore())
+                                                  .ForMember(c => c.CreationDate, opt => opt.Ignore())
+                                                  .ForMember(c => c.LastUpdateDate, opt => opt.Ignore())
+                                                  .ForMember(c => c.RiskCategory, opt => opt.Ignore())
+                                                  .ForMember(c => c.AutomationLevel, opt => opt.Ignore())
+                                                  .ForMember(c => c.ControlState, opt => opt.Ignore())
+                                                  .ForMember(c => c.ControlType, opt => opt.Ignore())
+                                                  .ForMember(c => c.User, opt => opt.Ignore())
+                                                  .ForMember(c => c.Users, opt => opt.Ignore())
+                                                  .ForMember(c => c.Risks, opt => opt.Ignore());
+
+            CreateMap<ControlUpdateDto, Control>().ForMember(c => c.CreationDate, opt => opt.Ignore())
+                                                  .ForMember(c => c.LastUpdateDate, opt => opt.Ignore())
+                                                  .ForMember(c => c.RiskCategoryId, opt => opt.Ignore())
+                                                  .ForMember(c => c.RiskCategory, opt => opt.Ignore())
+                                                  .ForMember(c => c.AutomationLevel, opt => opt.Ignore())
+                                                  .ForMember(c => c.ControlState, opt => opt.Ignore())
+                                                  .ForMember(c => c.ControlType, opt => opt.Ignore())
+                                                  .ForMember(c => c.User, opt => opt.Ignore())
+                                                  .ForMember(c => c.Users, opt => opt.Ignore())
+                                                  .ForMember(c => c.Risks, opt => opt.Ignore());
 
         }
     }
