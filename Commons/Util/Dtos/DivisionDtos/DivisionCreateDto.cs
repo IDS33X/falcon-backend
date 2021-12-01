@@ -6,7 +6,8 @@ namespace Util.Dtos.DivisionDtos
     {
         [Required]
         public int? AreaId { get; set; }
-        [Required]
+
+        
         public int? UserId { get; set; }
 
         [Required]

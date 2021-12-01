@@ -8,7 +8,7 @@ using Util.Dtos;
 
 namespace Repository.Repository
 {
-    public interface IAreaRepository : IGenericRepository<Area, int>
+    public interface IAreaRepository : IGenericRepository<Area, int?>
     {
         Task<IEnumerable<Area>> GetAreas(int page, int perPage);
         Task<int> GetAreasCount();
