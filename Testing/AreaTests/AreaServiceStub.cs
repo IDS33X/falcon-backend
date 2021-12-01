@@ -83,9 +83,15 @@ namespace Testing.AreaTests
         {
             var area = await Task.Run(() => areas.Where(a => a.Id == id).FirstOrDefault());
 
-            areas.Remove(area);
-
-            return true;
+            if (area != null)
+            {
+                areas.Remove(area);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public Task<EditAreaResponse> Update(EditAreaRequest request)
@@ -109,7 +115,7 @@ namespace Testing.AreaTests
             areasCount = 0;
         }
 
-        public static void AddRange(List<Domain.Models.Area> fakesAreas)
+        public static void AddRange(List<Area> fakesAreas)
         {
             areas.AddRange(fakesAreas);
         }

@@ -134,6 +134,7 @@ namespace Testing.AreaTests
             Assert.Equal(expextedId, response.Area.Id);
             Assert.Equal(areaUpdateDto.Title, response.Area.Title);
             Assert.Equal(areaUpdateDto.Description, response.Area.Description);
+            AreaServiceStub.clearDatabase();
         }
 
         private void insetFakesAreas()
