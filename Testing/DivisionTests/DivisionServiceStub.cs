@@ -115,9 +115,9 @@ namespace Testing.DivisionTests
             divisionsCount = 0;
         }
 
-        public static void AddRange(List<Division> fakesAreas)
+        public static void AddRange(List<Division> fakesDivisions)
         {
-            divisions.AddRange(fakesAreas);
+            divisions.AddRange(fakesDivisions);
         }
     }
 }
